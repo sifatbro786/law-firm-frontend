@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import { getImageUrl } from "../../utils/api";
 
 const CaseStudiesCard = ({ caseStudy }) => {
     return (
@@ -11,7 +12,7 @@ const CaseStudiesCard = ({ caseStudy }) => {
         >
             <div className="relative overflow-hidden">
                 <img
-                    src={caseStudy.image || "https://via.placeholder.com/600x400"}
+                    src={getImageUrl(caseStudy.image) || "https://via.placeholder.com/600x400"}
                     alt={caseStudy.title}
                     className="w-full h-56 object-cover group-hover:scale-105 transition duration-300"
                 />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaCheckCircle, FaArrowRight } from "react-icons/fa";
-import api from "../utils/api";
+import api, { getImageUrl } from "../utils/api";
 
 const CaseStudies = () => {
     const [caseStudies, setCaseStudies] = useState([]);
@@ -107,7 +107,7 @@ const CaseStudies = () => {
                                 >
                                     <div className="relative overflow-hidden">
                                         <img
-                                            src={caseStudy.image || "https://via.placeholder.com/600x400"}
+                                            src={getImageUrl(caseStudy.image) || "https://via.placeholder.com/600x400"}
                                             alt={caseStudy.title}
                                             className="w-full h-56 object-cover group-hover:scale-105 transition duration-300"
                                         />
@@ -159,7 +159,7 @@ const CaseStudies = () => {
                         </div>
                         <div className="p-6">
                             <img
-                                src={selectedCase.image || "https://via.placeholder.com/800x400"}
+                                src={getImageUrl(selectedCase.image) || "https://via.placeholder.com/800x400"}
                                 alt={selectedCase.title}
                                 className="w-full h-72 object-cover rounded-lg mb-6"
                             />

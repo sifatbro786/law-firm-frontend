@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaEnvelope, FaPhone, FaGraduationCap, FaCertificate, FaBriefcase } from "react-icons/fa";
-import api from "../utils/api";
+import api, { getImageUrl } from "../utils/api";
 
 const AttorneyDetail = () => {
     const { id } = useParams();
@@ -77,7 +77,7 @@ const AttorneyDetail = () => {
                         >
                             {attorney.image && (
                                 <img
-                                    src={attorney.image}
+                                    src={getImageUrl(attorney.image)}
                                     alt={attorney.name}
                                     className="w-full rounded-lg shadow-lg mb-6"
                                 />

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaEdit, FaTrash, FaPlus, FaTimes, FaUpload, FaUserTie, FaSearch } from "react-icons/fa";
-import api from "../../utils/api";
+import api, { getImageUrl } from "../../utils/api";
 
 const AttorneysManager = () => {
     const [attorneys, setAttorneys] = useState([]);
@@ -224,7 +224,7 @@ const AttorneysManager = () => {
                             <div className="relative h-56 overflow-hidden">
                                 {attorney.image ? (
                                     <img
-                                        src={attorney.image}
+                                        src={getImageUrl(attorney.image)}
                                         alt={attorney.name}
                                         className="w-full h-full object-cover object-top hover:scale-105 transition duration-300"
                                     />
@@ -341,7 +341,7 @@ const AttorneysManager = () => {
                                 <div className="flex items-center gap-4">
                                     {imagePreview && (
                                         <img
-                                            src={imagePreview}
+                                            src={getImageUrl(imagePreview)}
                                             alt="Preview"
                                             className="w-20 h-20 rounded-full object-cover border-2 border-secondary"
                                         />

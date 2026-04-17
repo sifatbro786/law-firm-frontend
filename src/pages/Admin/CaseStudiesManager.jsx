@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaEdit, FaTrash, FaPlus, FaTimes } from "react-icons/fa";
 import { ToggleLeft, ToggleRight } from "lucide-react";
-import api from "../../utils/api";
+import api, { getImageUrl } from "../../utils/api";
 import toast from "react-hot-toast";
 
 const CaseStudiesManager = () => {
@@ -205,7 +205,7 @@ const CaseStudiesManager = () => {
                                     <td className="px-6 py-4">
                                         {caseStudy.image ? (
                                             <img
-                                                src={caseStudy.image}
+                                                src={getImageUrl(caseStudy.image)}
                                                 alt={caseStudy.title}
                                                 className="w-12 h-12 object-cover rounded"
                                             />
