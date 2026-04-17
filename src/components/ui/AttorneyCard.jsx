@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { getImageUrl } from "../../utils/api";
 
 const AttorneyCard = ({ attorney }) => {
     return (
@@ -10,7 +11,7 @@ const AttorneyCard = ({ attorney }) => {
         >
             {attorney.image && (
                 <img
-                    src={attorney.image}
+                    src={getImageUrl(attorney.image)}
                     alt={attorney.name}
                     className="w-full h-64 object-cover object-top"
                 />
