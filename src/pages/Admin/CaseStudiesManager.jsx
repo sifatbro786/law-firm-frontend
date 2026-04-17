@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaEdit, FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+import { FaEdit, FaTrash, FaPlus, FaTimes, FaUpload, FaImage, FaTrashAlt } from "react-icons/fa";
 import { ToggleLeft, ToggleRight } from "lucide-react";
 import api, { getImageUrl } from "../../utils/api";
 import toast from "react-hot-toast";
@@ -11,6 +11,7 @@ const CaseStudiesManager = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingCase, setEditingCase] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
@@ -53,6 +54,23 @@ const CaseStudiesManager = () => {
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, "-")
             .replace(/^-|-$/g, "");
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeImage = () => {
+        setImageFile(null);
+        setImagePreview(null);
     };
 
     const handleSubmit = async (e) => {
@@ -110,6 +128,8 @@ const CaseStudiesManager = () => {
             isPublished: caseStudy.isPublished,
             order: caseStudy.order || 0,
         });
+        setImagePreview(caseStudy.image ? getImageUrl(caseStudy.image) : null);
+        setImageFile(null);
         setIsModalOpen(true);
     };
 
@@ -128,6 +148,8 @@ const CaseStudiesManager = () => {
             order: 0,
         });
         setImageFile(null);
+        setImagePreview(null);
+        setIsModalOpen(false);
     };
 
     const togglePublish = async (id, currentStatus) => {
@@ -149,7 +171,14 @@ const CaseStudiesManager = () => {
     };
 
     if (loading) {
-        return <div className="text-center py-8">Loading...</div>;
+        return (
+            <div className="flex items-center justify-center h-96">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading case studies...</p>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -360,14 +389,76 @@ const CaseStudiesManager = () => {
                                 />
                             </div>
 
+                            {/* Image Upload Section with Preview */}
                             <div>
-                                <label className="block text-gray-700 mb-2">Featured Image</label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(e) => setImageFile(e.target.files[0])}
-                                    className="w-full px-4 py-2 border rounded-lg"
-                                />
+                                <label className="block text-gray-700 mb-2 font-semibold">
+                                    Featured Image
+                                </label>
+                                <div className="border-2 border-dashed border-secondary/30 rounded-lg p-6 text-center hover:border-secondary/60 transition cursor-pointer bg-secondary/5">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        className="hidden"
+                                        id="case-image-input"
+                                    />
+                                    <label
+                                        htmlFor="case-image-input"
+                                        className="cursor-pointer block"
+                                    >
+                                        <FaUpload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                                        <p className="text-gray-600 font-medium">
+                                            Click to upload image
+                                        </p>
+                                        <p className="text-gray-400 text-sm mt-1">
+                                            PNG, JPG, JPEG, GIF up to 5MB
+                                        </p>
+                                    </label>
+                                </div>
+
+                                {/* Image Preview */}
+                                {imagePreview && (
+                                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <p className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                                <FaImage className="text-secondary" />
+                                                Image Preview
+                                            </p>
+                                            <button
+                                                type="button"
+                                                onClick={removeImage}
+                                                className="text-red-500 hover:text-red-700 flex items-center gap-1 text-sm"
+                                            >
+                                                <FaTrashAlt className="w-3 h-3" />
+                                                Remove
+                                            </button>
+                                        </div>
+                                        <div className="relative inline-block">
+                                            <img
+                                                src={getImageUrl(imagePreview)}
+                                                alt="Preview"
+                                                className="w-20 h-20 object-cover rounded-lg border-2 border-secondary shadow-md"
+                                            />
+                                            {imageFile && (
+                                                <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                                                    New
+                                                </span>
+                                            )}
+                                        </div>
+                                        {imageFile && (
+                                            <p className="text-xs text-gray-500 mt-2">
+                                                New file: {imageFile.name} (
+                                                {(imageFile.size / 1024).toFixed(2)} KB)
+                                            </p>
+                                        )}
+                                        {!imageFile && editingCase && (
+                                            <p className="text-xs text-gray-500 mt-2">
+                                                Current image will be preserved. Click "Remove" to
+                                                delete and upload new.
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
                             </div>
 
                             <div>

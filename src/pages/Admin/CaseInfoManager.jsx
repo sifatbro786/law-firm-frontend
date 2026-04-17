@@ -58,6 +58,7 @@ const CaseInfoManager = () => {
             setTotalPages(res.data.totalPages || 1);
             setTotalCases(res.data.total || 0);
         } catch (err) {
+            console.error("Error fetching cases:", err);
             toast.error("Error loading cases: " + err.message);
             setCases([]);
             setTotalPages(1);
@@ -201,8 +202,8 @@ const CaseInfoManager = () => {
         setCurrentPage(1);
     };
 
-    // Loading state
-    if (loading && cases.length === 0 && !isSearching) {
+    // Show loading only on initial load or when searching
+    if (loading && cases.length === 0) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">
@@ -264,7 +265,7 @@ const CaseInfoManager = () => {
                 </div>
 
                 {/* Search Result Info */}
-                {debouncedSearchTerm && (
+                {debouncedSearchTerm && totalCases > 0 && (
                     <div className="mb-4 text-sm text-gray-600 bg-white p-3 rounded-lg shadow-sm">
                         Found <strong>{totalCases}</strong> result(s) for "
                         <strong>{debouncedSearchTerm}</strong>"
@@ -306,25 +307,36 @@ const CaseInfoManager = () => {
                             <tbody className="divide-y divide-gray-200">
                                 {cases.length === 0 ? (
                                     <tr>
-                                        <td
-                                            colSpan="6"
-                                            className="px-6 py-12 text-center text-gray-500"
-                                        >
+                                        <td colSpan="6" className="px-6 py-12 text-center">
                                             {debouncedSearchTerm ? (
                                                 <>
-                                                    <p>
+                                                    <div className="text-6xl mb-4">🔍</div>
+                                                    <p className="text-gray-500">
                                                         No cases found matching "
                                                         {debouncedSearchTerm}"
                                                     </p>
                                                     <button
                                                         onClick={clearSearch}
-                                                        className="mt-2 text-secondary hover:text-primary transition"
+                                                        className="mt-3 text-secondary hover:text-primary transition"
                                                     >
                                                         Clear search
                                                     </button>
                                                 </>
                                             ) : (
-                                                "No cases found. Create your first case to get started."
+                                                <>
+                                                    <div className="text-6xl mb-4">📁</div>
+                                                    <p className="text-gray-500">No cases found</p>
+                                                    <button
+                                                        onClick={() => {
+                                                            resetForm();
+                                                            setIsModalOpen(true);
+                                                        }}
+                                                        className="mt-3 btn-primary inline-flex items-center gap-2"
+                                                    >
+                                                        <Plus className="w-4 h-4" /> Create your
+                                                        first case
+                                                    </button>
+                                                </>
                                             )}
                                         </td>
                                     </tr>
@@ -410,7 +422,7 @@ const CaseInfoManager = () => {
                     </div>
 
                     {/* Pagination */}
-                    {totalPages > 1 && (
+                    {!loading && totalPages > 1 && cases.length > 0 && (
                         <div className="px-6 py-4 border-t flex flex-col sm:flex-row justify-between items-center gap-4 bg-gray-50">
                             <div className="text-sm text-gray-600">
                                 Showing {cases.length} of {totalCases} cases
