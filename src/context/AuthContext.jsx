@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import api from "../utils/api";
 
 const AuthContext = createContext();
 
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const parsedAdmin = JSON.parse(adminData);
                 setAdmin(parsedAdmin);
-                axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+                api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
             } catch (error) {
                 console.error("Error parsing admin data:", error);
                 localStorage.removeItem("adminToken");
@@ -36,12 +36,12 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            const response = await axios.post("/api/auth/login", { email, password });
+            const response = await api.post("/api/auth/login", { email, password });
             const { token, admin: adminData } = response.data;
 
             localStorage.setItem("adminToken", token);
             localStorage.setItem("adminData", JSON.stringify(adminData));
-            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
             setAdmin(adminData);
             toast.success(`Welcome back, ${adminData.name}!`);
             return true;
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (userData) => {
         try {
-            const response = await axios.post("/api/auth/register", userData);
+            const response = await api.post("/api/auth/register", userData);
             toast.success(response.data.message);
             return true;
         } catch (error) {
@@ -65,14 +65,14 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem("adminToken");
         localStorage.removeItem("adminData");
-        delete axios.defaults.headers.common["Authorization"];
+        delete api.defaults.headers.common["Authorization"];
         setAdmin(null);
         toast.success("Logged out successfully");
     };
 
     const changePassword = async (oldPassword, newPassword) => {
         try {
-            await axios.post("/api/auth/change-password", { oldPassword, newPassword });
+            await api.post("/api/auth/change-password", { oldPassword, newPassword });
             toast.success("Password changed successfully");
             return true;
         } catch (error) {
