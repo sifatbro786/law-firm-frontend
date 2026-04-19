@@ -12,6 +12,7 @@ const CaseStudiesManager = () => {
     const [editingCase, setEditingCase] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    const [removeExistingImage, setRemoveExistingImage] = useState(false);
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
@@ -60,6 +61,7 @@ const CaseStudiesManager = () => {
         const file = e.target.files[0];
         if (file) {
             setImageFile(file);
+            setRemoveExistingImage(false);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result);
@@ -71,6 +73,7 @@ const CaseStudiesManager = () => {
     const removeImage = () => {
         setImageFile(null);
         setImagePreview(null);
+        setRemoveExistingImage(true);
     };
 
     const handleSubmit = async (e) => {
@@ -81,23 +84,59 @@ const CaseStudiesManager = () => {
             ...formData,
         };
 
+        // Add removeImage flag if needed
+        if (removeExistingImage) {
+            caseData.removeImage = true;
+        }
+
+        console.log("=== SUBMITTING CASE STUDY ===");
+        console.log("Form data:", caseData);
+        console.log("Has image file:", !!imageFile);
+        console.log("Remove existing image:", removeExistingImage);
+        if (imageFile) {
+            console.log("Image file name:", imageFile.name);
+            console.log("Image file size:", imageFile.size);
+            console.log("Image file type:", imageFile.type);
+        }
+
         formDataToSend.append("data", JSON.stringify(caseData));
         if (imageFile) {
             formDataToSend.append("image", imageFile);
         }
 
+        // Debug: Log FormData contents
+        for (let pair of formDataToSend.entries()) {
+            console.log("FormData entry:", pair[0], pair[1]);
+        }
+
         try {
             if (editingCase) {
-                await api.put(`/api/case-studies/${editingCase._id}`, formDataToSend);
+                const response = await api.put(
+                    `/api/case-studies/${editingCase._id}`,
+                    formDataToSend,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    },
+                );
+                console.log("Update response:", response.data);
                 toast.success("Case study updated successfully");
             } else {
-                await api.post("/api/case-studies", formDataToSend);
+                const response = await api.post("/api/case-studies", formDataToSend, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                console.log("Create response:", response.data);
                 toast.success("Case study created successfully");
             }
             setIsModalOpen(false);
             resetForm();
             fetchCaseStudies();
         } catch (error) {
+            console.error("Submit error:", error);
+            console.error("Error response:", error.response?.data);
             toast.error(error.response?.data?.error || "Operation failed");
         }
     };
@@ -130,6 +169,7 @@ const CaseStudiesManager = () => {
         });
         setImagePreview(caseStudy.image ? getImageUrl(caseStudy.image) : null);
         setImageFile(null);
+        setRemoveExistingImage(false);
         setIsModalOpen(true);
     };
 
@@ -149,6 +189,7 @@ const CaseStudiesManager = () => {
         });
         setImageFile(null);
         setImagePreview(null);
+        setRemoveExistingImage(false);
         setIsModalOpen(false);
     };
 
@@ -416,26 +457,32 @@ const CaseStudiesManager = () => {
                                     </label>
                                 </div>
 
-                                {/* Image Preview */}
-                                {imagePreview && (
+                                {/* Image Preview Card */}
+                                {(imagePreview ||
+                                    (editingCase && !removeExistingImage && editingCase.image)) && (
                                     <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                                         <div className="flex items-center justify-between mb-3">
                                             <p className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                                                 <FaImage className="text-secondary" />
-                                                Image Preview
+                                                Current Image
                                             </p>
                                             <button
                                                 type="button"
                                                 onClick={removeImage}
-                                                className="text-red-500 hover:text-red-700 flex items-center gap-1 text-sm"
+                                                className="text-red-500 hover:text-red-700 flex items-center gap-1 text-sm px-2 py-1 rounded hover:bg-red-50 transition"
                                             >
                                                 <FaTrashAlt className="w-3 h-3" />
-                                                Remove
+                                                Remove Image
                                             </button>
                                         </div>
                                         <div className="relative inline-block">
                                             <img
-                                                src={getImageUrl(imagePreview)}
+                                                src={
+                                                    imagePreview ||
+                                                    (editingCase && !removeExistingImage
+                                                        ? getImageUrl(editingCase.image)
+                                                        : null)
+                                                }
                                                 alt="Preview"
                                                 className="w-20 h-20 object-cover rounded-lg border-2 border-secondary shadow-md"
                                             />
@@ -451,10 +498,15 @@ const CaseStudiesManager = () => {
                                                 {(imageFile.size / 1024).toFixed(2)} KB)
                                             </p>
                                         )}
-                                        {!imageFile && editingCase && (
+                                        {!imageFile && editingCase && !removeExistingImage && (
                                             <p className="text-xs text-gray-500 mt-2">
-                                                Current image will be preserved. Click "Remove" to
-                                                delete and upload new.
+                                                Current image will be preserved. Click "Remove
+                                                Image" to delete.
+                                            </p>
+                                        )}
+                                        {removeExistingImage && (
+                                            <p className="text-xs text-red-500 mt-2">
+                                                Image will be removed from this case study.
                                             </p>
                                         )}
                                     </div>

@@ -84,24 +84,9 @@ const AttorneysManager = () => {
             attorneyData.removeImage = true;
         }
 
-        console.log("Submitting attorney data:", attorneyData);
-        console.log("Has new image:", !!imageFile);
-        console.log(
-            "Image file details:",
-            imageFile
-                ? { name: imageFile.name, size: imageFile.size, type: imageFile.type }
-                : "No file",
-        );
-        console.log("Remove existing image:", removeExistingImage);
-
         formDataToSend.append("data", JSON.stringify(attorneyData));
         if (imageFile) {
             formDataToSend.append("image", imageFile);
-        }
-
-        // Debug: Log FormData contents
-        for (let pair of formDataToSend.entries()) {
-            console.log(pair[0], pair[1]);
         }
 
         try {
@@ -115,7 +100,6 @@ const AttorneysManager = () => {
                         },
                     },
                 );
-                console.log("Update response:", response.data);
                 toast.success("Attorney updated successfully");
             } else {
                 const response = await api.post("/api/attorneys", formDataToSend, {
@@ -123,7 +107,6 @@ const AttorneysManager = () => {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                console.log("Create response:", response.data);
                 toast.success("Attorney added successfully");
             }
             setIsModalOpen(false);

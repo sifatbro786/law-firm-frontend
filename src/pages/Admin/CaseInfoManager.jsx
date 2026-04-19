@@ -14,7 +14,7 @@ import {
     ChevronRight,
     Loader2,
 } from "lucide-react";
-import api from "../../utils/api";
+import api, { getFileUrl } from "../../utils/api";
 import toast from "react-hot-toast";
 import useDebounce from "../../utils/useDebounce";
 
@@ -82,18 +82,23 @@ const CaseInfoManager = () => {
         setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
     };
 
+    // Update removeExistingFile function
     const removeExistingFile = async (fileIndex) => {
         if (window.confirm("Are you sure you want to delete this file?")) {
             try {
-                await api.delete(`/api/case-info/${editingId}/files/${fileIndex}`);
-                setExistingFiles(existingFiles.filter((_, i) => i !== fileIndex));
-                toast.success("File deleted successfully");
+                const response = await api.delete(`/api/case-info/${editingId}/files/${fileIndex}`);
+                if (response.data.files) {
+                    setExistingFiles(response.data.files);
+                    toast.success("File deleted successfully");
+                }
             } catch (err) {
+                console.error("Delete file error:", err);
                 toast.error("Failed to delete file");
             }
         }
     };
 
+    // Update handleSubmit function
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -112,26 +117,45 @@ const CaseInfoManager = () => {
 
         try {
             const submitData = new FormData();
-            Object.keys(formData).forEach((key) => {
-                if (formData[key] !== undefined && formData[key] !== null) {
-                    submitData.append(key, formData[key]);
-                }
-            });
+
+            // Append all form fields - IMPORTANT: Don't use JSON.stringify
+            submitData.append("caseNumber", formData.caseNumber);
+            submitData.append("district", formData.district);
+            submitData.append("clientName", formData.clientName);
+            submitData.append("clientAddress", formData.clientAddress);
+            submitData.append("clientMobileNo", formData.clientMobileNo);
+            submitData.append("description", formData.description);
+            submitData.append("isReferenced", formData.isReferenced ? "true" : "false");
+            submitData.append("referenceName", formData.referenceName || "");
+            submitData.append("referenceMobileNo", formData.referenceMobileNo || "");
+
+            // Append files
             uploadedFiles.forEach((file) => {
                 submitData.append("files", file);
             });
 
             if (editingId) {
-                await api.put(`/api/case-info/${editingId}`, submitData);
+                const response = await api.put(`/api/case-info/${editingId}`, submitData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                console.log("Update response:", response.data);
                 toast.success("Case updated successfully!");
             } else {
-                await api.post("/api/case-info", submitData);
+                const response = await api.post("/api/case-info", submitData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                console.log("Create response:", response.data);
                 toast.success("Case created successfully!");
             }
 
             resetForm();
             fetchCases();
         } catch (err) {
+            console.error("Submit error:", err);
             toast.error(err.response?.data?.error || "Operation failed");
         }
     };
@@ -149,6 +173,9 @@ const CaseInfoManager = () => {
     };
 
     const handleEdit = (item) => {
+        console.log("Editing case:", item);
+        console.log("Files in case:", item.files);
+
         setEditingId(item._id);
         setFormData({
             caseNumber: item.caseNumber || "",
@@ -189,9 +216,15 @@ const CaseInfoManager = () => {
         setIsModalOpen(false);
     };
 
+    // Update downloadFile function
     const downloadFile = (file) => {
-        if (file.filePath) {
-            window.open(`/${file.filePath}`, "_blank");
+        if (file && file.filePath) {
+            // getFileUrl ফাংশন ব্যবহার করে সঠিক URL তৈরি করুন
+            const fileUrl = getFileUrl(file.filePath);
+            console.log("Downloading file from:", fileUrl);
+
+            // নতুন ট্যাবে ফাইল ওপেন করুন
+            window.open(fileUrl, "_blank");
         } else {
             toast.error("File not found");
         }
