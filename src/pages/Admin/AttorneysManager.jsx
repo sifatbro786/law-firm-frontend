@@ -1,7 +1,17 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { FaEdit, FaTrash, FaPlus, FaTimes, FaUpload, FaUserTie, FaSearch } from "react-icons/fa";
+import {
+    FaEdit,
+    FaTrash,
+    FaPlus,
+    FaTimes,
+    FaUpload,
+    FaUserTie,
+    FaSearch,
+    FaTrashAlt,
+    FaImage,
+} from "react-icons/fa";
 import api, { getImageUrl } from "../../utils/api";
 
 const AttorneysManager = () => {
@@ -11,6 +21,7 @@ const AttorneysManager = () => {
     const [editingAttorney, setEditingAttorney] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    const [removeExistingImage, setRemoveExistingImage] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [formData, setFormData] = useState({
         name: "",
@@ -44,12 +55,19 @@ const AttorneysManager = () => {
         const file = e.target.files[0];
         if (file) {
             setImageFile(file);
+            setRemoveExistingImage(false);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result);
             };
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleRemoveImage = () => {
+        setImageFile(null);
+        setImagePreview(null);
+        setRemoveExistingImage(true);
     };
 
     const handleSubmit = async (e) => {
@@ -61,23 +79,58 @@ const AttorneysManager = () => {
             experience: parseInt(formData.experience) || 0,
         };
 
+        // শুধু removeImage true হলে পাঠাবেন
+        if (removeExistingImage) {
+            attorneyData.removeImage = true;
+        }
+
+        console.log("Submitting attorney data:", attorneyData);
+        console.log("Has new image:", !!imageFile);
+        console.log(
+            "Image file details:",
+            imageFile
+                ? { name: imageFile.name, size: imageFile.size, type: imageFile.type }
+                : "No file",
+        );
+        console.log("Remove existing image:", removeExistingImage);
+
         formDataToSend.append("data", JSON.stringify(attorneyData));
         if (imageFile) {
             formDataToSend.append("image", imageFile);
         }
 
+        // Debug: Log FormData contents
+        for (let pair of formDataToSend.entries()) {
+            console.log(pair[0], pair[1]);
+        }
+
         try {
             if (editingAttorney) {
-                await api.put(`/api/attorneys/${editingAttorney._id}`, formDataToSend);
+                const response = await api.put(
+                    `/api/attorneys/${editingAttorney._id}`,
+                    formDataToSend,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    },
+                );
+                console.log("Update response:", response.data);
                 toast.success("Attorney updated successfully");
             } else {
-                await api.post("/api/attorneys", formDataToSend);
+                const response = await api.post("/api/attorneys", formDataToSend, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                console.log("Create response:", response.data);
                 toast.success("Attorney added successfully");
             }
             setIsModalOpen(false);
             resetForm();
             fetchAttorneys();
         } catch (error) {
+            console.error("Submit error:", error);
             toast.error(error.response?.data?.error || "Operation failed");
         }
     };
@@ -106,7 +159,9 @@ const AttorneysManager = () => {
             education: attorney.education || [],
             barCertification: attorney.barCertification || "",
         });
-        setImagePreview(attorney.image);
+        setImagePreview(attorney.image ? getImageUrl(attorney.image) : null);
+        setImageFile(null);
+        setRemoveExistingImage(false);
         setIsModalOpen(true);
     };
 
@@ -124,6 +179,7 @@ const AttorneysManager = () => {
         });
         setImageFile(null);
         setImagePreview(null);
+        setRemoveExistingImage(false);
         setSpecializationInput("");
         setEducationInput("");
     };
@@ -333,37 +389,95 @@ const AttorneysManager = () => {
                             </button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                            {/* Image Upload */}
+                            {/* Image Upload Section with Preview and Delete Option */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Profile Image
                                 </label>
-                                <div className="flex items-center gap-4">
-                                    {imagePreview && (
-                                        <img
-                                            src={getImageUrl(imagePreview)}
-                                            alt="Preview"
-                                            className="w-20 h-20 rounded-full object-cover border-2 border-secondary"
-                                        />
-                                    )}
-                                    <label className="flex-1 cursor-pointer">
-                                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-secondary transition">
-                                            <FaUpload className="mx-auto text-2xl text-gray-400 mb-2" />
-                                            <p className="text-sm text-gray-500">
-                                                Click to upload image
+
+                                {/* Image Preview Card */}
+                                {(imagePreview || (editingAttorney && !removeExistingImage)) && (
+                                    <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <p className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                                <FaImage className="text-secondary" />
+                                                Current Image
                                             </p>
-                                            <input
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={handleImageChange}
-                                                className="hidden"
-                                            />
+                                            <button
+                                                type="button"
+                                                onClick={handleRemoveImage}
+                                                className="text-red-500 hover:text-red-700 flex items-center gap-1 text-sm px-2 py-1 rounded hover:bg-red-50 transition"
+                                            >
+                                                <FaTrashAlt className="w-3 h-3" />
+                                                Remove Image
+                                            </button>
                                         </div>
+                                        <div className="flex items-center gap-4">
+                                            <img
+                                                src={
+                                                    imagePreview ||
+                                                    (editingAttorney && !removeExistingImage
+                                                        ? getImageUrl(editingAttorney.image)
+                                                        : null)
+                                                }
+                                                alt="Preview"
+                                                className="w-24 h-24 rounded-full object-cover border-2 border-secondary shadow-md"
+                                            />
+                                            <div className="flex-1">
+                                                {imageFile && (
+                                                    <p className="text-xs text-green-600">
+                                                        New image selected: {imageFile.name}
+                                                    </p>
+                                                )}
+                                                {!imageFile &&
+                                                    editingAttorney &&
+                                                    !removeExistingImage && (
+                                                        <p className="text-xs text-gray-500">
+                                                            Current image will be preserved. Click
+                                                            "Remove Image" to delete.
+                                                        </p>
+                                                    )}
+                                                {removeExistingImage && (
+                                                    <p className="text-xs text-red-500">
+                                                        Image will be removed from profile.
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Upload New Image Area */}
+                                <div
+                                    className={`border-2 border-dashed rounded-lg p-4 text-center transition cursor-pointer ${removeExistingImage || !imagePreview ? "border-secondary/30 hover:border-secondary/60 bg-secondary/5" : "border-gray-300 bg-gray-50"}`}
+                                >
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        className="hidden"
+                                        id="attorney-image-input"
+                                    />
+                                    <label
+                                        htmlFor="attorney-image-input"
+                                        className="cursor-pointer block"
+                                    >
+                                        <FaUpload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                                        <p className="text-gray-600 font-medium">
+                                            {removeExistingImage
+                                                ? "Upload New Image"
+                                                : imagePreview
+                                                  ? "Change Image"
+                                                  : "Click to upload image"}
+                                        </p>
+                                        <p className="text-gray-400 text-sm mt-1">
+                                            PNG, JPG, JPEG, GIF up to 5MB
+                                        </p>
                                     </label>
                                 </div>
                             </div>
 
-                            {/* Rest of the form remains same */}
+                            {/* Rest of the form */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Name *

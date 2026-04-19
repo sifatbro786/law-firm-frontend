@@ -145,7 +145,7 @@ const Home = () => {
                             Why Trust Us
                         </span>
                         <h2 className="text-3xl md:text-5xl font-playfair font-bold text-primary mb-4">
-                            Why Choose <span className="text-secondary">Neela's Law Firm?</span>
+                            Why Choose <span className="text-secondary">Neela's Diary?</span>
                         </h2>
                         <div className="w-24 h-1 bg-secondary mx-auto rounded-full"></div>
                         <p className="text-gray-600 max-w-2xl mx-auto mt-4">

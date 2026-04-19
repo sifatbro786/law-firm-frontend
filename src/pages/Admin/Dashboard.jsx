@@ -129,7 +129,7 @@ const Dashboard = () => {
             >
                 <div className="p-6 border-b border-gray-700">
                     <Link to="/" className="text-xl md:text-2xl font-playfair font-bold">
-                        <span className="text-secondary">Neela's </span> Law Firm
+                        <span className="text-secondary">Neela's </span> Diary
                     </Link>
                     <p className="text-xs text-gray-400 mt-2">Admin Panel</p>
                     {admin?.role === "super_admin" && (

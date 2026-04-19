@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import ProfileImage from "/sarah-islam.jpg";
+import ProfileImage from "/placeholder-girl.jpg";
 import {
     FaLinkedin,
     FaEnvelope,

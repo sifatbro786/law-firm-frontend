@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaGavel, FaHandshake, FaBalanceScale, FaGlobe } from "react-icons/fa";
-import UserImage1 from "/kaysar-kamal.jpg";
-import UserImage2 from "/sarah-islam.jpg";
+import UserImage from "/placeholder-girl.jpg";
 
 const About = () => {
     const values = [
@@ -49,7 +48,7 @@ const About = () => {
                         className="max-w-3xl"
                     >
                         <h1 className="text-4xl md:text-5xl font-playfair font-bold mb-6">
-                            About Our Neela's Law Firm
+                            About Our Neela's Diary
                         </h1>
                         <p className="text-lg text-gray-300">
                             With over two decades of legal excellence, we have established ourselves
@@ -75,11 +74,11 @@ const About = () => {
                             </h2>
                             <div className="space-y-4 text-gray-600">
                                 <p>
-                                    Founded in 2003, Neela's Law Firm began with a simple yet
-                                    powerful vision: to provide exceptional legal services with
-                                    unwavering integrity and dedication to justice. What started as
-                                    a small practice with two passionate attorneys has grown into
-                                    one of Bangladesh's premier law firms.
+                                    Founded in 2003, Neela's Diary began with a simple yet powerful
+                                    vision: to provide exceptional legal services with unwavering
+                                    integrity and dedication to justice. What started as a small
+                                    practice with two passionate attorneys has grown into one of
+                                    Bangladesh's premier law firms.
                                 </p>
                                 <p>
                                     Over the years, we have successfully handled thousands of cases
@@ -188,13 +187,13 @@ const About = () => {
                             className="bg-gray-50 rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row"
                         >
                             <img
-                                src={UserImage1}
+                                src={UserImage}
                                 alt="Founder"
                                 className="w-full md:w-48 h-48 object-cover"
                             />
                             <div className="p-6">
                                 <h3 className="text-2xl font-playfair font-bold mb-2">
-                                    Md. Kaysar Kamal
+                                    Neela
                                 </h3>
                                 <p className="text-secondary font-semibold mb-3">
                                     Founder & Senior Partner
@@ -214,13 +213,13 @@ const About = () => {
                             className="bg-gray-50 rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row"
                         >
                             <img
-                                src={UserImage2}
+                                src={UserImage}
                                 alt="Managing Partner"
                                 className="w-full md:w-48 h-48 object-cover"
                             />
                             <div className="p-6">
                                 <h3 className="text-2xl font-playfair font-bold mb-2">
-                                    Sarah Islam
+                                    Neela
                                 </h3>
                                 <p className="text-secondary font-semibold mb-3">
                                     Managing Partner
