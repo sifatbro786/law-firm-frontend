@@ -145,7 +145,7 @@ const Home = () => {
                             Why Trust Us
                         </span>
                         <h2 className="text-3xl md:text-5xl font-playfair font-bold text-primary mb-4">
-                            Why Choose <span className="text-secondary">Neela's Diary?</span>
+                            Why Choose <span className="text-secondary">Jamil's Law Consultant?</span>
                         </h2>
                         <div className="w-24 h-1 bg-secondary mx-auto rounded-full"></div>
                         <p className="text-gray-600 max-w-2xl mx-auto mt-4">
@@ -166,7 +166,7 @@ const Home = () => {
                                 {/* Feature 1 */}
                                 <div className="group flex gap-5 p-4 rounded-xl hover:bg-gray-50 transition-all duration-300 cursor-pointer">
                                     <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-secondary to-secondary/70 rounded-2xl flex items-center justify-center text-primary font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                        20+
+                                        15+
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-playfair font-bold text-primary mb-2 group-hover:text-secondary transition-colors">
@@ -292,7 +292,7 @@ const Home = () => {
                                         </h3>
                                     </div>
                                     <p className="text-gray-700 leading-relaxed mb-4">
-                                        To be Bangladesh's most trusted and respected law firm,
+                                        To be Bangladesh's most trusted and respected law consultant,
                                         setting new benchmarks in legal excellence and client
                                         service while contributing to a just society.
                                     </p>

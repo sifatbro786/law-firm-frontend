@@ -89,24 +89,9 @@ const CaseStudiesManager = () => {
             caseData.removeImage = true;
         }
 
-        console.log("=== SUBMITTING CASE STUDY ===");
-        console.log("Form data:", caseData);
-        console.log("Has image file:", !!imageFile);
-        console.log("Remove existing image:", removeExistingImage);
-        if (imageFile) {
-            console.log("Image file name:", imageFile.name);
-            console.log("Image file size:", imageFile.size);
-            console.log("Image file type:", imageFile.type);
-        }
-
         formDataToSend.append("data", JSON.stringify(caseData));
         if (imageFile) {
             formDataToSend.append("image", imageFile);
-        }
-
-        // Debug: Log FormData contents
-        for (let pair of formDataToSend.entries()) {
-            console.log("FormData entry:", pair[0], pair[1]);
         }
 
         try {
@@ -120,7 +105,6 @@ const CaseStudiesManager = () => {
                         },
                     },
                 );
-                console.log("Update response:", response.data);
                 toast.success("Case study updated successfully");
             } else {
                 const response = await api.post("/api/case-studies", formDataToSend, {
@@ -128,7 +112,6 @@ const CaseStudiesManager = () => {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                console.log("Create response:", response.data);
                 toast.success("Case study created successfully");
             }
             setIsModalOpen(false);

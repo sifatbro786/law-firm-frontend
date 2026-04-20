@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaGavel, FaHandshake, FaBalanceScale, FaGlobe } from "react-icons/fa";
-import UserImage from "/placeholder-girl.jpg";
+import UserImage from "/jamil2.jpeg";
 
 const About = () => {
     const values = [
@@ -48,12 +48,12 @@ const About = () => {
                         className="max-w-3xl"
                     >
                         <h1 className="text-4xl md:text-5xl font-playfair font-bold mb-6">
-                            About Our Neela's Diary
+                            About Our Jamil Law Consultant
                         </h1>
                         <p className="text-lg text-gray-300">
                             With over two decades of legal excellence, we have established ourselves
-                            as one of Bangladesh's most trusted law firms, committed to delivering
-                            justice and protecting our clients' interests.
+                            as one of Bangladesh's most trusted law consultants, committed to
+                            delivering justice and protecting our clients' interests.
                         </p>
                     </motion.div>
                 </div>
@@ -74,11 +74,11 @@ const About = () => {
                             </h2>
                             <div className="space-y-4 text-gray-600">
                                 <p>
-                                    Founded in 2003, Neela's Diary began with a simple yet powerful
-                                    vision: to provide exceptional legal services with unwavering
-                                    integrity and dedication to justice. What started as a small
-                                    practice with two passionate attorneys has grown into one of
-                                    Bangladesh's premier law firms.
+                                    Founded in 2003, Jamil Law Consultant began with a simple yet
+                                    powerful vision: to provide exceptional legal services with
+                                    unwavering integrity and dedication to justice. What started as
+                                    a small practice with two passionate attorneys has grown into
+                                    one of Bangladesh's premier law consultants.
                                 </p>
                                 <p>
                                     Over the years, we have successfully handled thousands of cases
@@ -179,7 +179,7 @@ const About = () => {
                         </p>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="flex justify-center gap-8">
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -193,40 +193,17 @@ const About = () => {
                             />
                             <div className="p-6">
                                 <h3 className="text-2xl font-playfair font-bold mb-2">
-                                    Neela
+                                    আহমেদ নওশাদ জামিল
                                 </h3>
-                                <p className="text-secondary font-semibold mb-3">
-                                    Founder & Senior Partner
-                                </p>
+                                <p className="text-secondary font-semibold mb-3">Advocate</p>
                                 <p className="text-gray-600">
-                                    With over 25 years of experience in corporate and criminal law,
-                                    Mr. Rahman has established himself as one of Bangladesh's
-                                    leading legal minds.
-                                </p>
-                            </div>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, x: 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="bg-gray-50 rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row"
-                        >
-                            <img
-                                src={UserImage}
-                                alt="Managing Partner"
-                                className="w-full md:w-48 h-48 object-cover"
-                            />
-                            <div className="p-6">
-                                <h3 className="text-2xl font-playfair font-bold mb-2">
-                                    Neela
-                                </h3>
-                                <p className="text-secondary font-semibold mb-3">
-                                    Managing Partner
-                                </p>
-                                <p className="text-gray-600">
-                                    Specializing in family and property law, Ms. Sarah brings
-                                    compassion and expertise to every case she handles.
+                                    With over 15+ years of experience in corporate and criminal law,
+                                    Advocate Mr. Jamil has established himself as one of
+                                    Bangladesh's leading legal minds. He is known for his strategic
+                                    approach to complex cases and his unwavering commitment to his
+                                    clients' success. Under his leadership, Jamil Law Consultant has
+                                    achieved numerous landmark victories and continues to set new
+                                    standards in legal excellence.
                                 </p>
                             </div>
                         </motion.div>

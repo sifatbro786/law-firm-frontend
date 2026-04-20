@@ -1,7 +1,7 @@
 export const faqs = [
     {
         question: "What are your consultation fees?",
-        answer: "Our initial consultation fee is BDT 2000 for a 30-minute session. However, we offer free 15-minute phone consultations for preliminary case evaluation.",
+        answer: "Our initial consultation fee is BDT 5000 for a 30-minute session. However, we offer free 15-minute phone consultations for preliminary case evaluation.",
     },
     {
         question: "How long does it take to resolve a case?",

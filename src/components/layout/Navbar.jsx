@@ -23,8 +23,8 @@ const Navbar = () => {
             <div className="px-5 lg:px-32">
                 <div className="flex justify-between items-center py-4">
                     {/* Logo */}
-                    <Link to="/" className="text-2xl font-playfair font-bold">
-                        <span className="text-secondary">Neela's</span> Diary
+                    <Link to="/" className="text-lg md:text-2xl font-playfair font-bold">
+                        <span className="text-secondary">Jamil</span> Law Consultant
                     </Link>
 
                     {/* Desktop Menu */}

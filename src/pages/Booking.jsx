@@ -76,7 +76,7 @@ const Booking = () => {
                                 <ul className="space-y-3">
                                     <li className="flex items-start gap-3">
                                         <FaCheckCircle className="text-secondary mt-1" />
-                                        <span>৩০০০ টাকা ফি সহ একটি প্রাথমিক পরামর্শ সেশন</span>
+                                        <span>৫০০০ টাকা ফি সহ একটি প্রাথমিক পরামর্শ সেশন</span>
                                     </li>
                                     <li className="flex items-start gap-3">
                                         <FaCheckCircle className="text-secondary mt-1" />
@@ -125,7 +125,7 @@ const Booking = () => {
                                     href="tel:+8801234567890"
                                     className="btn-primary block text-center bg-primary text-white"
                                 >
-                                    এখনই কল করুন: +880 1234 567890
+                                    এখনই কল করুন: +880 1712245511
                                 </a>
                             </div>
                         </motion.div>

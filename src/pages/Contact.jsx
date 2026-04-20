@@ -1,26 +1,32 @@
 import { motion } from "framer-motion";
 import ContactForm from "../components/ui/ContactForm";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaArchway } from "react-icons/fa";
 
 const Contact = () => {
     const contactInfo = [
         {
             icon: <FaPhone className="text-2xl" />,
             title: "Phone",
-            details: ["+880 1234 567890", "+880 1234 567891"],
-            link: "tel:+8801234567890",
+            details: ["+880 1712245511"],
+            link: "tel:+8801712245511",
         },
         {
             icon: <FaEnvelope className="text-2xl" />,
             title: "Email",
-            details: ["info@lawfirmbd.com", "support@lawfirmbd.com"],
-            link: "mailto:info@lawfirmbd.com",
+            details: ["nowshed.j@gmail.com"],
+            link: "mailto:nowshed.j@gmail.com",
         },
         {
             icon: <FaMapMarkerAlt className="text-2xl" />,
             title: "Office Address",
-            details: ["House 123, Road 4, Block B", "Banani, Dhaka-1213", "Bangladesh"],
-            link: "https://maps.google.com",
+            details: ["১৫৭ শান্তিনগর, ঢাকা ১২১৭ (মিনা বাজারের ৩য় তলায়)"],
+            link: "https://www.google.com/maps?q=157%20Shantinagar%2C%20Dhaka%201217",
+        },
+        {
+            icon: <FaArchway className="text-2xl" />,
+            title: "Court Address",
+            details: ["হল রুম নং-২, সুপ্রীম কোর্ট বার ভবন শাহবাগ, ঢাকা"],
+            link: "https://www.google.com/maps?q=157%20Shantinagar%2C%20Dhaka%201217",
         },
         {
             icon: <FaClock className="text-2xl" />,
@@ -120,7 +126,7 @@ const Contact = () => {
                     </h2>
                     <div className="rounded-lg overflow-hidden shadow-lg">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.902123456789!2d90.406213!3d23.794851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c70c15f1b49d%3A0x9b3e6f8b9c9e8a5f!2sBanani%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1699999999999!5m2!1sen!2sbd"
+                            src="https://www.google.com/maps?q=157%20Shantinagar%2C%20Dhaka%201217&output=embed"
                             width="100%"
                             height="400"
                             style={{ border: 0 }}
@@ -145,7 +151,7 @@ const Contact = () => {
                         href="tel:+8801234567890"
                         className="btn-primary bg-secondary text-primary text-2xl font-bold inline-block"
                     >
-                        Call Now: +880 1234 567890
+                        Call Now: +880 1712245511
                     </a>
                 </div>
             </section>

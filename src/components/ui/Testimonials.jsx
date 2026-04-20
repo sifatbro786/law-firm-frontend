@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaStar, FaStarHalfAlt } from "react-icons/fa";
+import {FaChevronLeft, FaChevronRight, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { testimonials } from "../../data/testimonial";
 
@@ -32,7 +32,7 @@ const Testimonials = () => {
         const hasHalfStar = rating % 1 !== 0;
 
         return (
-            <div className="flex gap-1">
+            <div className="flex justify-center gap-1">
                 {[...Array(fullStars)].map((_, i) => (
                     <FaStar key={i} className="text-yellow-400 text-lg" />
                 ))}
@@ -81,7 +81,7 @@ const Testimonials = () => {
                         >
                             <div className="grid grid-cols-1 md:grid-cols-3">
                                 {/* Image Section */}
-                                <div className="relative h-64 md:h-full">
+                                {/* <div className="relative h-64 md:h-full">
                                     <img
                                         src={testimonials[current].image}
                                         alt={testimonials[current].name}
@@ -95,10 +95,10 @@ const Testimonials = () => {
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* Content Section */}
-                                <div className="col-span-2 p-8 md:p-12">
+                                <div className="col-span-3 text-center p-8 md:p-12">
                                     <div className="mb-4">
                                         <StarRating rating={testimonials[current].rating} />
                                     </div>

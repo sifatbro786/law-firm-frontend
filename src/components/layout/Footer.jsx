@@ -25,7 +25,9 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                     {/* About */}
                     <div>
-                        <h3 className="text-xl font-playfair font-bold mb-4">Neela's Diary</h3>
+                        <h3 className="text-xl font-playfair font-bold mb-4">
+                            Jamil Law Consultant
+                        </h3>
                         <p className="text-gray-300 mb-4">
                             Providing expert legal services in Bangladesh with integrity,
                             excellence, and dedication to justice.
@@ -99,16 +101,16 @@ const Footer = () => {
                             <li className="flex items-start gap-3">
                                 <FaMapMarkerAlt className="mt-1 text-secondary" />
                                 <span className="text-gray-300">
-                                    House 123, Road 4, Block B, Banani, Dhaka-1213
+                                    ১৫৭ শান্তিনগর, ঢাকা ১২১৭ (মিনা বাজারের ৩য় তলায়)
                                 </span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <FaPhone className="text-secondary" />
-                                <span className="text-gray-300">+880 1234 567890</span>
+                                <span className="text-gray-300">০১৭১২২৪৫৫১১</span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <FaEnvelope className="text-secondary" />
-                                <span className="text-gray-300">info@lawfirmbd.com</span>
+                                <span className="text-gray-300">nowshed.j@gmail.com</span>
                             </li>
                         </ul>
                     </div>
@@ -117,7 +119,8 @@ const Footer = () => {
                 {/* Copyright */}
                 <div className="border-t border-gray-700 pt-6 text-center text-gray-400">
                     <p>
-                        © {new Date().getFullYear()} Neela's Diary Bangladesh. All rights reserved.
+                        © {new Date().getFullYear()} Jamil Law Consultant Bangladesh. All rights
+                        reserved.
                     </p>
                 </div>
             </div>

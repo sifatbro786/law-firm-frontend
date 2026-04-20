@@ -140,7 +140,6 @@ const CaseInfoManager = () => {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                console.log("Update response:", response.data);
                 toast.success("Case updated successfully!");
             } else {
                 const response = await api.post("/api/case-info", submitData, {
@@ -148,7 +147,6 @@ const CaseInfoManager = () => {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                console.log("Create response:", response.data);
                 toast.success("Case created successfully!");
             }
 
@@ -173,9 +171,6 @@ const CaseInfoManager = () => {
     };
 
     const handleEdit = (item) => {
-        console.log("Editing case:", item);
-        console.log("Files in case:", item.files);
-
         setEditingId(item._id);
         setFormData({
             caseNumber: item.caseNumber || "",
@@ -221,7 +216,6 @@ const CaseInfoManager = () => {
         if (file && file.filePath) {
             // getFileUrl ফাংশন ব্যবহার করে সঠিক URL তৈরি করুন
             const fileUrl = getFileUrl(file.filePath);
-            console.log("Downloading file from:", fileUrl);
 
             // নতুন ট্যাবে ফাইল ওপেন করুন
             window.open(fileUrl, "_blank");

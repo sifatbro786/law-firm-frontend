@@ -225,7 +225,7 @@ const AdminLogin = () => {
                         <FaGavel className="text-4xl text-primary" />
                     </div>
                     <h2 className="text-3xl font-playfair font-bold text-primary">Admin Login</h2>
-                    <p className="text-gray-600 mt-2">Access the law firm management dashboard</p>
+                    <p className="text-gray-600 mt-2">Access the law consultant management dashboard</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">

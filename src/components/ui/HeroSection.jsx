@@ -21,7 +21,7 @@ const HeroSection = () => {
                         Expert Legal Solutions for Your Business & Family
                     </h1>
                     <p className="text-lg md:text-xl text-gray-300 mb-8">
-                        With over 20 years of experience in Bangladeshi law, we provide trusted
+                        With over 15+ years of experience in Bangladeshi law, we provide trusted
                         legal counsel and representation.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">

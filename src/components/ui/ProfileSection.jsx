@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import ProfileImage from "/placeholder-girl.jpg";
+import ProfileImage from "/jamil.jpeg";
 import {
-    FaLinkedin,
     FaEnvelope,
     FaPhone,
     FaAward,
@@ -53,13 +52,13 @@ const ProfileSection = () => {
                         <div className="relative bg-gradient-to-br from-primary to-accent rounded-2xl overflow-hidden shadow-2xl">
                             <img
                                 src={ProfileImage}
-                                alt="Neela - Founder & Managing Partner"
+                                alt="Advocate Ahmed Naushad Jamil"
                                 className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-500"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-60"></div>
                             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-primary to-transparent">
                                 <h3 className="text-2xl font-playfair font-bold text-white">
-                                    Neela Rahman
+                                    Advocate Ahmed Naushad Jamil
                                 </h3>
                                 <p className="text-secondary font-semibold">
                                     Founder & Managing Partner
@@ -80,19 +79,20 @@ const ProfileSection = () => {
                                 Advocate & Legal Expert
                             </span>
                             <h3 className="text-3xl md:text-4xl font-playfair font-bold text-primary mb-4">
-                                Neela Rahman
+                                আহমেদ নওশাদ জামিল
                             </h3>
                             <p className="text-gray-600 leading-relaxed mb-4">
-                                With over 15 years of dedicated service in the legal field, Neela
-                                Rahman has established herself as one of Bangladesh's most respected
-                                legal professionals. Her commitment to justice and client advocacy
-                                has helped thousands of individuals and businesses navigate complex
-                                legal challenges.
+                                With over 15 years of dedicated service in the legal field, Advocate
+                                Ahmed Naushad Jamil has established himself as one of Bangladesh's
+                                most respected legal professionals. His commitment to justice and
+                                client advocacy has helped thousands of individuals and businesses
+                                navigate complex legal challenges.
                             </p>
                             <p className="text-gray-600 leading-relaxed mb-6">
                                 Specializing in Corporate Law, Criminal Defense, and Family Law,
-                                Neela brings a unique combination of expertise, compassion, and
-                                strategic thinking to every case she handles.
+                                Advocate Ahmed Naushad Jamil brings a unique combination of
+                                expertise, compassion, and strategic thinking to every case he
+                                handles.
                             </p>
                         </div>
 
@@ -143,25 +143,25 @@ const ProfileSection = () => {
                         {/* Contact Buttons */}
                         <div className="flex flex-wrap gap-4">
                             <a
-                                href="mailto:neela@lawfirmbd.com"
+                                href="mailto:nowshed.j@gmail.com"
                                 className="btn-primary flex items-center gap-2"
                             >
-                                <FaEnvelope /> Email Neela
+                                <FaEnvelope /> Email Jamil
                             </a>
                             <a
-                                href="tel:+8801234567890"
+                                href="tel:+8801712245511"
                                 className="btn-outline flex items-center gap-2"
                             >
                                 <FaPhone /> Call Direct
                             </a>
-                            <a
-                                href="https://linkedin.com/in/neela-rahman"
+                            {/* <a
+                                href="https://linkedin.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="bg-[#0077b5] text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-[#005582] transition"
                             >
                                 <FaLinkedin /> LinkedIn
-                            </a>
+                            </a> */}
                         </div>
 
                         {/* Quote */}
@@ -171,7 +171,7 @@ const ProfileSection = () => {
                                 every client feels heard, respected, and empowered throughout their
                                 legal journey."
                             </p>
-                            <p className="text-secondary font-semibold mt-2">— Neela Rahman</p>
+                            <p className="text-secondary font-semibold mt-2">— আহমেদ নওশাদ জামিল</p>
                         </div>
                     </motion.div>
                 </div>

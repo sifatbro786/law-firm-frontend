@@ -1,7 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-// ব্যাকএন্ড URL - এনভায়রনমেন্ট ভেরিয়েবল থেকে নিবে
 const BACKEND_URL = import.meta.env.VITE_API_URL || "https://law-firm-backend-yuxn.onrender.com";
 
 const api = axios.create({
