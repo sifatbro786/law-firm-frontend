@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { motion } from "framer-motion";
+import { motion, Reorder } from "framer-motion";
 import {
     FaEdit,
     FaTrash,
@@ -11,6 +11,8 @@ import {
     FaSearch,
     FaTrashAlt,
     FaImage,
+    FaGripVertical,
+    FaSave,
 } from "react-icons/fa";
 import api, { getImageUrl } from "../../utils/api";
 
@@ -23,6 +25,9 @@ const AttorneysManager = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [removeExistingImage, setRemoveExistingImage] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [isReorderMode, setIsReorderMode] = useState(false);
+    const [reorderedAttorneys, setReorderedAttorneys] = useState([]);
+    const [savingOrder, setSavingOrder] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         bio: "",
@@ -43,7 +48,10 @@ const AttorneysManager = () => {
     const fetchAttorneys = async () => {
         try {
             const response = await api.get("/api/attorneys");
-            setAttorneys(response.data);
+            // Sort by order field (ascending)
+            const sortedAttorneys = response.data.sort((a, b) => (a.order || 0) - (b.order || 0));
+            setAttorneys(sortedAttorneys);
+            setReorderedAttorneys(sortedAttorneys);
         } catch (error) {
             toast.error("Failed to fetch attorneys");
         } finally {
@@ -79,7 +87,6 @@ const AttorneysManager = () => {
             experience: parseInt(formData.experience) || 0,
         };
 
-        // শুধু removeImage true হলে পাঠাবেন
         if (removeExistingImage) {
             attorneyData.removeImage = true;
         }
@@ -91,7 +98,7 @@ const AttorneysManager = () => {
 
         try {
             if (editingAttorney) {
-                const response = await api.put(
+                await api.put(
                     `/api/attorneys/${editingAttorney._id}`,
                     formDataToSend,
                     {
@@ -102,7 +109,7 @@ const AttorneysManager = () => {
                 );
                 toast.success("Attorney updated successfully");
             } else {
-                const response = await api.post("/api/attorneys", formDataToSend, {
+                await api.post("/api/attorneys", formDataToSend, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
@@ -131,21 +138,50 @@ const AttorneysManager = () => {
     };
 
     const handleEdit = (attorney) => {
-        setEditingAttorney(attorney);
-        setFormData({
-            name: attorney.name,
-            bio: attorney.bio,
-            specialization: attorney.specialization || [],
-            experience: attorney.experience || "",
-            email: attorney.email || "",
-            phone: attorney.phone || "",
-            education: attorney.education || [],
-            barCertification: attorney.barCertification || "",
-        });
-        setImagePreview(attorney.image ? getImageUrl(attorney.image) : null);
-        setImageFile(null);
-        setRemoveExistingImage(false);
-        setIsModalOpen(true);
+    setEditingAttorney(attorney);
+    setFormData({
+        name: attorney.name,
+        bio: attorney.bio,
+        specialization: attorney.specialization || [],
+        experience: attorney.experience || "",
+        email: attorney.email || "",
+        phone: attorney.phone || "",
+        education: attorney.education || [],
+        barCertification: attorney.barCertification || "",
+        // NO order field here!
+    });
+    setImagePreview(attorney.image ? getImageUrl(attorney.image) : null);
+    setImageFile(null);
+    setRemoveExistingImage(false);
+    setIsModalOpen(true);
+};
+
+    // This is the ONLY way to change order
+const handleReorder = async () => {
+    setSavingOrder(true);
+    try {
+        const orders = reorderedAttorneys.map((attorney, index) => ({
+            id: attorney._id,
+            order: index
+        }));
+        
+        // This API call ONLY updates the order field
+        await api.put("/api/attorneys/reorder", { orders });
+        setAttorneys(reorderedAttorneys);
+        setIsReorderMode(false);
+        toast.success("Attorney order updated successfully!");
+    } catch (error) {
+        console.error("Reorder error:", error);
+        toast.error("Failed to update order");
+        setReorderedAttorneys(attorneys);
+    } finally {
+        setSavingOrder(false);
+    }
+};
+
+    const cancelReorder = () => {
+        setReorderedAttorneys(attorneys);
+        setIsReorderMode(false);
     };
 
     const resetForm = () => {
@@ -224,32 +260,136 @@ const AttorneysManager = () => {
         >
             <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
                 <h2 className="text-2xl font-playfair font-bold">Manage Attorneys</h2>
-                <button
-                    onClick={() => {
-                        resetForm();
-                        setIsModalOpen(true);
-                    }}
-                    className="btn-primary flex items-center gap-2"
-                >
-                    <FaPlus /> Add New Attorney
-                </button>
-            </div>
-
-            {/* Search Bar */}
-            <div className="mb-6">
-                <div className="relative max-w-md">
-                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <input
-                        type="text"
-                        placeholder="Search attorneys by name..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-secondary"
-                    />
+                <div className="flex gap-3">
+                    {!isReorderMode && (
+                        <button
+                            onClick={() => setIsReorderMode(true)}
+                            className="btn-outline flex items-center gap-2"
+                            disabled={attorneys.length < 2}
+                        >
+                            <FaGripVertical /> Reorder Attorneys
+                        </button>
+                    )}
+                    <button
+                        onClick={() => {
+                            resetForm();
+                            setIsModalOpen(true);
+                        }}
+                        className="btn-primary flex items-center gap-2"
+                    >
+                        <FaPlus /> Add New Attorney
+                    </button>
                 </div>
             </div>
 
-            {filteredAttorneys.length > 0 ? (
+            {/* Reorder Mode Controls */}
+            {isReorderMode && (
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6"
+                >
+                    <div className="flex justify-between items-center flex-wrap gap-3">
+                        <div>
+                            <h3 className="font-semibold text-blue-800">Reorder Mode Active</h3>
+                            <p className="text-sm text-blue-600">
+                                Drag and drop attorneys to change their display order
+                            </p>
+                        </div>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={cancelReorder}
+                                className="px-4 py-2 text-gray-700 bg-white border rounded-lg hover:bg-gray-50 transition"
+                                disabled={savingOrder}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleReorder}
+                                className="btn-primary flex items-center gap-2"
+                                disabled={savingOrder}
+                            >
+                                {savingOrder ? (
+                                    <>
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                        Saving...
+                                    </>
+                                ) : (
+                                    <>
+                                        <FaSave /> Save Order
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+
+            {/* Search Bar */}
+            {!isReorderMode && (
+                <div className="mb-6">
+                    <div className="relative max-w-md">
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search attorneys by name..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-secondary"
+                        />
+                    </div>
+                </div>
+            )}
+
+            {/* Reorder Mode - Drag and Drop List */}
+            {isReorderMode ? (
+                <Reorder.Group
+                    axis="y"
+                    values={reorderedAttorneys}
+                    onReorder={setReorderedAttorneys}
+                    className="space-y-3"
+                >
+                    {reorderedAttorneys.map((attorney) => (
+                        <Reorder.Item
+                            key={attorney._id}
+                            value={attorney}
+                            whileDrag={{
+                                scale: 1.02,
+                                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
+                            }}
+                            className="bg-white rounded-lg shadow-md p-4 cursor-move hover:shadow-lg transition-all"
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="cursor-grab active:cursor-grabbing">
+                                    <FaGripVertical className="text-gray-400 text-xl" />
+                                </div>
+                                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                                    {attorney.image ? (
+                                        <img
+                                            src={getImageUrl(attorney.image)}
+                                            alt={attorney.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center">
+                                            <FaUserTie className="text-gray-400" />
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="font-semibold text-gray-800">{attorney.name}</h3>
+                                    <p className="text-sm text-gray-500">
+                                        {attorney.specialization?.[0] || "No specialization"}
+                                    </p>
+                                </div>
+                                <div className="text-sm text-gray-400">
+                                    Order: {reorderedAttorneys.findIndex(a => a._id === attorney._id) + 1}
+                                </div>
+                            </div>
+                        </Reorder.Item>
+                    ))}
+                </Reorder.Group>
+            ) : filteredAttorneys.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredAttorneys.map((attorney, index) => (
                         <motion.div
@@ -272,6 +412,10 @@ const AttorneysManager = () => {
                                         <FaUserTie className="text-5xl text-gray-400" />
                                     </div>
                                 )}
+                                {/* Order Badge */}
+                                <div className="absolute top-3 left-3 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded-full">
+                                    #{index + 1}
+                                </div>
                             </div>
                             <div className="p-5">
                                 <h3 className="text-xl font-playfair font-bold mb-2">
@@ -352,7 +496,7 @@ const AttorneysManager = () => {
                 </div>
             )}
 
-            {/* Modal */}
+            {/* Modal (unchanged from your original) */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
                     <motion.div
@@ -372,13 +516,12 @@ const AttorneysManager = () => {
                             </button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                            {/* Image Upload Section with Preview and Delete Option */}
+                            {/* Image Upload Section */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Profile Image
                                 </label>
 
-                                {/* Image Preview Card */}
                                 {(imagePreview || (editingAttorney && !removeExistingImage)) && (
                                     <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
                                         <div className="flex items-center justify-between mb-3">
@@ -430,7 +573,6 @@ const AttorneysManager = () => {
                                     </div>
                                 )}
 
-                                {/* Upload New Image Area */}
                                 <div
                                     className={`border-2 border-dashed rounded-lg p-4 text-center transition cursor-pointer ${removeExistingImage || !imagePreview ? "border-secondary/30 hover:border-secondary/60 bg-secondary/5" : "border-gray-300 bg-gray-50"}`}
                                 >
@@ -460,7 +602,7 @@ const AttorneysManager = () => {
                                 </div>
                             </div>
 
-                            {/* Rest of the form */}
+                            {/* Rest of the form fields - unchanged */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Name *

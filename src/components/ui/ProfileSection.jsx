@@ -11,8 +11,8 @@ import {
 
 const ProfileSection = () => {
     const stats = [
-        { icon: <FaAward />, value: "15+", label: "Years Experience" },
-        { icon: <FaUsers />, value: "500+", label: "Happy Clients" },
+        { icon: <FaAward />, value: "25+", label: "Years Experience" },
+        { icon: <FaUsers />, value: "2500+", label: "Happy Clients" },
         { icon: <FaClock />, value: "24/7", label: "Available" },
         { icon: <FaGavel />, value: "98%", label: "Success Rate" },
     ];
@@ -58,7 +58,7 @@ const ProfileSection = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-60"></div>
                             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-primary to-transparent">
                                 <h3 className="text-2xl font-playfair font-bold text-white">
-                                    Advocate Ahmed Naushad Jamil
+                                    Advocate Ahmed Nowshed Jamil
                                 </h3>
                                 <p className="text-secondary font-semibold">
                                     Founder & Managing Partner
@@ -79,7 +79,7 @@ const ProfileSection = () => {
                                 Advocate & Legal Expert
                             </span>
                             <h3 className="text-3xl md:text-4xl font-playfair font-bold text-primary mb-4">
-                                আহমেদ নওশাদ জামিল
+                                Ahmed Nowshed Jamil
                             </h3>
                             <p className="text-gray-600 leading-relaxed mb-4">
                                 With over 15 years of dedicated service in the legal field, Advocate
@@ -171,7 +171,7 @@ const ProfileSection = () => {
                                 every client feels heard, respected, and empowered throughout their
                                 legal journey."
                             </p>
-                            <p className="text-secondary font-semibold mt-2">— আহমেদ নওশাদ জামিল</p>
+                            <p className="text-secondary font-semibold mt-2">— Ahmed Nowshed Jamil</p>
                         </div>
                     </motion.div>
                 </div>

@@ -71,31 +71,31 @@ const Booking = () => {
                         >
                             <div className="bg-gray-50 rounded-lg p-6 mb-6">
                                 <h3 className="text-2xl font-playfair font-bold mb-4">
-                                    কীভাবে শুরু করতে হয়
+                                    How To Book a Consultation?
                                 </h3>
                                 <ul className="space-y-3">
                                     <li className="flex items-start gap-3">
                                         <FaCheckCircle className="text-secondary mt-1" />
-                                        <span>৫০০০ টাকা ফি সহ একটি প্রাথমিক পরামর্শ সেশন</span>
+                                        <span>An initial consultation session with a fee of 5000 taka</span>
                                     </li>
                                     <li className="flex items-start gap-3">
                                         <FaCheckCircle className="text-secondary mt-1" />
-                                        <span>অভিজ্ঞ আইনজীবীর সাথে ৩০-৪৫ মিনিটের পরামর্শ</span>
+                                        <span>Experience attorney consultation (30-45 minutes)</span>
                                     </li>
                                     <li className="flex items-start gap-3">
                                         <FaCheckCircle className="text-secondary mt-1" />
-                                        <span>মামলার মূল্যায়ন এবং প্রাথমিক আইনি পরামর্শ</span>
+                                        <span>Case evaluation and initial legal advice</span>
                                     </li>
                                     <li className="flex items-start gap-3">
                                         <FaCheckCircle className="text-secondary mt-1" />
-                                        <span>সম্ভাব্য আইনি কৌশল নিয়ে আলোচনা</span>
+                                        <span>Discussion of potential legal strategies</span>
                                     </li>
                                 </ul>
                             </div>
 
                             <div className="bg-gray-50 rounded-lg p-6">
                                 <h3 className="text-2xl font-playfair font-bold mb-4">
-                                    আমাদের সাথে কেন যোগাযোগ করবেন?
+                                    Why contact us?
                                 </h3>
                                 <div className="grid grid-cols-1 gap-4">
                                     {benefits.map((benefit, index) => (
@@ -116,16 +116,16 @@ const Booking = () => {
 
                             <div className="mt-6 p-6 bg-secondary rounded-lg">
                                 <h3 className="text-xl font-playfair font-bold text-primary mb-3">
-                                    জরুরি সহায়তা প্রয়োজন?
+                                    Need Immediate Legal Assistance?
                                 </h3>
                                 <p className="text-primary mb-4">
-                                    জরুরি আইনি বিষয়ের জন্য আমাদের সরাসরি কল করুন
+                                    Call us directly for urgent legal matters.
                                 </p>
                                 <a
                                     href="tel:+8801234567890"
                                     className="btn-primary block text-center bg-primary text-white"
                                 >
-                                    এখনই কল করুন: +880 1712245511
+                                    Call Now: +880 1712245511
                                 </a>
                             </div>
                         </motion.div>

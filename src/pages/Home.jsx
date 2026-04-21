@@ -35,7 +35,7 @@ const Home = () => {
             ]);
 
             setServices(servicesRes.data.slice(0, 3));
-            setAttorneys(attorneysRes.data.slice(0, 3));
+            setAttorneys(attorneysRes.data.slice(0, 4));
             setCaseStudies(caseStudiesRes.data.slice(0, 3));
         } catch (error) {
             console.error("Error fetching home data:", error);
@@ -368,7 +368,7 @@ const Home = () => {
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={staggerContainer}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
                     >
                         {attorneys.map((attorney, index) => (
                             <motion.div key={attorney._id} variants={fadeInUp}>
