@@ -51,7 +51,7 @@ const ProfileSection = () => {
                         <div className="absolute inset-0 bg-secondary rounded-3xl transform rotate-6 group-hover:rotate-12 transition duration-500 opacity-20"></div>
                         <div className="relative bg-gradient-to-br from-primary to-accent rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                                src={ProfileImage}
+                                src='https://res.cloudinary.com/dcilg3xjd/image/upload/v1776775824/ChatGPT_Image_Apr_21_2026_06_49_41_PM_b7uqa4.png'
                                 alt="Advocate Ahmed Naushad Jamil"
                                 className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-500"
                             />
