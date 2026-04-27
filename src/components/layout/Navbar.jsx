@@ -3,6 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { Mail, Phone } from "lucide-react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +61,7 @@ const Navbar = () => {
 
                 {/* Mobile Menu */}
                 {isOpen && (
-                    <div className="md:hidden pb-4">
+                    <div className="md:hidden h-screen">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.path}
@@ -85,11 +86,32 @@ const Navbar = () => {
                         )}
                         <Link
                             to="/booking"
-                            className="btn-primary inline-block mt-4 w-full text-center"
+                            className="btn-primary inline-block mt-10 w-full text-center"
                             onClick={() => setIsOpen(false)}
                         >
                             Book Consultation
                         </Link>
+
+                        <div className="mt-8">
+                            <div>
+                                <a
+                                    href="tel:+8801234567890"
+                                    className="text-white flex items-center gap-2 justify-center"
+                                >
+                                    <Phone size={18} />
+                                    +880 1712245511
+                                </a>
+                            </div>
+                            <div>
+                                <a
+                                    href="mailto:nowshed.j@gmail.com"
+                                    className="text-white flex items-center gap-2 mt-3 justify-center"
+                                >
+                                    <Mail size={18} />
+                                    nowshed.j@gmail.com
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>

@@ -45,7 +45,7 @@ const CaseStudies = () => {
     return (
         <div>
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-primary to-accent text-white py-20">
+            <section className="bg-gradient-to-r from-primary to-accent text-white py-10 sm:py-20">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -65,7 +65,7 @@ const CaseStudies = () => {
             </section>
 
             {/* Filter Section */}
-            <section className="py-8 bg-white border-b sticky top-20 z-10">
+            <section className="py-6 sm:py-8 bg-white border-b sticky top-10 sm:top-20 z-10">
                 <div className="container-custom">
                     <div className="flex flex-wrap gap-3 justify-center">
                         {categories.map((category) => (
@@ -86,7 +86,7 @@ const CaseStudies = () => {
             </section>
 
             {/* Case Studies Grid */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-10 sm:py-20 bg-gray-50">
                 <div className="container-custom">
                     {filteredCases.length === 0 ? (
                         <div className="text-center py-12">
@@ -230,7 +230,7 @@ const CaseStudies = () => {
             )}
 
             {/* CTA Section */}
-            <section className="py-16 bg-primary text-white">
+            <section className="py-10 sm:py-16 bg-primary text-white">
                 <div className="container-custom text-center">
                     <h2 className="text-3xl font-playfair font-bold mb-4">
                         Have a Similar Legal Matter?

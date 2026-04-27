@@ -45,7 +45,7 @@ const Testimonials = () => {
     };
 
     return (
-        <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 py-20 overflow-hidden">
+        <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 py-8 sm:py-20 overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-20 left-10 w-72 h-72 bg-secondary rounded-full filter blur-3xl"></div>
@@ -164,7 +164,7 @@ const Testimonials = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
                     viewport={{ once: true }}
-                    className="flex justify-center mt-12"
+                    className="hidden sm:flex justify-center mt-12"
                 >
                     <div className="flex items-center gap-8 bg-white rounded-full px-8 py-3 shadow-md">
                         <div className="text-center">

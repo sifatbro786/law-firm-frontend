@@ -77,7 +77,7 @@ const Home = () => {
             <ProfileSection />
 
             {/* Services Section */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-4 sm:py-20 bg-gray-50">
                 <div className="container-custom">
                     <motion.div
                         initial="hidden"
@@ -123,7 +123,7 @@ const Home = () => {
             </section>
 
             {/* About Section - Modern Redesign */}
-            <section className="py-20 bg-white relative overflow-hidden">
+            <section className="py-10 sm:py-20 bg-white relative overflow-hidden">
                 {/* Background Decoration */}
                 <div className="absolute inset-0 opacity-30">
                     <div className="absolute top-40 right-20 w-64 h-64 bg-secondary rounded-full filter blur-3xl"></div>
@@ -232,7 +232,7 @@ const Home = () => {
                             <div className="mt-10">
                                 <Link
                                     to="/about"
-                                    className="btn-primary inline-flex items-center gap-2 group"
+                                    className="btn-primary inline-flex items-center gap-2 group w-full sm:w-auto"
                                 >
                                     Learn More About Us
                                     <span className="group-hover:translate-x-1 transition-transform">
@@ -267,7 +267,7 @@ const Home = () => {
                                         that protect our clients' rights and interests with
                                         unwavering integrity and dedication.
                                     </p>
-                                    <div className="flex items-center gap-2 text-secondary text-sm font-semibold">
+                                    <div className="hidden sm:flex items-center gap-2 text-secondary text-sm font-semibold">
                                         <span>✓ Justice for All</span>
                                         <span className="w-1 h-1 bg-secondary rounded-full"></span>
                                         <span>✓ Client First</span>
@@ -294,7 +294,7 @@ const Home = () => {
                                         consultant, setting new benchmarks in legal excellence and
                                         client service while contributing to a just society.
                                     </p>
-                                    <div className="flex items-center gap-2 text-secondary text-sm font-semibold">
+                                    <div className="hidden sm:flex items-center gap-2 text-secondary text-sm font-semibold">
                                         <span className="flex gap-1 items-center">
                                             <FaGripfire size={22} /> Excellence
                                         </span>
@@ -344,7 +344,7 @@ const Home = () => {
             </section>
 
             {/* Attorneys Section */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-6 sm:py-20 bg-gray-50">
                 <div className="container-custom">
                     <motion.div
                         initial="hidden"
@@ -393,7 +393,7 @@ const Home = () => {
             <Testimonials />
 
             {/* Case Studies Section */}
-            <section className="py-20 bg-white">
+            <section className="py-8 sm:py-20 bg-white">
                 <div className="container-custom">
                     <motion.div
                         initial="hidden"
@@ -443,7 +443,7 @@ const Home = () => {
             <FAQSection />
 
             {/* CTA Section */}
-            <section className="py-20 bg-primary text-white">
+            <section className="py-10 sm:py-20 bg-primary text-white">
                 <div className="container-custom text-center">
                     <motion.div
                         initial="hidden"

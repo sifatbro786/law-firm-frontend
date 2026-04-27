@@ -10,7 +10,7 @@ const ProfileSection = () => {
     ];
 
     return (
-        <section className="py-20 bg-white relative overflow-hidden">
+        <section className="py-16 sm:py-20 bg-white relative overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-20 left-10 w-72 h-72 bg-secondary rounded-full filter blur-3xl"></div>
@@ -133,16 +133,16 @@ const ProfileSection = () => {
                         </div>
 
                         {/* Contact Buttons */}
-                        <div className="flex flex-wrap gap-4">
+                        <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
                             <a
                                 href="mailto:nowshed.j@gmail.com"
-                                className="btn-primary flex items-center gap-2"
+                                className="btn-primary flex items-center gap-2 w-full sm:w-auto"
                             >
                                 <FaEnvelope /> Email Jamil
                             </a>
                             <a
                                 href="tel:+8801712245511"
-                                className="btn-outline flex items-center gap-2"
+                                className="btn-outline flex items-center gap-2 w-full sm:w-auto "
                             >
                                 <FaPhone /> Call Direct
                             </a>

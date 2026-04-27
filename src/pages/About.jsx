@@ -32,14 +32,14 @@ const About = () => {
     const teamStats = [
         { number: "25+", label: "Years of Experience" },
         { number: "6+", label: "Expert Lawyers" },
-        { number: "10000+", label: "Clients Served" },
+        { number: "10k+", label: "Clients Served" },
         { number: "95%", label: "Client Satisfaction" },
     ];
 
     return (
         <div className="overflow-hidden">
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-primary to-accent text-white py-20">
+            <section className="bg-gradient-to-r from-primary to-accent text-white py-10 sm:py-20">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -60,7 +60,7 @@ const About = () => {
             </section>
 
             {/* Our Story */}
-            <section className="py-20 bg-white">
+            <section className="py-10 sm:py-20 bg-white">
                 <div className="container-custom">
                     <div>
                         <motion.div
@@ -100,7 +100,7 @@ const About = () => {
             </section>
 
             {/* Core Values */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-10 sm:py-20 bg-gray-50">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -140,9 +140,9 @@ const About = () => {
             </section>
 
             {/* Stats */}
-            <section className="py-16 bg-secondary">
+            <section className="py-10 sm:py-16 bg-secondary">
                 <div className="container-custom">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                         {teamStats.map((stat, index) => (
                             <motion.div
                                 key={index}
@@ -163,7 +163,7 @@ const About = () => {
             </section>
 
             {/* Leadership */}
-            <section className="py-20 bg-white">
+            <section className="py-10 sm:py-20 bg-white">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -212,7 +212,7 @@ const About = () => {
             </section>
 
             {/* CTA */}
-            <section className="py-20 bg-primary text-white">
+            <section className="py-10 sm:py-20 bg-primary text-white">
                 <div className="container-custom text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

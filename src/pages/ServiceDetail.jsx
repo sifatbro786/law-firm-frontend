@@ -84,7 +84,7 @@ const ServiceDetail = () => {
     return (
         <div className="bg-gray-50">
             {/* Enhanced Hero Section */}
-            <section className="relative bg-gradient-to-br from-primary via-primary to-accent text-white py-20 md:py-28 overflow-hidden">
+            <section className="relative bg-gradient-to-br from-primary via-primary to-accent text-white py-10 sm:py-20 overflow-hidden">
                 {/* Animated Background Elements */}
                 <div className="absolute inset-0 opacity-20">
                     <div className="absolute top-20 left-10 w-64 md:w-80 h-64 md:h-80 bg-secondary rounded-full filter blur-3xl animate-pulse"></div>
@@ -120,7 +120,7 @@ const ServiceDetail = () => {
             </section>
 
             {/* Main Content Section */}
-            <section className="py-12 md:py-20">
+            <section className="py-10 sm:py-20">
                 <div className="container-custom px-4 md:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
                         {/* Main Content - Rich Text Area */}
@@ -246,7 +246,7 @@ const ServiceDetail = () => {
             </section>
 
             {/* Enhanced FAQ Section */}
-            <section className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+            <section className="py-10 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
                 <div className="container-custom px-4 md:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

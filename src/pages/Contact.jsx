@@ -43,7 +43,7 @@ const Contact = () => {
     return (
         <div>
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-primary to-accent text-white py-20">
+            <section className="bg-gradient-to-r from-primary to-accent text-white py-10 sm:py-20">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -63,7 +63,7 @@ const Contact = () => {
             </section>
 
             {/* Contact Section */}
-            <section className="py-20 bg-white">
+            <section className="py-10 sm:py-20 bg-white">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                         {/* Contact Form */}
@@ -119,7 +119,7 @@ const Contact = () => {
             </section>
 
             {/* Google Map */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-10 sm:py-20 bg-gray-50">
                 <div className="container-custom">
                     <h2 className="text-3xl font-playfair font-bold text-center mb-8">
                         Find Us Here
@@ -139,7 +139,7 @@ const Contact = () => {
             </section>
 
             {/* Emergency Contact */}
-            <section className="py-20 bg-primary text-white">
+            <section className="py-10 sm:py-20 bg-primary text-white">
                 <div className="container-custom text-center">
                     <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4">
                         Emergency Legal Assistance
@@ -149,7 +149,7 @@ const Contact = () => {
                     </p>
                     <a
                         href="tel:+8801234567890"
-                        className="btn-primary bg-secondary text-primary text-2xl font-bold inline-block"
+                        className="btn-primary bg-secondary text-primary text-base sm:text-2xl font-bold inline-block"
                     >
                         Call Now: +880 1712245511
                     </a>

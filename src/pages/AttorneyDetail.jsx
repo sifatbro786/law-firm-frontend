@@ -48,7 +48,7 @@ const AttorneyDetail = () => {
     return (
         <div>
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-primary to-accent text-white py-20">
+            <section className="bg-gradient-to-r from-primary to-accent text-white py-10 sm:py-20">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -66,7 +66,7 @@ const AttorneyDetail = () => {
             </section>
 
             {/* Attorney Profile */}
-            <section className="py-20 bg-white">
+            <section className="py-10 sm:py-20 bg-white">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                         {/* Profile Image & Contact */}

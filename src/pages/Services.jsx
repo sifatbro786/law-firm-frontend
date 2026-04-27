@@ -34,7 +34,7 @@ const Services = () => {
     return (
         <div>
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-primary to-accent text-white py-20">
+            <section className="bg-gradient-to-r from-primary to-accent text-white py-10 sm:py-20">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -54,7 +54,7 @@ const Services = () => {
             </section>
 
             {/* Services Grid */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-10 sm:py-20 bg-gray-50">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {services.map((service, index) => (
@@ -72,7 +72,7 @@ const Services = () => {
             </section>
 
             {/* Consultation CTA */}
-            <section className="py-20 bg-primary text-white">
+            <section className="py-10 sm:py-20 bg-primary text-white">
                 <div className="container-custom text-center">
                     <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4">
                         Need a Specific Legal Service?

@@ -11,7 +11,7 @@ export default function FAQSection() {
     };
 
     return (
-        <section className="py-20 bg-gray-50">
+        <section className="py-8 sm:py-20 bg-gray-50">
             <div className="container-custom">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <motion.div

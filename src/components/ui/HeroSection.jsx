@@ -4,13 +4,9 @@ import { ChevronRight, Shield } from "lucide-react";
 
 const HeroSection = () => {
     return (
-        <section className="relative min-h-screen bg-white">
-            {/* Subtle Gradient Overlay */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#c9a03d] opacity-5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#c9a03d] opacity-5 rounded-full blur-3xl" />
-
-            <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center py-10 sm:py-20">
+        <section className="bg-white">
+            <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center sm:py-12">
                     {/* Left Content */}
                     <motion.div
                         initial={{ opacity: 0, x: -40 }}
@@ -23,7 +19,7 @@ const HeroSection = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="inline-flex items-center gap-2 bg-[#c9a03d]/10 text-[#c9a03d] px-4 py-2 rounded-full text-sm font-semibold border border-[#c9a03d]/20"
+                            className="hidden sm:inline-flex items-center gap-2 bg-[#c9a03d]/10 text-[#c9a03d] px-4 py-2 rounded-full text-sm font-semibold border border-[#c9a03d]/20"
                         >
                             <Shield className="w-4 h-4" />
                             <span>Premium Legal Services Since 2001</span>
@@ -75,14 +71,14 @@ const HeroSection = () => {
                         >
                             <Link
                                 to="/booking"
-                                className="group inline-flex items-center gap-2 bg-[#c9a03d] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#b08d35] transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                                className="group inline-flex items-center gap-2 bg-[#c9a03d] text-white px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-[#b08d35] transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto justify-center sm:justify-start"
                             >
                                 Book Consultation
                                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
                             <Link
                                 to="/about"
-                                className="inline-flex items-center gap-2 border-2 border-[#c9a03d] text-[#c9a03d] px-8 py-4 rounded-lg font-semibold hover:bg-[#c9a03d] hover:text-white transition-all duration-300"
+                                className="w-full sm:w-auto inline-flex items-center gap-2 border-2 border-[#c9a03d] text-[#c9a03d] px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-[#c9a03d] hover:text-white transition-all duration-300 justify-center sm:justify-start"
                             >
                                 Learn More
                             </Link>
@@ -102,7 +98,7 @@ const HeroSection = () => {
                             <img
                                 src="/court.jpg"
                                 alt="Supreme Court Bangladesh"
-                                className="w-full h-[500px] lg:h-[600px] object-cover"
+                                className="w-full h-[250px] md:h-[600px] object-cover"
                             />
                             {/* Gold Accent Border */}
                             <div className="absolute inset-0 border-2 border-[#c9a03d]/30 rounded-2xl pointer-events-none" />

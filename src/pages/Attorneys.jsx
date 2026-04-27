@@ -51,7 +51,7 @@ const Attorneys = () => {
     return (
         <div>
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-primary to-accent text-white py-20">
+            <section className="bg-gradient-to-r from-primary to-accent text-white py-10 sm:py-20">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -71,7 +71,7 @@ const Attorneys = () => {
             </section>
 
             {/* Search and Filter */}
-            <section className="py-8 bg-white border-b sticky top-20 z-10 shadow-sm">
+            <section className="py-6 sm:py-8 bg-white border-b sticky top-10 sm:top-20 z-10 shadow-sm">
                 <div className="container-custom">
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="relative flex-1">
@@ -101,7 +101,7 @@ const Attorneys = () => {
             </section>
 
             {/* Attorneys Grid */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-10 sm:py-20 bg-gray-50">
                 <div className="container-custom">
                     {filteredAttorneys.length === 0 ? (
                         <div className="text-center py-16 bg-white rounded-xl shadow-sm">
