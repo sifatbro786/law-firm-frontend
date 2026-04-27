@@ -1,22 +1,10 @@
 import { motion } from "framer-motion";
-import ProfileImage from "/jamil.jpeg";
-import {
-    FaEnvelope,
-    FaPhone,
-    FaAward,
-    FaUsers,
-    FaClock,
-    FaGavel,
-} from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaAward, FaUsers, FaClock, FaGavel } from "react-icons/fa";
 
 const ProfileSection = () => {
     const stats = [
         { icon: <FaAward />, value: "25+", label: "Years Experience" },
-<<<<<<< HEAD
         { icon: <FaUsers />, value: "10k+", label: "Happy Clients" },
-=======
-        { icon: <FaUsers />, value: "2500+", label: "Happy Clients" },
->>>>>>> 6a16a6f18f6eb023f0ba08ea7100e8b5c0665ac9
         { icon: <FaClock />, value: "24/7", label: "Available" },
         { icon: <FaGavel />, value: "95%", label: "Success Rate" },
     ];
@@ -55,7 +43,7 @@ const ProfileSection = () => {
                         <div className="absolute inset-0 bg-secondary rounded-3xl transform rotate-6 group-hover:rotate-12 transition duration-500 opacity-20"></div>
                         <div className="relative bg-gradient-to-br from-primary to-accent rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                                src='https://res.cloudinary.com/dcilg3xjd/image/upload/v1776775824/ChatGPT_Image_Apr_21_2026_06_49_41_PM_b7uqa4.png'
+                                src="https://res.cloudinary.com/dcilg3xjd/image/upload/v1776775824/ChatGPT_Image_Apr_21_2026_06_49_41_PM_b7uqa4.png"
                                 alt="Advocate Ahmed Naushad Jamil"
                                 className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-500"
                             />
@@ -175,7 +163,9 @@ const ProfileSection = () => {
                                 every client feels heard, respected, and empowered throughout their
                                 legal journey."
                             </p>
-                            <p className="text-secondary font-semibold mt-2">— Ahmed Nowshed Jamil</p>
+                            <p className="text-secondary font-semibold mt-2">
+                                — Ahmed Nowshed Jamil
+                            </p>
                         </div>
                     </motion.div>
                 </div>

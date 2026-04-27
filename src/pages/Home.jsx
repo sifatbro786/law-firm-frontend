@@ -20,30 +20,9 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchHomeData = async () => {
-            try {
-                const [servicesRes, attorneysRes, caseStudiesRes] = await Promise.all([
-                    api.get("/api/services"),
-                    api.get("/api/attorneys"),
-                    api.get("/api/case-studies?limit=3"),
-                    api.get("/api/case-studies?limit=3"),
-                ]);
-
-                setServices(servicesRes.data.slice(0, 3));
-                setAttorneys(attorneysRes.data.slice(0, 3));
-                setCaseStudies(caseStudiesRes.data.slice(0, 3));
-            } catch (error) {
-                console.error("Error fetching home data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchHomeData();
     }, []);
 
-<<<<<<< HEAD
-=======
     const fetchHomeData = async () => {
         try {
             const [servicesRes, attorneysRes, caseStudiesRes] = await Promise.all([
@@ -62,8 +41,6 @@ const Home = () => {
             setLoading(false);
         }
     };
-
->>>>>>> 6a16a6f18f6eb023f0ba08ea7100e8b5c0665ac9
     // Animation variants
     const fadeInUp = {
         hidden: { opacity: 0, y: 30 },
