@@ -12,7 +12,11 @@ import {
 const ProfileSection = () => {
     const stats = [
         { icon: <FaAward />, value: "25+", label: "Years Experience" },
+<<<<<<< HEAD
         { icon: <FaUsers />, value: "10k+", label: "Happy Clients" },
+=======
+        { icon: <FaUsers />, value: "2500+", label: "Happy Clients" },
+>>>>>>> 6a16a6f18f6eb023f0ba08ea7100e8b5c0665ac9
         { icon: <FaClock />, value: "24/7", label: "Available" },
         { icon: <FaGavel />, value: "95%", label: "Success Rate" },
     ];
@@ -51,14 +55,14 @@ const ProfileSection = () => {
                         <div className="absolute inset-0 bg-secondary rounded-3xl transform rotate-6 group-hover:rotate-12 transition duration-500 opacity-20"></div>
                         <div className="relative bg-gradient-to-br from-primary to-accent rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                                src={ProfileImage}
+                                src='https://res.cloudinary.com/dcilg3xjd/image/upload/v1776775824/ChatGPT_Image_Apr_21_2026_06_49_41_PM_b7uqa4.png'
                                 alt="Advocate Ahmed Naushad Jamil"
                                 className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-500"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-60"></div>
                             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-primary to-transparent">
                                 <h3 className="text-2xl font-playfair font-bold text-white">
-                                    Advocate Ahmed Naushad Jamil
+                                    Advocate Ahmed Nowshed Jamil
                                 </h3>
                                 <p className="text-secondary font-semibold">
                                     Founder & Managing Partner
@@ -79,7 +83,7 @@ const ProfileSection = () => {
                                 Advocate & Legal Expert
                             </span>
                             <h3 className="text-3xl md:text-4xl font-playfair font-bold text-primary mb-4">
-                                আহমেদ নওশাদ জামিল
+                                Ahmed Nowshed Jamil
                             </h3>
                             <p className="text-gray-600 leading-relaxed mb-4">
                                 With over 15 years of dedicated service in the legal field, Advocate
@@ -171,7 +175,7 @@ const ProfileSection = () => {
                                 every client feels heard, respected, and empowered throughout their
                                 legal journey."
                             </p>
-                            <p className="text-secondary font-semibold mt-2">— আহমেদ নওশাদ জামিল</p>
+                            <p className="text-secondary font-semibold mt-2">— Ahmed Nowshed Jamil</p>
                         </div>
                     </motion.div>
                 </div>

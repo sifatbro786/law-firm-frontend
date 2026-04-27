@@ -19,13 +19,13 @@ const Contact = () => {
         {
             icon: <FaMapMarkerAlt className="text-2xl" />,
             title: "Office Address",
-            details: ["১৫৭ শান্তিনগর, ঢাকা ১২১৭ (মিনা বাজারের ৩য় তলায়)"],
+            details: ["157 Shantinagar, Dhaka 1217 (3rd floor of Mina Bazar)"],
             link: "https://www.google.com/maps?q=157%20Shantinagar%2C%20Dhaka%201217",
         },
         {
             icon: <FaArchway className="text-2xl" />,
             title: "Court Address",
-            details: ["হল রুম নং-২, সুপ্রীম কোর্ট বার ভবন শাহবাগ, ঢাকা"],
+            details: ["Hall Room No-2, Supreme Court Bar Building Shahbag, Dhaka"],
             link: "https://www.google.com/maps?q=157%20Shantinagar%2C%20Dhaka%201217",
         },
         {

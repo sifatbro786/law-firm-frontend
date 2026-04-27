@@ -10,35 +10,35 @@ const api = axios.create({
     },
 });
 
-// ইমেজ URL জেনারেট করার ফাংশন - সঠিকভাবে ফিক্সড
+
 export const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
 
-    // যদি ইতিমধ্যেই ফুল URL থাকে
+
     if (imagePath.startsWith("http")) return imagePath;
 
-    // যদি /uploads দিয়ে শুরু হয়
+  
     if (imagePath.startsWith("/uploads")) {
         return `${BACKEND_URL}${imagePath}`;
     }
 
-    // যদি uploads/ দিয়ে শুরু হয়
+
     if (imagePath.startsWith("uploads/")) {
         return `${BACKEND_URL}/${imagePath}`;
     }
 
-    // ডিফল্ট
+
     return `${BACKEND_URL}/uploads/${imagePath}`;
 };
 
-// ফাইল ডাউনলোডের জন্য URL জেনারেট করার ফাংশন
+
 export const getFileUrl = (filePath) => {
     if (!filePath) return null;
 
-    // যদি ইতিমধ্যেই ফুল URL থাকে
+
     if (filePath.startsWith("http")) return filePath;
 
-    // যদি /uploads দিয়ে শুরু হয়
+
     if (filePath.startsWith("/uploads")) {
         return `${BACKEND_URL}${filePath}`;
     }
@@ -46,7 +46,7 @@ export const getFileUrl = (filePath) => {
     return `${BACKEND_URL}/uploads/cases/${filePath}`;
 };
 
-// Request interceptor to add token
+
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("adminToken");
@@ -60,7 +60,7 @@ api.interceptors.request.use(
     },
 );
 
-// Response interceptor to handle 401 errors
+
 api.interceptors.response.use(
     (response) => response,
     (error) => {

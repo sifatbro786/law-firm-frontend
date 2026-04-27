@@ -101,12 +101,12 @@ const Footer = () => {
                             <li className="flex items-start gap-3">
                                 <FaMapMarkerAlt className="mt-1 text-secondary" />
                                 <span className="text-gray-300">
-                                    ১৫৭ শান্তিনগর, ঢাকা ১২১৭ (মিনা বাজারের ৩য় তলায়)
+                                    157 Shantinagar, Dhaka 1217 (3rd floor of Mina Bazar)
                                 </span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <FaPhone className="text-secondary" />
-                                <span className="text-gray-300">০১৭১২২৪৫৫১১</span>
+                                <span className="text-gray-300">+880 1712245511</span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <FaEnvelope className="text-secondary" />
