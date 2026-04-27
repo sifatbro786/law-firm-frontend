@@ -30,10 +30,10 @@ const About = () => {
     ];
 
     const teamStats = [
-        { number: "20+", label: "Years of Experience" },
-        { number: "50+", label: "Expert Lawyers" },
-        { number: "5000+", label: "Clients Served" },
-        { number: "100%", label: "Client Satisfaction" },
+        { number: "25+", label: "Years of Experience" },
+        { number: "6+", label: "Expert Lawyers" },
+        { number: "10000+", label: "Clients Served" },
+        { number: "95%", label: "Client Satisfaction" },
     ];
 
     return (
@@ -74,7 +74,7 @@ const About = () => {
                             </h2>
                             <div className="space-y-4 text-gray-600">
                                 <p>
-                                    Founded in 2003, Jamil Law Consultant began with a simple yet
+                                    Founded in 2001, Jamil Law Consultant began with a simple yet
                                     powerful vision: to provide exceptional legal services with
                                     unwavering integrity and dedication to justice. What started as
                                     a small practice with two passionate attorneys has grown into
@@ -88,7 +88,7 @@ const About = () => {
                                     the best possible outcomes.
                                 </p>
                                 <p>
-                                    Today, we are proud to have a team of over 50 experienced
+                                    Today, we are proud to have a team of over 5 experienced
                                     attorneys, supported by skilled paralegals and support staff,
                                     all working together to provide comprehensive legal solutions to
                                     individuals and businesses across Bangladesh.
@@ -197,7 +197,7 @@ const About = () => {
                                 </h3>
                                 <p className="text-secondary font-semibold mb-3">Advocate</p>
                                 <p className="text-gray-600">
-                                    With over 15+ years of experience in corporate and criminal law,
+                                    With over 25+ years of experience in corporate and criminal law,
                                     Advocate Mr. Jamil has established himself as one of
                                     Bangladesh's leading legal minds. He is known for his strategic
                                     approach to complex cases and his unwavering commitment to his

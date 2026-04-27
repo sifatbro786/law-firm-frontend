@@ -5,15 +5,13 @@ import HeroSection from "../components/ui/HeroSection";
 import ServiceCard from "../components/ui/ServiceCard";
 import AttorneyCard from "../components/ui/AttorneyCard";
 import Testimonials from "../components/ui/Testimonials";
-import FAQAccordion from "../components/ui/FAQAccordion";
 import CaseStudiesCard from "../components/ui/CaseStudiesCard";
-import faqImage from "/faq.png";
 import api from "../utils/api";
-import { faqs } from "../data/faqs";
 import ProfileSection from "../components/ui/ProfileSection";
-import { GiBoltEye, GiDiceTarget } from "react-icons/gi";
+import { GiDiceTarget } from "react-icons/gi";
 import { LucideScanEye } from "lucide-react";
 import { FaGripfire } from "react-icons/fa";
+import FAQSection from "../components/ui/FAQSection";
 
 const Home = () => {
     const [services, setServices] = useState([]);
@@ -22,27 +20,27 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetchHomeData = async () => {
+            try {
+                const [servicesRes, attorneysRes, caseStudiesRes] = await Promise.all([
+                    api.get("/api/services"),
+                    api.get("/api/attorneys"),
+                    api.get("/api/case-studies?limit=3"),
+                    api.get("/api/case-studies?limit=3"),
+                ]);
+
+                setServices(servicesRes.data.slice(0, 3));
+                setAttorneys(attorneysRes.data.slice(0, 3));
+                setCaseStudies(caseStudiesRes.data.slice(0, 3));
+            } catch (error) {
+                console.error("Error fetching home data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchHomeData();
     }, []);
-
-    const fetchHomeData = async () => {
-        try {
-            const [servicesRes, attorneysRes, caseStudiesRes] = await Promise.all([
-                api.get("/api/services"),
-                api.get("/api/attorneys"),
-                api.get("/api/case-studies?limit=3"),
-                api.get("/api/case-studies?limit=3"),
-            ]);
-
-            setServices(servicesRes.data.slice(0, 3));
-            setAttorneys(attorneysRes.data.slice(0, 3));
-            setCaseStudies(caseStudiesRes.data.slice(0, 3));
-        } catch (error) {
-            console.error("Error fetching home data:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     // Animation variants
     const fadeInUp = {
@@ -145,7 +143,8 @@ const Home = () => {
                             Why Trust Us
                         </span>
                         <h2 className="text-3xl md:text-5xl font-playfair font-bold text-primary mb-4">
-                            Why Choose <span className="text-secondary">Jamil's Law Consultant?</span>
+                            Why Choose{" "}
+                            <span className="text-secondary">Jamil's Law Consultant?</span>
                         </h2>
                         <div className="w-24 h-1 bg-secondary mx-auto rounded-full"></div>
                         <p className="text-gray-600 max-w-2xl mx-auto mt-4">
@@ -166,7 +165,7 @@ const Home = () => {
                                 {/* Feature 1 */}
                                 <div className="group flex gap-5 p-4 rounded-xl hover:bg-gray-50 transition-all duration-300 cursor-pointer">
                                     <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-secondary to-secondary/70 rounded-2xl flex items-center justify-center text-primary font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                        15+
+                                        25+
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-playfair font-bold text-primary mb-2 group-hover:text-secondary transition-colors">
@@ -183,7 +182,7 @@ const Home = () => {
                                 {/* Feature 2 */}
                                 <div className="group flex gap-5 p-4 rounded-xl hover:bg-gray-50 transition-all duration-300 cursor-pointer">
                                     <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-secondary to-secondary/70 rounded-2xl flex items-center justify-center text-primary font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                        500+
+                                        10k+
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-playfair font-bold text-primary mb-2 group-hover:text-secondary transition-colors">
@@ -292,9 +291,9 @@ const Home = () => {
                                         </h3>
                                     </div>
                                     <p className="text-gray-700 leading-relaxed mb-4">
-                                        To be Bangladesh's most trusted and respected law consultant,
-                                        setting new benchmarks in legal excellence and client
-                                        service while contributing to a just society.
+                                        To be Bangladesh's most trusted and respected law
+                                        consultant, setting new benchmarks in legal excellence and
+                                        client service while contributing to a just society.
                                     </p>
                                     <div className="flex items-center gap-2 text-secondary text-sm font-semibold">
                                         <span className="flex gap-1 items-center">
@@ -316,19 +315,19 @@ const Home = () => {
                             <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-6 text-center text-white shadow-xl">
                                 <div className="flex items-center justify-center gap-6 flex-wrap">
                                     <div className="text-center">
-                                        <div className="text-3xl font-bold text-secondary">98%</div>
+                                        <div className="text-3xl font-bold text-secondary">95%</div>
                                         <div className="text-sm opacity-90">Success Rate</div>
                                     </div>
                                     <div className="w-px h-10 bg-white/20"></div>
                                     <div className="text-center">
                                         <div className="text-3xl font-bold text-secondary">
-                                            500+
+                                            10k+
                                         </div>
                                         <div className="text-sm opacity-90">Happy Clients</div>
                                     </div>
                                     <div className="w-px h-10 bg-white/20"></div>
                                     <div className="text-center">
-                                        <div className="text-3xl font-bold text-secondary">15+</div>
+                                        <div className="text-3xl font-bold text-secondary">6+</div>
                                         <div className="text-sm opacity-90">Expert Lawyers</div>
                                     </div>
                                     <div className="w-px h-10 bg-white/20"></div>
@@ -442,41 +441,7 @@ const Home = () => {
             </section>
 
             {/* FAQ Preview Section */}
-            <section className="py-20 bg-gray-50">
-                <div className="container-custom">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        <motion.div
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeInUp}
-                        >
-                            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-primary mb-6">
-                                Frequently Asked Questions
-                            </h2>
-                            <p className="text-gray-600 mb-5 sm:mb-10">
-                                Find answers to common questions about our legal services and
-                                processes
-                            </p>
-
-                            <motion.div
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                                variants={fadeInUp}
-                            >
-                                <FAQAccordion faqs={faqs.slice(0, 4)} />
-                            </motion.div>
-                        </motion.div>
-
-                        <img
-                            src={faqImage}
-                            alt="Frequently Asked Questions"
-                            className="w-auto h-auto object-cover"
-                        />
-                    </div>
-                </div>
-            </section>
+            <FAQSection />
 
             {/* CTA Section */}
             <section className="py-20 bg-primary text-white">
@@ -517,25 +482,25 @@ const Home = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         <div>
                             <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                                50+
+                                10k+
                             </div>
                             <div className="text-primary font-semibold">Cases Won</div>
                         </div>
                         <div>
                             <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                                100+
+                                10k+
                             </div>
                             <div className="text-primary font-semibold">Happy Clients</div>
                         </div>
                         <div>
                             <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                                10+
+                                25+
                             </div>
                             <div className="text-primary font-semibold">Years Experience</div>
                         </div>
                         <div>
                             <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                                5+
+                                6+
                             </div>
                             <div className="text-primary font-semibold">Expert Lawyers</div>
                         </div>

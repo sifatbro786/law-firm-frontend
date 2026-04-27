@@ -11,10 +11,10 @@ import {
 
 const ProfileSection = () => {
     const stats = [
-        { icon: <FaAward />, value: "15+", label: "Years Experience" },
-        { icon: <FaUsers />, value: "500+", label: "Happy Clients" },
+        { icon: <FaAward />, value: "25+", label: "Years Experience" },
+        { icon: <FaUsers />, value: "10k+", label: "Happy Clients" },
         { icon: <FaClock />, value: "24/7", label: "Available" },
-        { icon: <FaGavel />, value: "98%", label: "Success Rate" },
+        { icon: <FaGavel />, value: "95%", label: "Success Rate" },
     ];
 
     return (

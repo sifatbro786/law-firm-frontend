@@ -168,17 +168,17 @@ const Testimonials = () => {
                 >
                     <div className="flex items-center gap-8 bg-white rounded-full px-8 py-3 shadow-md">
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-primary">500+</div>
+                            <div className="text-2xl font-bold text-primary">10k+</div>
                             <div className="text-sm text-gray-500">Happy Clients</div>
                         </div>
                         <div className="w-px h-8 bg-gray-300"></div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-primary">98%</div>
+                            <div className="text-2xl font-bold text-primary">95%</div>
                             <div className="text-sm text-gray-500">Success Rate</div>
                         </div>
                         <div className="w-px h-8 bg-gray-300"></div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-primary">10+</div>
+                            <div className="text-2xl font-bold text-primary">25+</div>
                             <div className="text-sm text-gray-500">Years Experience</div>
                         </div>
                     </div>

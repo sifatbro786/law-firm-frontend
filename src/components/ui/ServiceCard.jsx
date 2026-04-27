@@ -15,7 +15,7 @@ const ServiceCard = ({ service }) => {
                     </div>
                 )}
                 <h3 className="text-xl font-playfair font-bold mb-3">{service.title}</h3>
-                <p className="text-gray-600 mb-4">{service.description}</p>
+                <p className="text-gray-600 mb-4 line-clamp-3">{service.description}</p>
                 <Link
                     to={`/services/${service.slug}`}
                     className="text-secondary font-semibold hover:text-primary transition inline-flex items-center gap-2"
