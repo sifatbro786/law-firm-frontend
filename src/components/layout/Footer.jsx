@@ -8,6 +8,7 @@ import {
     FaEnvelope,
     FaMapMarkerAlt,
 } from "react-icons/fa";
+import Logo from "/logo.png";
 
 const Footer = () => {
     const practiceAreas = ["Corporate Law", "Criminal Law", "Family Law", "Property Law"];
@@ -25,9 +26,13 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                     {/* About */}
                     <div>
-                        <h3 className="text-xl font-playfair font-bold mb-4">
-                            Jamil Law Consultant
-                        </h3>
+                        <Link to="/">
+                            <img
+                                src={Logo}
+                                alt="Jamil's law firm"
+                                className="object-cover w-[30%] mb-2"
+                            />
+                        </Link>
                         <p className="text-gray-300 mb-4">
                             Providing expert legal services in Bangladesh with integrity,
                             excellence, and dedication to justice.

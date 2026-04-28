@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Mail, Phone } from "lucide-react";
+import Logo from "/logo.png";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -24,8 +25,8 @@ const Navbar = () => {
             <div className="px-5 lg:px-32">
                 <div className="flex justify-between items-center py-4">
                     {/* Logo */}
-                    <Link to="/" className="text-lg md:text-2xl font-playfair font-bold">
-                        <span className="text-secondary">Jamil</span> Law Consultant
+                    <Link to="/">
+                        <img src={Logo} alt="Jamil's law firm" className="object-cover w-[18%]" />
                     </Link>
 
                     {/* Desktop Menu */}
