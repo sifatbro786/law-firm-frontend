@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
     ArrowRight,
-    Star,
     Shield,
     Award,
     Users,
@@ -15,6 +14,7 @@ import {
 import Jamil from "/jamil.jpeg";
 import hero1 from "/hero1.jpg";
 import hero2 from "/hero2.jpg";
+import hero3 from "/hero3.png";
 
 const HeroSection = () => {
     const stats = [
@@ -258,6 +258,8 @@ const HeroSection = () => {
                                     <Award className="w-4 h-4 text-[#027B7A]" />
                                 </div>
                             </motion.div>
+
+                            <img src={hero3} alt="" className="hidden sm:block sm:absolute bottom-[105%] right-[35%]" />
                         </div>
                     </motion.div>
                 </div>
