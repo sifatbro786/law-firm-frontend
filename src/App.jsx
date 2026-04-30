@@ -28,7 +28,8 @@ import NotFound from "./pages/NotFound";
 import CaseInfoManager from "./pages/Admin/CaseInfoManager";
 import AdminRegister from "./pages/Admin/Register";
 import UserManagement from "./pages/Admin/UserManagement";
-// import School from "./pages/school/School";
+import Gallery from "./pages/Gallery";
+import Client from "./pages/Client";
 
 const Layout = ({ children }) => {
     const location = useLocation();
@@ -78,7 +79,8 @@ function App() {
                         <Route path="/blog/:slug" element={<BlogDetail />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/booking" element={<Booking />} />
-                        {/* <Route path="/school" element={<School />} /> */}
+                        <Route path="/client" element={<Client />} />
+                        <Route path="/gallery" element={<Gallery />} />
 
                         {/* Admin Routes */}
                         <Route path="/admin/login" element={<AdminLogin />} />

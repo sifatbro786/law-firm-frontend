@@ -1,3 +1,4 @@
+// ServiceDetail.jsx - Premium Redesign with Image Support
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -12,8 +13,14 @@ import {
     FaArrowLeft,
     FaBalanceScale,
     FaChevronRight,
+    FaStar,
+    FaGavel,
+    FaRegClock,
+    FaUsers,
+    FaMedal,
 } from "react-icons/fa";
 import api from "../utils/api";
+import PageHeader from "../components/ui/PageHeader";
 
 const ServiceDetail = () => {
     const { slug } = useParams();
@@ -43,13 +50,40 @@ const ServiceDetail = () => {
         { icon: <FaAward />, text: "Proven Track Record" },
     ];
 
+    const stats = [
+        { value: "25+", label: "Years Experience", icon: <FaStar /> },
+        { value: "5000+", label: "Cases Won", icon: <FaGavel /> },
+        { value: "98%", label: "Success Rate", icon: <FaMedal /> },
+        { value: "50+", label: "Expert Lawyers", icon: <FaUsers /> },
+    ];
+
+    // Helper function to get image URL
+    const getImageUrl = () => {
+        if (service?.image) {
+            return service.image;
+        }
+        // Fallback images based on service title
+        const fallbackImages = {
+            default:
+                "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&h=400&fit=crop",
+            criminal:
+                "https://images.unsplash.com/photo-1589571894960-20bbe2828d9a?w=1200&h=400&fit=crop",
+            corporate:
+                "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1200&h=400&fit=crop",
+            family: "https://images.unsplash.com/photo-1589391886645-2bd80d0c6c6c?w=1200&h=400&fit=crop",
+            property:
+                "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=400&fit=crop",
+        };
+        return fallbackImages[service?.category] || fallbackImages.default;
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
                 <div className="text-center">
                     <div className="relative">
-                        <div className="w-20 h-20 border-4 border-gray-200 border-t-secondary rounded-full animate-spin"></div>
-                        <FaBalanceScale className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-secondary text-2xl" />
+                        <div className="w-20 h-20 border-4 border-gray-200 border-t-[#027B7A] rounded-full animate-spin"></div>
+                        <FaBalanceScale className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#027B7A] text-2xl" />
                     </div>
                     <p className="mt-6 text-gray-600 font-medium animate-pulse">
                         Loading service details...
@@ -62,19 +96,19 @@ const ServiceDetail = () => {
     if (!service) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-                <div className="text-center bg-white p-8 md:p-10 rounded-2xl shadow-xl max-w-md mx-4">
-                    <div className="text-6xl md:text-7xl mb-6">🔍</div>
-                    <h2 className="text-2xl md:text-3xl font-playfair font-bold mb-4 text-primary">
+                <div className="text-center bg-white p-10 rounded-2xl shadow-2xl max-w-md mx-4">
+                    <div className="text-7xl mb-6">🔍</div>
+                    <h2 className="text-3xl font-playfair font-bold mb-4 text-gray-900">
                         Service Not Found
                     </h2>
-                    <p className="text-gray-600 mb-8 leading-relaxed text-sm md:text-base">
+                    <p className="text-gray-600 mb-8">
                         The service you're looking for doesn't exist or has been moved.
                     </p>
                     <Link
                         to="/services"
-                        className="inline-flex items-center gap-2 bg-secondary text-primary font-semibold px-6 py-3 rounded-lg hover:bg-opacity-90 transition shadow-md hover:shadow-lg text-sm md:text-base"
+                        className="inline-flex items-center gap-2 bg-[#027B7A] text-white font-semibold px-6 py-3 rounded-xl hover:bg-[#025c5c] transition shadow-lg"
                     >
-                        <FaArrowLeft className="text-sm" /> Back to Services
+                        <FaArrowLeft /> Back to Services
                     </Link>
                 </div>
             </div>
@@ -82,17 +116,21 @@ const ServiceDetail = () => {
     }
 
     return (
-        <div className="bg-gray-50">
-            {/* Enhanced Hero Section */}
-            <section className="relative bg-gradient-to-br from-primary via-primary to-accent text-white py-10 sm:py-20 overflow-hidden">
-                {/* Animated Background Elements */}
-                <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-20 left-10 w-64 md:w-80 h-64 md:h-80 bg-secondary rounded-full filter blur-3xl animate-pulse"></div>
-                    <div className="absolute bottom-20 right-10 w-72 md:w-96 h-72 md:h-96 bg-secondary rounded-full filter blur-3xl animate-pulse delay-1000"></div>
-                    <div className="absolute top-1/2 left-1/3 w-48 md:w-64 h-48 md:h-64 bg-white rounded-full filter blur-3xl opacity-20"></div>
+        <div className="bg-white">
+            {/* Premium Hero Section with Image */}
+            <section className="relative overflow-hidden mt-40">
+                {/* Background Image */}
+                <div className="absolute inset-0">
+                    <img
+                        src={getImageUrl()}
+                        alt={service.title}
+                        className="w-full h-full object-cover object-top"
+                    />
+                    {/* <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-gray-900/90"></div> */}
+                    {/* <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div> */}
                 </div>
 
-                <div className="container-custom relative z-10 px-4 md:px-6 lg:px-8">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-20 py-16 md:py-24 lg:py-32">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -100,44 +138,110 @@ const ServiceDetail = () => {
                     >
                         <Link
                             to="/services"
-                            className="inline-flex items-center gap-2 md:gap-3 text-secondary hover:text-white transition mb-6 md:mb-8 group"
+                            className="inline-flex items-center gap-2 text-[#ECF7FF] hover:text-white transition mb-8 group"
                         >
-                            <span className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center group-hover:bg-secondary group-hover:text-primary transition">
-                                <FaArrowLeft className="text-xs md:text-sm" />
+                            <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-[#027B7A] transition">
+                                <FaArrowLeft className="text-sm" />
                             </span>
-                            <span className="font-medium text-sm md:text-base">All Services</span>
+                            <span className="font-medium">Back to All Services</span>
                         </Link>
 
-                        <h1 className="text-3xl md:text-5xl lg:text-7xl font-playfair font-bold mb-4 md:mb-6 leading-tight max-w-4xl">
-                            {service.title}
-                        </h1>
+                        <div className="max-w-3xl">
+                            {/* Category Badge */}
+                            {service.category && (
+                                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#027B7A]/20 backdrop-blur-sm mb-6">
+                                    <FaStar className="text-[#ECF7FF] text-xs" />
+                                    <span className="text-white text-xs font-semibold uppercase tracking-wider">
+                                        {service.category}
+                                    </span>
+                                </div>
+                            )}
 
-                        <p className="text-base md:text-xl text-gray-200 max-w-3xl leading-relaxed border-l-4 border-secondary pl-4 md:pl-6">
-                            {service.description}
-                        </p>
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-white mb-6 leading-tight">
+                                {service.title}
+                            </h1>
+
+                            {/* Short Description */}
+                            <div className="border-l-4 border-[#027B7A] pl-6 mb-8">
+                                <p className="text-white/90 text-lg md:text-xl leading-relaxed">
+                                    {service.shortDescription ||
+                                        service.description ||
+                                        "Expert legal assistance tailored to your needs. Our experienced attorneys provide comprehensive guidance and representation."}
+                                </p>
+                            </div>
+
+                            {/* Quick Info Tags */}
+                            <div className="flex flex-wrap gap-4">
+                                <div className="flex items-center gap-2 text-white/80 text-sm">
+                                    <FaRegClock className="text-[#027B7A]" />
+                                    <span>Response within 24h</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-white/80 text-sm">
+                                    <FaShieldAlt className="text-[#027B7A]" />
+                                    <span>100% Confidential</span>
+                                </div>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             </section>
 
+            {/* Stats Section */}
+            <section className="py-12 bg-white border-b border-gray-100">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        {stats.map((stat, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1 }}
+                                className="text-center group"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-[#027B7A]/10 flex items-center justify-center mx-auto mb-3 text-[#027B7A] text-xl group-hover:bg-[#027B7A] group-hover:text-white transition-all duration-300">
+                                    {stat.icon}
+                                </div>
+                                <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+                                    {stat.value}
+                                </div>
+                                <div className="text-gray-500 text-sm">{stat.label}</div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* Main Content Section */}
-            <section className="py-10 sm:py-20">
-                <div className="container-custom px-4 md:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
-                        {/* Main Content - Rich Text Area */}
+            <section className="py-16 md:py-24 bg-gray-50">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
+                        {/* Main Content */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
                             className="lg:col-span-2"
                         >
-                            <div className="bg-white rounded-xl md:rounded-2xl p-5 md:p-8 lg:p-10">
-                                <div
-                                    className="rich-text-content"
-                                    dangerouslySetInnerHTML={{
-                                        __html: service.content,
-                                    }}
-                                />
+                            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                                {/* Service Specific Image */}
+                                {service.image && (
+                                    <div className="relative h-64 md:h-80 overflow-hidden">
+                                        <img
+                                            src={service.image}
+                                            alt={service.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                                    </div>
+                                )}
+                                <div className="p-6 md:p-8 lg:p-10">
+                                    <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-playfair prose-p:text-gray-600 prose-strong:text-[#027B7A] prose-li:text-gray-600">
+                                        <div
+                                            dangerouslySetInnerHTML={{ __html: service.content }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
 
@@ -146,25 +250,22 @@ const ServiceDetail = () => {
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="space-y-5 md:space-y-6"
+                            transition={{ delay: 0.2 }}
+                            className="space-y-6"
                         >
-                            {/* Why Choose Us Card */}
-                            <div className="bg-white rounded-xl md:rounded-2xl p-5 md:p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-                                <h3 className="text-xl md:text-2xl font-playfair font-bold text-primary mb-4 md:mb-5 flex items-center gap-2">
-                                    <span className="w-1 h-6 md:h-8 bg-secondary rounded-full"></span>
-                                    Why Choose Us?
+                            {/* Features Card */}
+                            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                                <h3 className="text-xl font-playfair font-bold text-gray-900 mb-5 flex items-center gap-2">
+                                    <div className="w-1 h-7 bg-[#027B7A] rounded-full"></div>
+                                    Why Choose This Service?
                                 </h3>
-                                <div className="space-y-3 md:space-y-5">
+                                <div className="space-y-4">
                                     {features.map((feature, index) => (
-                                        <div
-                                            key={index}
-                                            className="flex items-center gap-3 md:gap-4 group hover:bg-gray-50 p-2 rounded-xl transition"
-                                        >
-                                            <div className="w-10 h-10 md:w-12 md:h-12 bg-secondary bg-opacity-15 rounded-xl flex items-center justify-center text-secondary text-lg md:text-xl group-hover:bg-secondary group-hover:text-primary transition-all transform group-hover:scale-110">
+                                        <div key={index} className="flex items-center gap-3 group">
+                                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#027B7A]/10 to-[#ECF7FF] flex items-center justify-center text-[#027B7A] text-lg group-hover:scale-110 transition-transform">
                                                 {feature.icon}
                                             </div>
-                                            <span className="text-gray-700 font-medium text-sm md:text-base group-hover:text-primary transition">
+                                            <span className="text-gray-700 font-medium">
                                                 {feature.text}
                                             </span>
                                         </div>
@@ -173,11 +274,19 @@ const ServiceDetail = () => {
                             </div>
 
                             {/* Benefits Card */}
-                            <div className="bg-gradient-to-br from-primary to-accent text-white rounded-xl md:rounded-2xl p-5 md:p-7 shadow-xl">
-                                <h3 className="text-xl md:text-2xl font-playfair font-bold mb-4 md:mb-5">
+                            <div
+                                className="relative overflow-hidden rounded-2xl p-6 shadow-xl"
+                                style={{
+                                    background: "linear-gradient(135deg, #027B7A 0%, #004d4d 100%)",
+                                }}
+                            >
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+                                <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+
+                                <h3 className="text-xl font-playfair font-bold text-white mb-5">
                                     What You Get
                                 </h3>
-                                <ul className="space-y-3 md:space-y-4">
+                                <ul className="space-y-3">
                                     {[
                                         "Expert legal consultation",
                                         "Personalized case strategy",
@@ -185,58 +294,86 @@ const ServiceDetail = () => {
                                         "Transparent pricing",
                                         "Dedicated support team",
                                     ].map((item, index) => (
-                                        <li
-                                            key={index}
-                                            className="flex items-center gap-2 md:gap-3"
-                                        >
-                                            <div className="w-5 h-5 md:w-6 md:h-6 bg-secondary rounded-full flex items-center justify-center text-primary text-xs md:text-sm flex-shrink-0">
-                                                <FaCheck />
+                                        <li key={index} className="flex items-center gap-3">
+                                            <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+                                                <FaCheck className="text-white text-xs" />
                                             </div>
-                                            <span className="text-gray-100 text-sm md:text-base">
-                                                {item}
-                                            </span>
+                                            <span className="text-white/90 text-sm">{item}</span>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
                             {/* CTA Card */}
-                            <div className="bg-secondary rounded-xl md:rounded-2xl p-5 md:p-7 shadow-xl relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-32 md:w-40 h-32 md:h-40 bg-primary opacity-10 rounded-full -mr-16 -mt-16"></div>
-                                <div className="absolute bottom-0 left-0 w-28 md:w-32 h-28 md:h-32 bg-primary opacity-10 rounded-full -ml-14 -mb-14"></div>
+                            <div
+                                className="relative overflow-hidden rounded-2xl p-6 shadow-xl"
+                                style={{
+                                    background: "linear-gradient(135deg, #ECF7FF 0%, #d4eaf5 100%)",
+                                }}
+                            >
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-[#027B7A]/5 rounded-full blur-2xl"></div>
 
-                                <div className="relative z-10">
-                                    <h3 className="text-xl md:text-2xl font-playfair font-bold text-primary mb-2 md:mb-3">
-                                        Need Legal Advice?
-                                    </h3>
-                                    <p className="text-primary mb-4 md:mb-6 opacity-90 text-sm md:text-base">
-                                        Schedule your free consultation with our expert lawyers
-                                        today.
-                                    </p>
+                                <h3 className="text-xl font-playfair font-bold text-gray-900 mb-3">
+                                    Ready to Get Started?
+                                </h3>
+                                <p className="text-gray-600 text-sm mb-5">
+                                    Schedule your consultation with our expert lawyers today.
+                                </p>
 
-                                    <div className="space-y-2 md:space-y-3">
-                                        <Link
-                                            to="/booking"
-                                            className="group bg-primary text-white px-5 md:px-6 py-3 md:py-3.5 rounded-xl font-semibold hover:bg-opacity-90 transition flex items-center justify-between shadow-md hover:shadow-lg text-sm md:text-base"
-                                        >
-                                            <span>Book Free Consultation</span>
-                                            <FaChevronRight className="group-hover:translate-x-1 transition text-xs md:text-sm" />
-                                        </Link>
+                                <div className="space-y-3">
+                                    <Link
+                                        to="/booking"
+                                        className="group flex items-center justify-between bg-[#027B7A] text-white px-5 py-3 rounded-xl font-semibold hover:bg-[#025c5c] transition shadow-md"
+                                    >
+                                        <span>Book Consultation</span>
+                                        <FaChevronRight className="group-hover:translate-x-1 transition" />
+                                    </Link>
 
-                                        <Link
-                                            to="/contact"
-                                            className="flex items-center justify-center gap-2 md:gap-3 text-primary bg-white bg-opacity-20 hover:bg-opacity-30 py-2.5 md:py-3 rounded-xl font-medium transition text-sm md:text-base"
-                                        >
-                                            <FaEnvelope className="text-xs md:text-sm" /> Send
-                                            Message
-                                        </Link>
+                                    <Link
+                                        to="/contact"
+                                        className="flex items-center justify-center gap-2 bg-white text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-50 transition border border-gray-200"
+                                    >
+                                        <FaEnvelope /> Send Message
+                                    </Link>
 
-                                        <a
-                                            href="tel:+8801234567890"
-                                            className="flex items-center justify-center gap-2 md:gap-3 text-primary bg-white bg-opacity-20 hover:bg-opacity-30 py-2.5 md:py-3 rounded-xl font-medium transition text-sm md:text-base"
-                                        >
-                                            <FaPhone className="text-xs md:text-sm" /> Call Now
-                                        </a>
+                                    <a
+                                        href="tel:+8801712245511"
+                                        className="flex items-center justify-center gap-2 bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition"
+                                    >
+                                        <FaPhone /> Call Now: +880 1712245511
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Service Highlights */}
+                            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                                <h3 className="text-lg font-playfair font-bold text-gray-900 mb-4">
+                                    Service Highlights
+                                </h3>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                        <span className="text-gray-500 text-sm">Duration</span>
+                                        <span className="text-gray-900 font-medium text-sm">
+                                            60-90 mins
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                        <span className="text-gray-500 text-sm">Response Time</span>
+                                        <span className="text-gray-900 font-medium text-sm">
+                                            Within 24h
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                        <span className="text-gray-500 text-sm">Support</span>
+                                        <span className="text-gray-900 font-medium text-sm">
+                                            24/7 Available
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between items-center py-2">
+                                        <span className="text-gray-500 text-sm">Language</span>
+                                        <span className="text-gray-900 font-medium text-sm">
+                                            Bengali & English
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -245,25 +382,28 @@ const ServiceDetail = () => {
                 </div>
             </section>
 
-            {/* Enhanced FAQ Section */}
-            <section className="py-10 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
-                <div className="container-custom px-4 md:px-6 lg:px-8">
+            {/* Premium FAQ Section */}
+            <section className="py-16 md:py-24 bg-white">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-center mb-8 md:mb-12"
+                        className="text-center mb-12"
                     >
-                        <span className="text-secondary font-semibold text-xs md:text-sm uppercase tracking-wider">
-                            Common Questions
-                        </span>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-playfair font-bold text-primary mt-2 mb-3 md:mb-4">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#027B7A]/10 mb-4">
+                            <FaStar className="text-[#027B7A] text-xs" />
+                            <span className="text-[#027B7A] text-xs font-semibold uppercase tracking-wider">
+                                FAQ
+                            </span>
+                        </div>
+                        <h2 className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mb-3">
                             Frequently Asked Questions
                         </h2>
-                        <div className="w-20 md:w-24 h-1 bg-secondary mx-auto rounded-full"></div>
+                        <div className="w-20 h-1 bg-[#027B7A] mx-auto rounded-full"></div>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-5xl mx-auto">
+                    <div className="grid grid-cols-1 gap-4">
                         {[
                             {
                                 q: "How long does the process take?",
@@ -288,310 +428,18 @@ const ServiceDetail = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="bg-white rounded-xl md:rounded-2xl p-5 md:p-6 shadow-md hover:shadow-xl transition border border-gray-100 group"
+                                className="group bg-gray-50 rounded-xl p-6 hover:bg-white hover:shadow-lg transition-all duration-300 border border-gray-100"
                             >
-                                <h4 className="font-playfair font-bold text-base md:text-lg text-primary mb-2 md:mb-3 flex items-start gap-2 md:gap-3">
-                                    <span className="text-secondary text-lg md:text-xl mt-0.5 flex-shrink-0">
-                                        Q:
-                                    </span>
-                                    <span className="group-hover:text-secondary transition">
-                                        {faq.q}
-                                    </span>
+                                <h4 className="font-playfair font-bold text-gray-900 mb-2 flex items-start gap-3">
+                                    <span className="text-[#027B7A] text-xl">Q:</span>
+                                    <span>{faq.q}</span>
                                 </h4>
-                                <p className="text-gray-600 text-sm md:text-base leading-relaxed flex items-start gap-2 md:gap-3">
-                                    <span className="text-primary font-bold text-lg md:text-xl mt-0.5 flex-shrink-0">
-                                        A:
-                                    </span>
-                                    <span>{faq.a}</span>
-                                </p>
+                                <p className="text-gray-600 pl-9">{faq.a}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
-
-            {/* Global Rich Text Content Styling - Eta alada CSS file e rakha better */}
-            <style>
-                {`
-                    .rich-text-content {
-                        color: #374151;
-                        line-height: 1.8;
-                        word-wrap: break-word;
-                    }
-                    
-                    /* Typography */
-                    .rich-text-content h1 {
-                        font-size: clamp(1.875rem, 5vw, 2.5rem);
-                        font-weight: 700;
-                        color: #1e3a5f;
-                        margin-top: 2rem;
-                        margin-bottom: 1.5rem;
-                        font-family: 'Playfair Display', serif;
-                        line-height: 1.3;
-                    }
-                    
-                    .rich-text-content h2 {
-                        font-size: clamp(1.5rem, 4vw, 2rem);
-                        font-weight: 700;
-                        color: #1e3a5f;
-                        margin-top: 1.8rem;
-                        margin-bottom: 1.2rem;
-                        font-family: 'Playfair Display', serif;
-                        border-left: 4px solid #d4a853;
-                        padding-left: 1rem;
-                        line-height: 1.3;
-                    }
-                    
-                    .rich-text-content h3 {
-                        font-size: clamp(1.25rem, 3.5vw, 1.5rem);
-                        font-weight: 600;
-                        color: #1e3a5f;
-                        margin-top: 1.5rem;
-                        margin-bottom: 1rem;
-                        font-family: 'Playfair Display', serif;
-                        line-height: 1.4;
-                    }
-                    
-                    .rich-text-content h4 {
-                        font-size: clamp(1.125rem, 3vw, 1.25rem);
-                        font-weight: 600;
-                        color: #1e3a5f;
-                        margin-top: 1.25rem;
-                        margin-bottom: 0.75rem;
-                        font-family: 'Playfair Display', serif;
-                    }
-                    
-                    .rich-text-content h5, 
-                    .rich-text-content h6 {
-                        font-weight: 600;
-                        color: #1e3a5f;
-                        margin-top: 1rem;
-                        margin-bottom: 0.5rem;
-                        font-family: 'Playfair Display', serif;
-                    }
-                    
-                    /* Paragraphs and text */
-                    .rich-text-content p {
-                        margin-bottom: 1.2rem;
-                        font-size: clamp(0.9375rem, 2vw, 1rem);
-                    }
-                    
-                    /* Lists */
-                    .rich-text-content ul, 
-                    .rich-text-content ol {
-                        margin: 1.2rem 0;
-                        padding-left: 1.5rem;
-                    }
-                    
-                    .rich-text-content li {
-                        margin-bottom: 0.5rem;
-                        font-size: clamp(0.9375rem, 2vw, 1rem);
-                    }
-                    
-                    .rich-text-content ul li {
-                        list-style-type: disc;
-                    }
-                    
-                    .rich-text-content ol li {
-                        list-style-type: decimal;
-                    }
-                    
-                    .rich-text-content ul ul,
-                    .rich-text-content ol ol,
-                    .rich-text-content ul ol,
-                    .rich-text-content ol ul {
-                        margin: 0.5rem 0;
-                    }
-                    
-                    /* Tables - RESPONSIVE */
-                    .rich-text-content .table-wrapper {
-                        overflow-x: auto;
-                        margin: 1.5rem 0;
-                        -webkit-overflow-scrolling: touch;
-                    }
-                    
-                    .rich-text-content table {
-                        width: 100%;
-                        border-collapse: collapse;
-                        margin: 1.5rem 0;
-                        font-size: clamp(0.8125rem, 2vw, 0.95rem);
-                        min-width: 600px;
-                    }
-                    
-                    @media (max-width: 640px) {
-                        .rich-text-content table {
-                            min-width: 100%;
-                            font-size: 0.8125rem;
-                        }
-                        
-                        .rich-text-content table th,
-                        .rich-text-content table td {
-                            padding: 0.5rem !important;
-                            white-space: normal !important;
-                            word-break: break-word;
-                        }
-                    }
-                    
-                    .rich-text-content table thead {
-                        background: linear-gradient(135deg, #1e3a5f, #2c5f7c);
-                        color: white;
-                    }
-                    
-                    .rich-text-content table th {
-                        padding: 0.75rem 1rem;
-                        text-align: left;
-                        font-weight: 600;
-                        white-space: nowrap;
-                    }
-                    
-                    .rich-text-content table td {
-                        padding: 0.75rem 1rem;
-                        border: 1px solid #e5e7eb;
-                    }
-                    
-                    .rich-text-content table tbody tr:nth-child(even) {
-                        background-color: #f9fafb;
-                    }
-                    
-                    .rich-text-content table tbody tr:hover {
-                        background-color: #f3f4f6;
-                    }
-                    
-                    /* Images - RESPONSIVE */
-                    .rich-text-content img {
-                        max-width: 100%;
-                        height: auto;
-                        border-radius: 0.75rem;
-                        margin: 1.5rem 0;
-                        display: block;
-                    }
-                    
-                    @media (max-width: 640px) {
-                        .rich-text-content img {
-                            border-radius: 0.5rem;
-                            margin: 1rem 0;
-                        }
-                    }
-                    
-                    /* Blockquotes */
-                    .rich-text-content blockquote {
-                        border-left: 4px solid #d4a853;
-                        padding-left: 1.5rem;
-                        margin: 1.5rem 0;
-                        font-style: italic;
-                        color: #4b5563;
-                        font-size: clamp(0.9375rem, 2vw, 1rem);
-                    }
-                    
-                    @media (max-width: 640px) {
-                        .rich-text-content blockquote {
-                            padding-left: 1rem;
-                            margin: 1rem 0;
-                        }
-                    }
-                    
-                    /* Links */
-                    .rich-text-content a {
-                        color: #d4a853;
-                        text-decoration: underline;
-                        transition: color 0.2s;
-                        word-break: break-word;
-                    }
-                    
-                    .rich-text-content a:hover {
-                        color: #1e3a5f;
-                    }
-                    
-                    /* Strong and emphasis */
-                    .rich-text-content strong {
-                        color: #1e3a5f;
-                        font-weight: 700;
-                    }
-                    
-                    .rich-text-content em {
-                        font-style: italic;
-                    }
-                    
-                    /* Horizontal rule */
-                    .rich-text-content hr {
-                        margin: 2rem 0;
-                        border: 0;
-                        height: 1px;
-                        background: linear-gradient(90deg, transparent, #d4a853, transparent);
-                    }
-                    
-                    /* Code blocks */
-                    .rich-text-content pre {
-                        background: #f3f4f6;
-                        padding: 1rem;
-                        border-radius: 0.5rem;
-                        overflow-x: auto;
-                        margin: 1.5rem 0;
-                        font-size: 0.875rem;
-                    }
-                    
-                    .rich-text-content code {
-                        background: #f3f4f6;
-                        padding: 0.125rem 0.375rem;
-                        border-radius: 0.25rem;
-                        font-size: 0.875em;
-                    }
-                    
-                    /* Mobile specific adjustments */
-                    @media (max-width: 640px) {
-                        .rich-text-content {
-                            line-height: 1.7;
-                        }
-                        
-                        .rich-text-content h1 {
-                            margin-top: 1.5rem;
-                            margin-bottom: 1rem;
-                        }
-                        
-                        .rich-text-content h2 {
-                            margin-top: 1.3rem;
-                            margin-bottom: 1rem;
-                            padding-left: 0.75rem;
-                        }
-                        
-                        .rich-text-content h3 {
-                            margin-top: 1.2rem;
-                            margin-bottom: 0.75rem;
-                        }
-                        
-                        .rich-text-content p {
-                            margin-bottom: 1rem;
-                        }
-                        
-                        .rich-text-content ul, 
-                        .rich-text-content ol {
-                            margin: 1rem 0;
-                            padding-left: 1.25rem;
-                        }
-                    }
-                    
-                    /* Print styles */
-                    @media print {
-                        .rich-text-content {
-                            color: #000;
-                        }
-                        
-                        .rich-text-content a {
-                            text-decoration: none;
-                            color: #000;
-                        }
-                        
-                        .rich-text-content table {
-                            border: 1px solid #000;
-                        }
-                        
-                        .rich-text-content table th,
-                        .rich-text-content table td {
-                            border: 1px solid #000;
-                        }
-                    }
-                `}
-            </style>
         </div>
     );
 };

@@ -1,190 +1,269 @@
-import { useState, useEffect } from "react";
-import {FaChevronLeft, FaChevronRight, FaStar, FaStarHalfAlt } from "react-icons/fa";
+import { useState, useEffect, useRef } from "react";
+import { FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { testimonials } from "../../data/testimonial";
+
+// Sample data structure - replace with your actual data import
+const testimonials = [
+    {
+        id: 1,
+        name: "Rashed Karim",
+        position: "Managing Director, Karim Group",
+        text: "Jamil Law Consultant provided exceptional legal guidance for our corporate merger. Their attention to detail and strategic approach saved us months of potential litigation. Truly the best legal team in Bangladesh.",
+        rating: 5,
+        case: "Corporate Law",
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
+    },
+    {
+        id: 2,
+        name: "Fatema Begum",
+        position: "Client",
+        text: "During our family property dispute, Advocate Jamil showed genuine care and fought tirelessly for our rights. His human-centered approach made all the difference in a difficult time.",
+        rating: 5,
+        case: "Property Law",
+        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
+    },
+    {
+        id: 3,
+        name: "Tanvir Hossain",
+        position: "CEO, Tech Solutions Ltd.",
+        text: "The team's expertise in writ petitions is unmatched. They won our case against the regulatory authority with compelling arguments. Highly recommended for any corporate legal needs.",
+        rating: 5,
+        case: "Writ Petition",
+        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop",
+    },
+];
 
 const Testimonials = () => {
-    const [current, setCurrent] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [autoplay, setAutoplay] = useState(true);
+    const [direction, setDirection] = useState(0);
+    const intervalRef = useRef(null);
 
     useEffect(() => {
-        if (!autoplay) return;
-        const interval = setInterval(() => {
-            setCurrent((prev) => (prev + 1) % testimonials.length);
-        }, 5000);
-        return () => clearInterval(interval);
+        if (autoplay) {
+            intervalRef.current = setInterval(() => {
+                setDirection(1);
+                setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+            }, 6000);
+        }
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
     }, [autoplay, testimonials.length]);
 
-    const next = () => {
+    const handleNext = () => {
         setAutoplay(false);
-        setCurrent((prev) => (prev + 1) % testimonials.length);
-        setTimeout(() => setAutoplay(true), 10000);
+        setDirection(1);
+        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        setTimeout(() => setAutoplay(true), 8000);
     };
 
-    const prev = () => {
+    const handlePrev = () => {
         setAutoplay(false);
-        setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-        setTimeout(() => setAutoplay(true), 10000);
+        setDirection(-1);
+        setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        setTimeout(() => setAutoplay(true), 8000);
     };
 
-    const StarRating = ({ rating }) => {
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 !== 0;
-
-        return (
-            <div className="flex justify-center gap-1">
-                {[...Array(fullStars)].map((_, i) => (
-                    <FaStar key={i} className="text-yellow-400 text-lg" />
-                ))}
-                {hasHalfStar && <FaStarHalfAlt className="text-yellow-400 text-lg" />}
-                {[...Array(5 - Math.ceil(rating))].map((_, i) => (
-                    <FaStar key={i} className="text-gray-300 text-lg" />
-                ))}
-            </div>
-        );
+    const slideVariants = {
+        enter: (direction) => ({
+            x: direction > 0 ? 300 : -300,
+            opacity: 0,
+            scale: 0.95,
+        }),
+        center: {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            transition: {
+                duration: 0.6,
+                ease: [0.23, 0.75, 0.32, 0.98],
+            },
+        },
+        exit: (direction) => ({
+            x: direction > 0 ? -300 : 300,
+            opacity: 0,
+            scale: 0.95,
+            transition: {
+                duration: 0.5,
+                ease: [0.23, 0.75, 0.32, 0.98],
+            },
+        }),
     };
+
+    const currentTestimonial = testimonials[currentIndex];
 
     return (
-        <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 py-8 sm:py-20 overflow-hidden">
-            {/* Background Decoration */}
-            <div className="absolute inset-0 opacity-5">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-secondary rounded-full filter blur-3xl"></div>
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary rounded-full filter blur-3xl"></div>
+        <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-br from-[#ECF7FF] via-white to-[#ECF7FF]">
+            {/* Minimalist background accent */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#027B7A]/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#027B7A]/5 rounded-full blur-3xl" />
             </div>
 
-            <div className="container-custom relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-12"
-                >
-                    <h2 className="text-3xl md:text-5xl font-playfair font-bold text-primary mb-4">
-                        What Our Clients Say
-                    </h2>
-                    <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-                        Trusted by hundreds of clients across Bangladesh
-                    </p>
-                    <div className="w-24 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
-                </motion.div>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                {/* Section Header - Clean and minimal */}
+                <div className="text-center mb-12 md:mb-16">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        viewport={{ once: true }}
+                    >
+                        <span className="text-xs uppercase tracking-[3px] text-[#027B7A] font-semibold">
+                            Client Voices
+                        </span>
+                    </motion.div>
 
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        viewport={{ once: true }}
+                        className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mt-6 mb-4"
+                    >
+                        What Our <span className="text-[#027B7A]">Clients</span> Say
+                    </motion.h2>
+
+                    <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: "6rem" }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        viewport={{ once: true }}
+                        className="h-1 bg-[#027B7A] rounded-full mx-auto mt-6"
+                    />
+                </div>
+
+                {/* Main Slider */}
                 <div className="relative max-w-5xl mx-auto">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={current}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{ duration: 0.5 }}
-                            className="bg-white rounded-2xl shadow-2xl overflow-hidden"
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-3">
-                                {/* Image Section */}
-                                {/* <div className="relative h-64 md:h-full">
-                                    <img
-                                        src={testimonials[current].image}
-                                        alt={testimonials[current].name}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                                        <div className="text-white">
-                                            <FaQuoteLeft className="text-3xl text-secondary mb-2" />
-                                            <p className="text-sm font-semibold">
-                                                {testimonials[current].position}
-                                            </p>
+                    <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden">
+                        <div className="absolute top-8 left-8 z-10">
+                            <FaQuoteLeft className="text-[#027B7A]/15 text-6xl" />
+                        </div>
+
+                        <AnimatePresence mode="wait" custom={direction}>
+                            <motion.div
+                                key={currentIndex}
+                                custom={direction}
+                                variants={slideVariants}
+                                initial="enter"
+                                animate="center"
+                                exit="exit"
+                                className="min-h-[400px] md:min-h-[380px]"
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
+                                    {/* Left - Visual Quote Area */}
+                                    <div className="md:col-span-2 bg-gradient-to-br from-[#027B7A] to-[#025c5c] p-8 md:p-10 flex flex-col justify-between min-h-[280px] md:min-h-full">
+                                        <div>
+                                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-6">
+                                                <FaQuoteLeft className="text-white text-xl" />
+                                            </div>
+                                            <div className="text-white/80 text-sm tracking-wider">
+                                                SERVICE #{String(currentIndex + 1).padStart(2, "0")}
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-8">
+                                            <div className="text-5xl text-white mb-2">
+                                                {currentTestimonial.rating}.0
+                                            </div>
+                                            <div className="flex gap-1 mb-4">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <svg
+                                                        key={i}
+                                                        className={`w-4 h-4 ${i < currentTestimonial.rating ? "text-yellow-300 fill-current" : "text-white/30 fill-current"}`}
+                                                        viewBox="0 0 20 20"
+                                                    >
+                                                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                                    </svg>
+                                                ))}
+                                            </div>
+                                            <div className="text-white/70 text-sm uppercase tracking-wide">
+                                                {currentTestimonial.case}
+                                            </div>
                                         </div>
                                     </div>
-                                </div> */}
 
-                                {/* Content Section */}
-                                <div className="col-span-3 text-center p-8 md:p-12">
-                                    <div className="mb-4">
-                                        <StarRating rating={testimonials[current].rating} />
-                                    </div>
-
-                                    <p className="text-gray-700 text-lg md:text-xl leading-relaxed mb-6 italic">
-                                        "{testimonials[current].text}"
-                                    </p>
-
-                                    <div className="border-t pt-6">
-                                        <h3 className="text-2xl font-playfair font-bold text-primary">
-                                            {testimonials[current].name}
-                                        </h3>
-                                        <p className="text-secondary font-semibold mt-1">
-                                            {testimonials[current].case}
+                                    {/* Right - Testimonial Content */}
+                                    <div className="md:col-span-3 p-8 md:p-10 bg-white">
+                                        <p className="text-gray-700 text-lg md:text-xl leading-relaxed mb-8">
+                                            "{currentTestimonial.text}"
                                         </p>
+
+                                        <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
+                                            <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                                                {currentTestimonial.image ? (
+                                                    <img
+                                                        src={currentTestimonial.image}
+                                                        alt={currentTestimonial.name}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full bg-gradient-to-br from-[#027B7A]/20 to-[#027B7A]/10 flex items-center justify-center">
+                                                        <span className="text-[#027B7A] font-bold text-lg">
+                                                            {currentTestimonial.name.charAt(0)}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-gray-900 text-lg">
+                                                    {currentTestimonial.name}
+                                                </h4>
+                                                <p className="text-gray-500 text-sm">
+                                                    {currentTestimonial.position}
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </motion.div>
-                    </AnimatePresence>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
 
-                    {/* Navigation Buttons */}
+                    {/* Navigation Buttons - Clean minimal */}
                     <button
-                        onClick={prev}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 md:-ml-6 bg-white text-primary w-12 h-12 rounded-full shadow-lg hover:bg-secondary hover:text-white transition-all duration-300 flex items-center justify-center z-20"
+                        onClick={handlePrev}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 lg:-translate-x-5 bg-white border border-gray-200 text-gray-700 w-10 h-10 rounded-full shadow-md hover:bg-[#027B7A] hover:text-white hover:border-[#027B7A] transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-[#027B7A]/50"
                         aria-label="Previous testimonial"
                     >
-                        <FaChevronLeft className="text-xl" />
+                        <FaChevronLeft className="text-sm group-hover:translate-x-[-1px] transition-transform" />
                     </button>
 
                     <button
-                        onClick={next}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 -mr-4 md:-mr-6 bg-white text-primary w-12 h-12 rounded-full shadow-lg hover:bg-secondary hover:text-white transition-all duration-300 flex items-center justify-center z-20"
+                        onClick={handleNext}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 lg:translate-x-5 bg-white border border-gray-200 text-gray-700 w-10 h-10 rounded-full shadow-md hover:bg-[#027B7A] hover:text-white hover:border-[#027B7A] transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-[#027B7A]/50"
                         aria-label="Next testimonial"
                     >
-                        <FaChevronRight className="text-xl" />
+                        <FaChevronRight className="text-sm group:translate-x-[1px] transition-transform" />
                     </button>
                 </div>
 
-                {/* Dots Indicator */}
-                <div className="flex justify-center mt-10 gap-3">
+                {/* Progress Indicator - Minimal dots */}
+                <div className="flex justify-center gap-2 mt-10">
                     {testimonials.map((_, idx) => (
                         <button
                             key={idx}
                             onClick={() => {
                                 setAutoplay(false);
-                                setCurrent(idx);
-                                setTimeout(() => setAutoplay(true), 10000);
+                                setDirection(idx > currentIndex ? 1 : -1);
+                                setCurrentIndex(idx);
+                                if (intervalRef.current) clearInterval(intervalRef.current);
+                                setTimeout(() => setAutoplay(true), 8000);
                             }}
                             className={`transition-all duration-300 rounded-full ${
-                                idx === current
-                                    ? "w-10 h-3 bg-secondary"
-                                    : "w-3 h-3 bg-gray-300 hover:bg-gray-400"
+                                idx === currentIndex
+                                    ? "w-8 h-1.5 bg-[#027B7A]"
+                                    : "w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400"
                             }`}
                             aria-label={`Go to testimonial ${idx + 1}`}
                         />
                     ))}
                 </div>
-
-                {/* Trust Badge */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    viewport={{ once: true }}
-                    className="hidden sm:flex justify-center mt-12"
-                >
-                    <div className="flex items-center gap-8 bg-white rounded-full px-8 py-3 shadow-md">
-                        <div className="text-center">
-                            <div className="text-2xl font-bold text-primary">10k+</div>
-                            <div className="text-sm text-gray-500">Happy Clients</div>
-                        </div>
-                        <div className="w-px h-8 bg-gray-300"></div>
-                        <div className="text-center">
-                            <div className="text-2xl font-bold text-primary">95%</div>
-                            <div className="text-sm text-gray-500">Success Rate</div>
-                        </div>
-                        <div className="w-px h-8 bg-gray-300"></div>
-                        <div className="text-center">
-                            <div className="text-2xl font-bold text-primary">25+</div>
-                            <div className="text-sm text-gray-500">Years Experience</div>
-                        </div>
-                    </div>
-                </motion.div>
             </div>
-        </div>
+        </section>
     );
 };
 
