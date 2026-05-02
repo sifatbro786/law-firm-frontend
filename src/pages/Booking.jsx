@@ -1,6 +1,5 @@
 // Booking.jsx
 import { motion } from "framer-motion";
-import { useState } from "react";
 import BookingForm from "../components/ui/BookingForm";
 import {
     FaCheckCircle,
@@ -41,8 +40,6 @@ const benefits = [
 ];
 
 const Booking = () => {
-    const [consultationType, setConsultationType] = useState("online");
-
     return (
         <div className="bg-white">
             <PageHeader title="Book Consultation" path="Booking" />
@@ -98,7 +95,7 @@ const Booking = () => {
                                 </div>
 
                                 <div className="p-8">
-                                    <BookingForm consultationType={consultationType} />
+                                    <BookingForm />
                                 </div>
                             </div>
                         </motion.div>
@@ -196,7 +193,7 @@ const Booking = () => {
             </section>
 
             {/* Benefits & Emergency Section - Horizontal Layout */}
-            <section className="py-12 md:py-16 bg-gradient-to-b from-white to-[#ECF7FF]/20">
+            <section className="md:py-16 bg-gradient-to-b from-white to-[#ECF7FF]/20">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Benefits Grid - Premium Cards */}

@@ -13,7 +13,7 @@ import {
     FaSpinner,
 } from "react-icons/fa";
 
-const BookingForm = ({ consultationType }) => {
+const BookingForm = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -36,7 +36,7 @@ const BookingForm = ({ consultationType }) => {
         setLoading(true);
 
         try {
-            await api.post("/api/bookings", { ...formData, consultationType });
+            await api.post("/api/bookings", { ...formData });
             toast.success("Booking request submitted! We will confirm via email.");
             setFormData({
                 name: "",

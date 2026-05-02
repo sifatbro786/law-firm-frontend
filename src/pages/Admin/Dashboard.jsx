@@ -163,7 +163,7 @@ const Dashboard = () => {
                             to={item.path}
                             className={`flex items-center gap-3 px-6 py-3 transition text-sm md:text-base ${
                                 isActive(item.path)
-                                    ? "bg-secondary text-primary border-r-4 border-primary"
+                                    ? "bg-secondary text-white border-r-4 border-primary"
                                     : "hover:bg-accent"
                             }`}
                         >

@@ -349,13 +349,13 @@ const About = () => {
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <a
                                     href="/booking"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#027B7A] rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                                    className="inline-flex justify-center sm:justify-start items-center gap-2 px-8 py-4 bg-white text-[#027B7A] rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                                 >
                                     Book Consultation <span className="text-lg">→</span>
                                 </a>
                                 <a
                                     href="/contact"
-                                    className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-[#027B7A] transition-all duration-300"
+                                    className="inline-flex justify-center sm:justify-start items-center gap-2 px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-[#027B7A] transition-all duration-300"
                                 >
                                     Contact Us
                                 </a>

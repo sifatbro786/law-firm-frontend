@@ -30,10 +30,7 @@ const Services = () => {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
                 <div className="text-center">
-                    <div className="relative">
-                        <div className="w-20 h-20 border-4 border-gray-200 border-t-[#027B7A] rounded-full animate-spin"></div>
-                        <FaGavel className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#027B7A] text-2xl" />
-                    </div>
+                    <div className="w-20 h-20 border-4 border-gray-200 border-t-[#027B7A] rounded-full animate-spin"></div>
                     <p className="mt-6 text-gray-600 font-medium animate-pulse">
                         Loading services...
                     </p>
@@ -87,12 +84,7 @@ const Services = () => {
             </section>
 
             {/* Premium Consultation CTA */}
-            <section className="relative overflow-hidden py-16 md:py-24 bg-gradient-to-r from-gray-900 to-gray-800">
-                <div className="absolute inset-0">
-                    <div className="absolute top-0 right-0 w-80 h-80 bg-[#027B7A]/20 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#027B7A]/20 rounded-full blur-3xl"></div>
-                </div>
-
+            <section className="overflow-hidden py-16 md:py-24 bg-[#027B7A]">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
                     <div className="flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
                         <div>
@@ -106,7 +98,7 @@ const Services = () => {
                         </div>
                         <Link
                             to="/booking"
-                            className="group bg-gradient-to-r from-[#027B7A] to-[#025c5c] text-white px-8 py-4 rounded-xl font-semibold hover:shadow-2xl hover:shadow-[#027B7A]/30 transition-all duration-300 flex items-center gap-2 text-lg"
+                            className="group bg-white text-secondary px-8 py-4 rounded-xl font-semibold hover:bg-primary hover:shadow-2xl transition-all duration-300 flex items-center gap-2 text-lg"
                         >
                             Book Free Consultation
                             <FaArrowRight className="group-hover:translate-x-1 transition-transform" />

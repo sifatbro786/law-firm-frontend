@@ -519,7 +519,7 @@ const UserManagement = () => {
                                     <option value="super_admin">Super Admin</option>
                                 </select>
                             </div>
-                            <div className="flex gap-3 pt-4">
+                            <div className="flex flex-col sm:flex-row gap-3 pt-4">
                                 <button type="submit" className="btn-primary flex-1">
                                     {editingAdmin ? "Update User" : "Create User"}
                                 </button>
@@ -542,7 +542,7 @@ const UserManagement = () => {
                     <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="bg-white rounded-xl max-w-md w-full"
+                        className="bg-white rounded-xl max-w-2xl w-full"
                     >
                         <div className="border-b px-6 py-4 flex justify-between items-center">
                             <h3 className="text-xl font-playfair font-bold">
@@ -595,7 +595,7 @@ const UserManagement = () => {
                                     placeholder="Confirm new password"
                                 />
                             </div>
-                            <div className="flex gap-3 pt-4">
+                            <div className="flex flex-col sm:flex-row gap-3 pt-4">
                                 <button type="submit" className="btn-primary flex-1">
                                     Change Password
                                 </button>

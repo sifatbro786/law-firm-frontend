@@ -215,13 +215,14 @@ const Contact = () => {
                         className="rounded-2xl overflow-hidden shadow-2xl border border-gray-200"
                     >
                         <iframe
-                            src="https://www.google.com/maps?q=157%20Shantinagar%2C%20Dhaka%201217&output=embed"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.172129223538!2d90.4108745757787!3d23.739943978838714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b871ad2f557d%3A0xa5a5d5b5a5a5d5b5!2s157%20Shantinagar%2C%20Dhaka%201217!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd"
                             width="100%"
                             height="450"
-                            style={{ border: 0 }}
+                            style={{ border: "0", borderRadius: "12px" }}
                             allowFullScreen=""
                             loading="lazy"
-                            title="Office Location"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Office Location - 157 Shantinagar, Dhaka"
                         ></iframe>
                     </motion.div>
                 </div>
@@ -250,20 +251,22 @@ const Contact = () => {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a
                                 href="tel:+8801712245511"
-                                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#027B7A] rounded-xl font-bold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+                                className="inline-flex justify-center sm:justify-start items-center gap-2 px-8 py-4 bg-white text-[#027B7A] rounded-xl font-bold sm:text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
                             >
                                 <FaPhone className="text-xl" />
                                 Call Now: +880 1712245511
                             </a>
                             <a
                                 href="/booking"
-                                className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300"
+                                className="inline-flex justify-center sm:justify-start items-center gap-2 px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300"
                             >
                                 Book Consultation
                                 <FaArrowRight />
                             </a>
                         </div>
-                        <p className="text-white/50 text-sm mt-6">Consultation fee: 5,000 BDT (Online)</p>
+                        <p className="text-white/50 text-sm mt-6">
+                            Consultation fee: 5,000 BDT (Online)
+                        </p>
                     </motion.div>
                 </div>
             </section>

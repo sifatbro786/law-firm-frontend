@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaGavel, FaUserFriends, FaFolderOpen, FaCalendarAlt, FaEnvelope } from "react-icons/fa";
+import { FaGavel, FaUserFriends, FaCalendarAlt, FaEnvelope, FaBuilding } from "react-icons/fa";
 import {
     BarChart,
     Bar,
@@ -20,13 +20,13 @@ const DashboardHome = () => {
     const [stats, setStats] = useState({
         services: 0,
         attorneys: 0,
-        caseStudies: 0,
+        clients: 0,
         bookings: 0,
         contacts: 0,
     });
     const [recentBookings, setRecentBookings] = useState([]);
     const [monthlyBookings, setMonthlyBookings] = useState([]);
-    const [caseStudiesByCategory, setCaseStudiesByCategory] = useState([]);
+    const [clientsData, setClientsData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -35,30 +35,30 @@ const DashboardHome = () => {
 
     const fetchDashboardData = async () => {
         try {
-            const [servicesRes, attorneysRes, caseStudiesRes, bookingsRes, contactsRes] =
+            const [servicesRes, attorneysRes, clientsRes, bookingsRes, contactsRes] =
                 await Promise.all([
                     api.get("/api/services"),
                     api.get("/api/attorneys"),
-                    api.get("/api/case-studies/admin/all"),
+                    api.get("/api/clients"),
                     api.get("/api/bookings"),
                     api.get("/api/contact"),
                 ]);
 
             const bookings = bookingsRes.data;
             const monthlyData = getMonthlyBookingsData(bookings);
-            const categoryData = getCaseStudiesByCategory(caseStudiesRes.data);
+            const clientDistribution = getClientDistributionData(clientsRes.data);
 
             setStats({
                 services: servicesRes.data.length,
                 attorneys: attorneysRes.data.length,
-                caseStudies: caseStudiesRes.data.length,
+                clients: clientsRes.data.length,
                 bookings: bookings.length,
                 contacts: contactsRes.data.length,
             });
 
             setRecentBookings(bookings.slice(0, 5));
             setMonthlyBookings(monthlyData);
-            setCaseStudiesByCategory(categoryData);
+            setClientsData(clientDistribution);
         } catch (error) {
             console.error("Error fetching dashboard data:", error);
         } finally {
@@ -111,26 +111,52 @@ const DashboardHome = () => {
         return last6Months;
     };
 
-    const getCaseStudiesByCategory = (caseStudies) => {
+    const getClientDistributionData = (clients) => {
+        if (!clients || clients.length === 0) {
+            return [];
+        }
+
+        // Group clients by industry/brand type (you can categorize by first letter or any logic)
         const categoryMap = new Map();
-        caseStudies.forEach((cs) => {
-            const count = categoryMap.get(cs.category) || 0;
-            categoryMap.set(cs.category, count + 1);
+
+        clients.forEach((client) => {
+            // Get first letter of brand name for grouping
+            const firstLetter = client.brandName.charAt(0).toUpperCase();
+            const category = /[A-Z]/.test(firstLetter) ? firstLetter : "Other";
+
+            const count = categoryMap.get(category) || 0;
+            categoryMap.set(category, count + 1);
         });
-        return Array.from(categoryMap, ([name, value]) => ({ name, value }));
+
+        const result = Array.from(categoryMap, ([name, value]) => ({
+            name,
+            value,
+            // Add full brand names for tooltip
+            brands: clients
+                .filter((c) => c.brandName.charAt(0).toUpperCase() === name)
+                .map((c) => c.brandName),
+        }));
+
+        return result.sort((a, b) => b.value - a.value).slice(0, 8); // Show top 8 categories
     };
 
-    const COLORS = ["#027B7A", "#1a1a1a", "#2c2c2c", "#4a4a4a", "#6b6b6b"];
+    const COLORS = [
+        "#027B7A",
+        "#C9A03D",
+        "#1a1a1a",
+        "#4a4a4a",
+        "#6b6b6b",
+        "#3b82f6",
+        "#10b981",
+        "#8b5cf6",
+        "#f59e0b",
+        "#ef4444",
+    ];
 
     const statCards = [
         { title: "Services", value: stats.services, icon: <FaGavel />, bgColor: "#3b82f6" },
         { title: "Attorneys", value: stats.attorneys, icon: <FaUserFriends />, bgColor: "#10b981" },
-        {
-            title: "Case Studies",
-            value: stats.caseStudies,
-            icon: <FaFolderOpen />,
-            bgColor: "#8b5cf6",
-        },
+        { title: "Our Clients", value: stats.clients, icon: <FaBuilding />, bgColor: "#8b5cf6" },
         { title: "Bookings", value: stats.bookings, icon: <FaCalendarAlt />, bgColor: "#f59e0b" },
         { title: "Messages", value: stats.contacts, icon: <FaEnvelope />, bgColor: "#ef4444" },
     ];
@@ -204,7 +230,7 @@ const DashboardHome = () => {
                             </div>
                         </div>
                     </div>
-                    {monthlyBookings.length > 0 ? (
+                    {monthlyBookings.length > 0 && monthlyBookings.some((m) => m.bookings > 0) ? (
                         <div className="h-64 sm:h-80">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={monthlyBookings}>
@@ -220,47 +246,84 @@ const DashboardHome = () => {
                             </ResponsiveContainer>
                         </div>
                     ) : (
-                        <div className="flex items-center justify-center h-64 text-gray-500 text-sm">
-                            No booking data available
+                        <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+                            <FaCalendarAlt className="text-4xl text-gray-300 mb-3" />
+                            <p className="text-sm">No booking data available</p>
+                            <p className="text-xs text-gray-400 mt-1">
+                                Bookings will appear here once clients schedule consultations
+                            </p>
                         </div>
                     )}
                 </div>
 
-                {/* Case Studies by Category - Pie Chart */}
+                {/* Client Distribution - Pie Chart */}
                 <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-                    <h3 className="text-lg sm:text-xl font-playfair font-bold mb-4">
-                        Case Studies by Category
-                    </h3>
-                    {caseStudiesByCategory.length > 0 ? (
+                    <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                        <h3 className="text-lg sm:text-xl font-playfair font-bold">
+                            Client Distribution
+                        </h3>
+                        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                            Total: {stats.clients} Brands
+                        </div>
+                    </div>
+
+                    {clientsData.length > 0 ? (
                         <div className="h-64 sm:h-80">
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <Pie
-                                        data={caseStudiesByCategory}
+                                        data={clientsData}
                                         cx="50%"
                                         cy="50%"
                                         labelLine={true}
                                         label={({ name, percent }) =>
-                                            `${name}: ${(percent * 100).toFixed(0)}%`
+                                            percent > 0.05
+                                                ? `${name}: ${(percent * 100).toFixed(0)}%`
+                                                : ""
                                         }
                                         outerRadius={window.innerWidth < 640 ? 80 : 100}
                                         fill="#8884d8"
                                         dataKey="value"
                                     >
-                                        {caseStudiesByCategory.map((entry, index) => (
+                                        {clientsData.map((entry, index) => (
                                             <Cell
                                                 key={`cell-${index}`}
                                                 fill={COLORS[index % COLORS.length]}
                                             />
                                         ))}
                                     </Pie>
-                                    <Tooltip />
+                                    <Tooltip
+                                        formatter={(value, name, props) => {
+                                            const item = clientsData.find((c) => c.name === name);
+                                            if (item && item.brands) {
+                                                return [
+                                                    `${value} brands`,
+                                                    `${name} (${item.brands.slice(0, 3).join(", ")}${item.brands.length > 3 ? "..." : ""})`,
+                                                ];
+                                            }
+                                            return [`${value} brands`, name];
+                                        }}
+                                    />
+                                    <Legend
+                                        wrapperStyle={{
+                                            fontSize: window.innerWidth < 640 ? 10 : 12,
+                                        }}
+                                        layout={window.innerWidth < 640 ? "horizontal" : "vertical"}
+                                        verticalAlign={
+                                            window.innerWidth < 640 ? "bottom" : "middle"
+                                        }
+                                        align={window.innerWidth < 640 ? "center" : "right"}
+                                    />
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
                     ) : (
-                        <div className="flex items-center justify-center h-64 text-gray-500 text-sm">
-                            No case studies data available
+                        <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+                            <FaBuilding className="text-4xl text-gray-300 mb-3" />
+                            <p className="text-sm">No client data available</p>
+                            <p className="text-xs text-gray-400 mt-1">
+                                Clients will appear here once you add them in Client Manager
+                            </p>
                         </div>
                     )}
                 </div>
@@ -275,7 +338,7 @@ const DashboardHome = () => {
                         </h3>
                         <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                             <FaCalendarAlt className="text-secondary" />
-                            <span>Last 5 bookings</span>
+                            <span>Last {recentBookings.length} bookings</span>
                         </div>
                     </div>
                 </div>
@@ -337,10 +400,13 @@ const DashboardHome = () => {
                                 <tr>
                                     <td
                                         colSpan="4"
-                                        className="px-4 sm:px-6 py-8 text-center text-gray-500 text-sm"
+                                        className="px-4 sm:px-6 py-12 text-center text-gray-500"
                                     >
-                                        <FaCalendarAlt className="inline text-2xl mb-2 text-gray-300" />
-                                        <p>No bookings yet</p>
+                                        <FaCalendarAlt className="text-5xl text-gray-300 mx-auto mb-3" />
+                                        <p className="text-base">No bookings yet</p>
+                                        <p className="text-sm text-gray-400 mt-1">
+                                            Client consultation requests will appear here
+                                        </p>
                                     </td>
                                 </tr>
                             )}

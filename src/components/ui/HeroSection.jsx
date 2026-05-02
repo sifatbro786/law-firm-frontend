@@ -104,7 +104,7 @@ const HeroSection = () => {
                                 to="/booking"
                                 className="w-full sm:w-auto group relative inline-flex justify-center sm:justify-start items-center gap-3 bg-gradient-to-r from-[#027B7A] to-[#04b0b0] text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                             >
-                                <span className="relative z-10">Free Consultation</span>
+                                <span className="relative z-10">Online Consultation</span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform relative z-10" />
                                 <div className="absolute inset-0 bg-gradient-to-r from-[#04b0b0] to-[#027B7A] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </Link>
@@ -253,8 +253,8 @@ const HeroSection = () => {
 
                             <img
                                 src={hero4}
-                                alt=""
-                                className="hidden sm:block sm:absolute bottom-[105%] right-[35%]"
+                                alt="icon"
+                                className="hidden md:block md:absolute bottom-[105%] right-[35%]"
                             />
                         </div>
                     </motion.div>
