@@ -21,7 +21,7 @@ import ServicesManager from "./pages/Admin/ServicesManager";
 import BlogsManager from "./pages/Admin/BlogsManager";
 import AttorneysManager from "./pages/Admin/AttorneysManager";
 import BookingsView from "./pages/Admin/BookingsView";
-import CaseStudiesManager from "./pages/Admin/CaseStudiesManager";
+// import CaseStudiesManager from "./pages/Admin/CaseStudiesManager";
 import DashboardHome from "./pages/Admin/DashboardHome";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import NotFound from "./pages/NotFound";
@@ -92,7 +92,7 @@ function App() {
                             <Route path="attorneys" element={<AttorneysManager />} />
                             <Route path="blogs" element={<BlogsManager />} />
                             <Route path="bookings" element={<BookingsView />} />
-                            <Route path="case-studies" element={<CaseStudiesManager />} />
+                            {/* <Route path="case-studies" element={<CaseStudiesManager />} /> */}
                             <Route path="case-info" element={<CaseInfoManager />} />
                             <Route path="user-management" element={<UserManagement />} />
                         </Route>

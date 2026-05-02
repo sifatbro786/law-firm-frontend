@@ -13,6 +13,7 @@ import {
     FaImage,
     FaGripVertical,
     FaSave,
+    FaQuoteLeft,
 } from "react-icons/fa";
 import api, { getImageUrl } from "../../utils/api";
 
@@ -31,6 +32,8 @@ const AttorneysManager = () => {
     const [formData, setFormData] = useState({
         name: "",
         bio: "",
+        designation: "",
+        quote: "",
         specialization: [],
         experience: "",
         email: "",
@@ -48,7 +51,6 @@ const AttorneysManager = () => {
     const fetchAttorneys = async () => {
         try {
             const response = await api.get("/api/attorneys");
-            // Sort by order field (ascending)
             const sortedAttorneys = response.data.sort((a, b) => (a.order || 0) - (b.order || 0));
             setAttorneys(sortedAttorneys);
             setReorderedAttorneys(sortedAttorneys);
@@ -98,15 +100,11 @@ const AttorneysManager = () => {
 
         try {
             if (editingAttorney) {
-                await api.put(
-                    `/api/attorneys/${editingAttorney._id}`,
-                    formDataToSend,
-                    {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                        },
+                await api.put(`/api/attorneys/${editingAttorney._id}`, formDataToSend, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
                     },
-                );
+                });
                 toast.success("Attorney updated successfully");
             } else {
                 await api.post("/api/attorneys", formDataToSend, {
@@ -138,46 +136,45 @@ const AttorneysManager = () => {
     };
 
     const handleEdit = (attorney) => {
-    setEditingAttorney(attorney);
-    setFormData({
-        name: attorney.name,
-        bio: attorney.bio,
-        specialization: attorney.specialization || [],
-        experience: attorney.experience || "",
-        email: attorney.email || "",
-        phone: attorney.phone || "",
-        education: attorney.education || [],
-        barCertification: attorney.barCertification || "",
-        // NO order field here!
-    });
-    setImagePreview(attorney.image ? getImageUrl(attorney.image) : null);
-    setImageFile(null);
-    setRemoveExistingImage(false);
-    setIsModalOpen(true);
-};
+        setEditingAttorney(attorney);
+        setFormData({
+            name: attorney.name,
+            bio: attorney.bio,
+            designation: attorney.designation || "",
+            quote: attorney.quote || "",
+            specialization: attorney.specialization || [],
+            experience: attorney.experience || "",
+            email: attorney.email || "",
+            phone: attorney.phone || "",
+            education: attorney.education || [],
+            barCertification: attorney.barCertification || "",
+        });
+        setImagePreview(attorney.image ? getImageUrl(attorney.image) : null);
+        setImageFile(null);
+        setRemoveExistingImage(false);
+        setIsModalOpen(true);
+    };
 
-    // This is the ONLY way to change order
-const handleReorder = async () => {
-    setSavingOrder(true);
-    try {
-        const orders = reorderedAttorneys.map((attorney, index) => ({
-            id: attorney._id,
-            order: index
-        }));
-        
-        // This API call ONLY updates the order field
-        await api.put("/api/attorneys/reorder", { orders });
-        setAttorneys(reorderedAttorneys);
-        setIsReorderMode(false);
-        toast.success("Attorney order updated successfully!");
-    } catch (error) {
-        console.error("Reorder error:", error);
-        toast.error("Failed to update order");
-        setReorderedAttorneys(attorneys);
-    } finally {
-        setSavingOrder(false);
-    }
-};
+    const handleReorder = async () => {
+        setSavingOrder(true);
+        try {
+            const orders = reorderedAttorneys.map((attorney, index) => ({
+                id: attorney._id,
+                order: index,
+            }));
+
+            await api.put("/api/attorneys/reorder", { orders });
+            setAttorneys(reorderedAttorneys);
+            setIsReorderMode(false);
+            toast.success("Attorney order updated successfully!");
+        } catch (error) {
+            console.error("Reorder error:", error);
+            toast.error("Failed to update order");
+            setReorderedAttorneys(attorneys);
+        } finally {
+            setSavingOrder(false);
+        }
+    };
 
     const cancelReorder = () => {
         setReorderedAttorneys(attorneys);
@@ -189,6 +186,8 @@ const handleReorder = async () => {
         setFormData({
             name: "",
             bio: "",
+            designation: "",
+            quote: "",
             specialization: [],
             experience: "",
             email: "",
@@ -378,12 +377,19 @@ const handleReorder = async () => {
                                 </div>
                                 <div className="flex-1">
                                     <h3 className="font-semibold text-gray-800">{attorney.name}</h3>
-                                    <p className="text-sm text-gray-500">
+                                    {attorney.designation && (
+                                        <p className="text-sm text-secondary font-medium">
+                                            {attorney.designation}
+                                        </p>
+                                    )}
+                                    <p className="text-xs text-gray-500">
                                         {attorney.specialization?.[0] || "No specialization"}
                                     </p>
                                 </div>
                                 <div className="text-sm text-gray-400">
-                                    Order: {reorderedAttorneys.findIndex(a => a._id === attorney._id) + 1}
+                                    Order:{" "}
+                                    {reorderedAttorneys.findIndex((a) => a._id === attorney._id) +
+                                        1}
                                 </div>
                             </div>
                         </Reorder.Item>
@@ -412,16 +418,26 @@ const handleReorder = async () => {
                                         <FaUserTie className="text-5xl text-gray-400" />
                                     </div>
                                 )}
-                                {/* Order Badge */}
                                 <div className="absolute top-3 left-3 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded-full">
                                     #{index + 1}
                                 </div>
+                                {attorney.quote && (
+                                    <div className="absolute bottom-3 left-3 right-3 bg-black bg-opacity-50 backdrop-blur-sm text-white text-xs p-2 rounded-lg">
+                                        <FaQuoteLeft className="inline mr-1 text-xs" />
+                                        <span className="line-clamp-2">{attorney.quote}</span>
+                                    </div>
+                                )}
                             </div>
                             <div className="p-5">
-                                <h3 className="text-xl font-playfair font-bold mb-2">
+                                <h3 className="text-xl font-playfair font-bold mb-1">
                                     {attorney.name}
                                 </h3>
-                                <p className="text-secondary text-sm mb-3">
+                                {attorney.designation && (
+                                    <p className="text-secondary text-sm font-medium mb-2">
+                                        {attorney.designation}
+                                    </p>
+                                )}
+                                <p className="text-gray-600 text-sm mb-3">
                                     {attorney.specialization?.slice(0, 3).join(", ")}
                                     {attorney.specialization?.length > 3 && "..."}
                                 </p>
@@ -496,7 +512,7 @@ const handleReorder = async () => {
                 </div>
             )}
 
-            {/* Modal (unchanged from your original) */}
+            {/* Modal with new fields */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
                     <motion.div
@@ -602,7 +618,7 @@ const handleReorder = async () => {
                                 </div>
                             </div>
 
-                            {/* Rest of the form fields - unchanged */}
+                            {/* Name */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Name *
@@ -619,6 +635,45 @@ const handleReorder = async () => {
                                 />
                             </div>
 
+                            {/* NEW: Designation Field */}
+                            <div>
+                                <label className="block text-gray-700 mb-2 font-semibold">
+                                    Designation
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.designation}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, designation: e.target.value })
+                                    }
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-secondary"
+                                    placeholder="e.g., Senior Partner, Managing Attorney"
+                                />
+                                <p className="text-xs text-gray-400 mt-1">
+                                    Professional title/position (optional)
+                                </p>
+                            </div>
+
+                            {/* NEW: Quote Field */}
+                            <div>
+                                <label className="block text-gray-700 mb-2 font-semibold">
+                                    Quote / Motto
+                                </label>
+                                <textarea
+                                    rows="2"
+                                    value={formData.quote}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, quote: e.target.value })
+                                    }
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-secondary"
+                                    placeholder="e.g., Justice delayed is justice denied."
+                                />
+                                <p className="text-xs text-gray-400 mt-1">
+                                    A short quote or personal motto (optional)
+                                </p>
+                            </div>
+
+                            {/* Bio */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Bio *
@@ -635,6 +690,7 @@ const handleReorder = async () => {
                                 />
                             </div>
 
+                            {/* Specializations */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Specializations
@@ -674,6 +730,7 @@ const handleReorder = async () => {
                                 </div>
                             </div>
 
+                            {/* Experience */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Years of Experience
@@ -689,6 +746,7 @@ const handleReorder = async () => {
                                 />
                             </div>
 
+                            {/* Email and Phone */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-gray-700 mb-2 font-semibold">
@@ -720,6 +778,7 @@ const handleReorder = async () => {
                                 </div>
                             </div>
 
+                            {/* Education */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Education
@@ -759,6 +818,7 @@ const handleReorder = async () => {
                                 </div>
                             </div>
 
+                            {/* Bar Certification */}
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Bar Certification
@@ -777,6 +837,7 @@ const handleReorder = async () => {
                                 />
                             </div>
 
+                            {/* Action Buttons */}
                             <div className="flex gap-3 pt-4">
                                 <button type="submit" className="btn-primary flex-1">
                                     {editingAttorney ? "Update Attorney" : "Create Attorney"}

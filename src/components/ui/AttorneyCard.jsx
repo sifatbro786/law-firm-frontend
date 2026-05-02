@@ -63,14 +63,7 @@ const AttorneyCard = ({ attorney }) => {
                 </div>
 
                 {/* Quote or Bio Preview */}
-                {attorney.quote ? (
-                    <div className="mb-4">
-                        <FaQuoteLeft className="text-[#027B7A]/20 text-sm mb-1" />
-                        <p className="text-gray-600 text-sm italic line-clamp-2">
-                            "{attorney.quote}"
-                        </p>
-                    </div>
-                ) : (
+                {attorney.bio &&  (
                     <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mb-4">
                         {attorney.bio}
                     </p>

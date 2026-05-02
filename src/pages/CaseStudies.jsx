@@ -35,7 +35,7 @@ const CaseStudies = () => {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-secondary mx-auto"></div>
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#027B7A] mx-auto"></div>
                     <p className="mt-4 text-gray-600">Loading case studies...</p>
                 </div>
             </div>
@@ -74,7 +74,7 @@ const CaseStudies = () => {
                                 onClick={() => setSelectedCategory(category)}
                                 className={`px-6 py-2 rounded-full capitalize transition ${
                                     selectedCategory === category
-                                        ? "bg-secondary text-primary"
+                                        ? "bg-[#027B7A] text-primary"
                                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                 }`}
                             >
@@ -112,13 +112,13 @@ const CaseStudies = () => {
                                             className="w-full h-56 object-cover group-hover:scale-105 transition duration-300"
                                         />
                                         <div className="absolute top-4 left-4">
-                                            <span className="bg-secondary text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                                            <span className="bg-[#027B7A] text-primary px-3 py-1 rounded-full text-sm font-semibold">
                                                 {caseStudy.category}
                                             </span>
                                         </div>
                                     </div>
                                     <div className="p-6">
-                                        <h3 className="text-xl font-playfair font-bold mt-2 mb-3 group-hover:text-secondary transition">
+                                        <h3 className="text-xl font-playfair font-bold mt-2 mb-3 group-hover:text-[#027B7A] transition">
                                             {caseStudy.title}
                                         </h3>
                                         <p className="text-gray-600 mb-2">
@@ -127,7 +127,7 @@ const CaseStudies = () => {
                                         <p className="text-gray-600 mb-4 line-clamp-2">
                                             {caseStudy.problem}
                                         </p>
-                                        <button className="text-secondary font-semibold flex items-center gap-2 group-hover:gap-3 transition">
+                                        <button className="text-[#027B7A] font-semibold flex items-center gap-2 group-hover:gap-3 transition">
                                             Read Case Study <FaArrowRight />
                                         </button>
                                     </div>
@@ -165,7 +165,7 @@ const CaseStudies = () => {
                             />
 
                             <div className="mb-6">
-                                <span className="inline-block bg-secondary text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                                <span className="inline-block bg-[#027B7A] text-primary px-3 py-1 rounded-full text-sm font-semibold">
                                     {selectedCase.category}
                                 </span>
                             </div>
@@ -199,9 +199,9 @@ const CaseStudies = () => {
                                     <p className="text-gray-700 leading-relaxed">{selectedCase.result}</p>
                                 </div>
 
-                                <div className="bg-secondary bg-opacity-10 p-5 rounded-lg border-l-4 border-secondary">
+                                <div className="bg-[#027B7A] bg-opacity-10 p-5 rounded-lg border-l-4 border-[#027B7A]">
                                     <div className="flex items-center gap-2 mb-2">
-                                        <FaCheckCircle className="text-secondary text-xl" />
+                                        <FaCheckCircle className="text-[#027B7A] text-xl" />
                                         <h4 className="font-semibold text-lg text-primary">Key Outcome</h4>
                                     </div>
                                     <p className="text-primary font-semibold text-lg">
@@ -238,7 +238,7 @@ const CaseStudies = () => {
                     <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
                         Let our experienced attorneys help you achieve a successful outcome
                     </p>
-                    <a href="/booking" className="btn-primary bg-secondary text-primary inline-block">
+                    <a href="/booking" className="btn-primary bg-[#027B7A] text-primary inline-block">
                         Schedule a Consultation
                     </a>
                 </div>

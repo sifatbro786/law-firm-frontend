@@ -12,8 +12,8 @@ import {
     CheckCircle2,
 } from "lucide-react";
 import Jamil from "/jamil.jpeg";
-import hero1 from "/hero1.jpg";
-import hero2 from "/hero2.jpg";
+import hero2 from "/hero1.jpg";
+import hero1 from "/hero2.jpeg";
 import hero3 from "/hero3.png";
 
 const HeroSection = () => {
@@ -222,14 +222,6 @@ const HeroSection = () => {
                                         <p className="text-sm opacity-90 text-center">
                                             Founder & Lead Attorney
                                         </p>
-                                        <div className="flex items-center gap-2 mt-2">
-                                            <span className="text-xs bg-[#027B7A] px-2 py-0.5 rounded-full text-center">
-                                                25+ Years
-                                            </span>
-                                            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full text-center">
-                                                Senior Advocate
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
 

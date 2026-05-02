@@ -10,34 +10,26 @@ const api = axios.create({
     },
 });
 
-
 export const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
 
-
     if (imagePath.startsWith("http")) return imagePath;
 
-  
     if (imagePath.startsWith("/uploads")) {
         return `${BACKEND_URL}${imagePath}`;
     }
-
 
     if (imagePath.startsWith("uploads/")) {
         return `${BACKEND_URL}/${imagePath}`;
     }
 
-
     return `${BACKEND_URL}/uploads/${imagePath}`;
 };
-
 
 export const getFileUrl = (filePath) => {
     if (!filePath) return null;
 
-
     if (filePath.startsWith("http")) return filePath;
-
 
     if (filePath.startsWith("/uploads")) {
         return `${BACKEND_URL}${filePath}`;
@@ -45,7 +37,6 @@ export const getFileUrl = (filePath) => {
 
     return `${BACKEND_URL}/uploads/cases/${filePath}`;
 };
-
 
 api.interceptors.request.use(
     (config) => {
@@ -59,7 +50,6 @@ api.interceptors.request.use(
         return Promise.reject(error);
     },
 );
-
 
 api.interceptors.response.use(
     (response) => response,

@@ -67,7 +67,20 @@ const DashboardHome = () => {
     };
 
     const getMonthlyBookingsData = (bookings) => {
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ];
         const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth();
 
@@ -107,12 +120,17 @@ const DashboardHome = () => {
         return Array.from(categoryMap, ([name, value]) => ({ name, value }));
     };
 
-    const COLORS = ["#c9a03d", "#1a1a1a", "#2c2c2c", "#4a4a4a", "#6b6b6b"];
+    const COLORS = ["#027B7A", "#1a1a1a", "#2c2c2c", "#4a4a4a", "#6b6b6b"];
 
     const statCards = [
         { title: "Services", value: stats.services, icon: <FaGavel />, bgColor: "#3b82f6" },
         { title: "Attorneys", value: stats.attorneys, icon: <FaUserFriends />, bgColor: "#10b981" },
-        { title: "Case Studies", value: stats.caseStudies, icon: <FaFolderOpen />, bgColor: "#8b5cf6" },
+        {
+            title: "Case Studies",
+            value: stats.caseStudies,
+            icon: <FaFolderOpen />,
+            bgColor: "#8b5cf6",
+        },
         { title: "Bookings", value: stats.bookings, icon: <FaCalendarAlt />, bgColor: "#f59e0b" },
         { title: "Messages", value: stats.contacts, icon: <FaEnvelope />, bgColor: "#ef4444" },
     ];
@@ -146,7 +164,9 @@ const DashboardHome = () => {
                         style={{ backgroundColor: stat.bgColor }}
                     >
                         <div className="flex items-center justify-between mb-2 sm:mb-4">
-                            <div className="text-2xl sm:text-3xl md:text-4xl text-white">{stat.icon}</div>
+                            <div className="text-2xl sm:text-3xl md:text-4xl text-white">
+                                {stat.icon}
+                            </div>
                             <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">
                                 {stat.value}
                             </span>
@@ -163,10 +183,15 @@ const DashboardHome = () => {
                 {/* Monthly Bookings Chart */}
                 <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-                        <h3 className="text-lg sm:text-xl font-playfair font-bold">Monthly Bookings</h3>
+                        <h3 className="text-lg sm:text-xl font-playfair font-bold">
+                            Monthly Bookings
+                        </h3>
                         <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm">
                             <div className="flex items-center gap-1">
-                                <div className="w-3 h-3 rounded" style={{ backgroundColor: "#c9a03d" }}></div>
+                                <div
+                                    className="w-3 h-3 rounded"
+                                    style={{ backgroundColor: "#027B7A" }}
+                                ></div>
                                 <span>Total</span>
                             </div>
                             <div className="flex items-center gap-1">
@@ -215,13 +240,18 @@ const DashboardHome = () => {
                                         cx="50%"
                                         cy="50%"
                                         labelLine={true}
-                                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                        label={({ name, percent }) =>
+                                            `${name}: ${(percent * 100).toFixed(0)}%`
+                                        }
                                         outerRadius={window.innerWidth < 640 ? 80 : 100}
                                         fill="#8884d8"
                                         dataKey="value"
                                     >
                                         {caseStudiesByCategory.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            <Cell
+                                                key={`cell-${index}`}
+                                                fill={COLORS[index % COLORS.length]}
+                                            />
                                         ))}
                                     </Pie>
                                     <Tooltip />
@@ -281,7 +311,8 @@ const DashboardHome = () => {
                                             year: "numeric",
                                             month: "short",
                                             day: "numeric",
-                                        })} at {booking.time}
+                                        })}{" "}
+                                        at {booking.time}
                                     </td>
                                     <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                                         <span
@@ -289,22 +320,25 @@ const DashboardHome = () => {
                                                 booking.status === "confirmed"
                                                     ? "bg-green-100 text-green-800"
                                                     : booking.status === "cancelled"
-                                                    ? "bg-red-100 text-red-800"
-                                                    : "bg-yellow-100 text-yellow-800"
+                                                      ? "bg-red-100 text-red-800"
+                                                      : "bg-yellow-100 text-yellow-800"
                                             }`}
                                         >
                                             {booking.status === "confirmed"
                                                 ? "✓ Confirmed"
                                                 : booking.status === "cancelled"
-                                                ? "✗ Cancelled"
-                                                : "⏳ Pending"}
+                                                  ? "✗ Cancelled"
+                                                  : "⏳ Pending"}
                                         </span>
                                     </td>
                                 </tr>
                             ))}
                             {recentBookings.length === 0 && (
                                 <tr>
-                                    <td colSpan="4" className="px-4 sm:px-6 py-8 text-center text-gray-500 text-sm">
+                                    <td
+                                        colSpan="4"
+                                        className="px-4 sm:px-6 py-8 text-center text-gray-500 text-sm"
+                                    >
                                         <FaCalendarAlt className="inline text-2xl mb-2 text-gray-300" />
                                         <p>No bookings yet</p>
                                     </td>

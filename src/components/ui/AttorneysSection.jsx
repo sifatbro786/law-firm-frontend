@@ -5,6 +5,7 @@ import {
     FaGavel,
     FaLinkedinIn,
     FaPhone,
+    FaQuoteLeft,
     FaStar,
     FaUserGraduate,
 } from "react-icons/fa";
@@ -12,8 +13,6 @@ import { GiJusticeStar } from "react-icons/gi";
 import { Link } from "react-router-dom";
 
 const AttorneysSection = ({ attorneys }) => {
-    console.log(attorneys);
-
     const fadeInUp = {
         hidden: { opacity: 0, y: 30 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -150,18 +149,17 @@ const AttorneysSection = ({ attorneys }) => {
                                                     {attorney?.name}
                                                 </h3>
                                                 <p className="text-sm text-[#027B7A] font-medium">
-                                                    {attorney?.designation || "Senior Advocate"}
+                                                    {attorney?.designation}
                                                 </p>
                                             </div>
 
-                                            {/* Quote/Statement */}
-                                            {/* <div className="mb-4 p-3 bg-gray-50 rounded-lg border-l-3 border-[#027B7A]">
+                                            {/* Quote */}
+                                            <div className="mb-4 p-3 bg-gray-50 rounded-lg border-l-3 border-[#027B7A]">
                                                 <FaQuoteLeft className="w-3 h-3 text-[#027B7A] mb-1 opacity-60" />
                                                 <p className="text-xs text-gray-600 italic leading-relaxed">
-                                                    {attorney.quote ||
-                                                        "Committed to justice, dedicated to your cause."}
+                                                    {attorney?.quote}
                                                 </p>
-                                            </div> */}
+                                            </div>
 
                                             {/* Practice Areas */}
                                             <div className="mb-4">

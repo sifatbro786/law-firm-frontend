@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { motion, Reorder } from "framer-motion";
-import { 
-    FaEdit, 
-    FaTrash, 
-    FaPlus, 
-    FaTimes, 
-    FaGavel, 
+import {
+    FaEdit,
+    FaTrash,
+    FaPlus,
+    FaTimes,
+    FaGavel,
     FaSearch,
     FaGripVertical,
-    FaSave 
+    FaSave,
+    FaUpload,
+    FaImage,
 } from "react-icons/fa";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import api from "../../utils/api";
+import api, { getImageUrl } from "../../utils/api";
 
 const ServicesManager = () => {
     const [services, setServices] = useState([]);
@@ -24,13 +26,13 @@ const ServicesManager = () => {
     const [isReorderMode, setIsReorderMode] = useState(false);
     const [reorderedServices, setReorderedServices] = useState([]);
     const [savingOrder, setSavingOrder] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState("");
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
         description: "",
         content: "",
-        icon: "",
-        order: 0,
     });
 
     // Quill toolbar options
@@ -70,7 +72,6 @@ const ServicesManager = () => {
     const fetchServices = async () => {
         try {
             const response = await api.get("/api/services");
-            // Sort by order field (ascending)
             const sortedServices = response.data.sort((a, b) => (a.order || 0) - (b.order || 0));
             setServices(sortedServices);
             setReorderedServices(sortedServices);
@@ -81,27 +82,86 @@ const ServicesManager = () => {
         }
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            const allowedTypes = [
+                "image/jpeg",
+                "image/jpg",
+                "image/png",
+                "image/gif",
+                "image/jfif",
+                "image/webp",
+            ];
+            if (!allowedTypes.includes(file.type)) {
+                toast.error("Only JPEG, PNG, GIF, jfif and WEBP images are allowed");
+                return;
+            }
+
+            // Validate file size (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                toast.error("Image size should be less than 5MB");
+                return;
+            }
+
+            setImageFile(file);
+
+            // Create preview
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeImage = () => {
+        setImageFile(null);
+        setImagePreview("");
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.content || formData.content === "<p><br></p>") {
             toast.error("Please add content for the service");
             return;
         }
+
         try {
-            // Remove order from formData when submitting (server will handle it)
-            const { order, ...submitData } = formData;
-            
+            // Create FormData for multipart/form-data submission
+            const submitFormData = new FormData();
+            submitFormData.append("title", formData.title);
+            submitFormData.append("slug", formData.slug);
+            submitFormData.append("description", formData.description);
+            submitFormData.append("content", formData.content);
+
+            // Append image if selected
+            if (imageFile) {
+                submitFormData.append("image", imageFile);
+            }
+
             if (editingService) {
-                await api.put(`/api/services/${editingService._id}`, submitData);
+                await api.put(`/api/services/${editingService._id}`, submitFormData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
                 toast.success("Service updated successfully");
             } else {
-                await api.post("/api/services", submitData);
+                await api.post("/api/services", submitFormData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
                 toast.success("Service created successfully");
             }
+
             setIsModalOpen(false);
             resetForm();
             fetchServices();
         } catch (error) {
+            console.error("Submit error:", error);
             toast.error(error.response?.data?.error || "Operation failed");
         }
     };
@@ -125,9 +185,15 @@ const ServicesManager = () => {
             slug: service.slug,
             description: service.description,
             content: service.content,
-            icon: service.icon || "",
-            order: service.order || 0,
         });
+
+        // Set image preview if service has an image
+        if (service.image) {
+            setImagePreview(getImageUrl(service.image));
+        } else {
+            setImagePreview("");
+        }
+        setImageFile(null);
         setIsModalOpen(true);
     };
 
@@ -136,9 +202,9 @@ const ServicesManager = () => {
         try {
             const orders = reorderedServices.map((service, index) => ({
                 id: service._id,
-                order: index
+                order: index,
             }));
-            
+
             await api.put("/api/services/reorder", { orders });
             setServices(reorderedServices);
             setIsReorderMode(false);
@@ -164,9 +230,9 @@ const ServicesManager = () => {
             slug: "",
             description: "",
             content: "",
-            icon: "",
-            order: 0,
         });
+        setImageFile(null);
+        setImagePreview("");
     };
 
     const generateSlug = (title) => {
@@ -304,15 +370,24 @@ const ServicesManager = () => {
                                 <div className="cursor-grab active:cursor-grabbing">
                                     <FaGripVertical className="text-gray-400 text-xl" />
                                 </div>
-                                <div className="w-10 h-10 bg-secondary bg-opacity-20 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <FaGavel className="text-secondary" />
-                                </div>
+                                {service.image ? (
+                                    <img
+                                        src={getImageUrl(service.image)}
+                                        alt={service.title}
+                                        className="w-10 h-10 rounded-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-10 h-10 bg-secondary bg-opacity-20 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <FaGavel className="text-secondary" />
+                                    </div>
+                                )}
                                 <div className="flex-1">
                                     <h3 className="font-semibold text-gray-800">{service.title}</h3>
                                     <p className="text-sm text-gray-500">{service.slug}</p>
                                 </div>
                                 <div className="text-sm text-gray-400">
-                                    Order: {reorderedServices.findIndex(s => s._id === service._id) + 1}
+                                    Order:{" "}
+                                    {reorderedServices.findIndex((s) => s._id === service._id) + 1}
                                 </div>
                             </div>
                         </Reorder.Item>
@@ -327,6 +402,9 @@ const ServicesManager = () => {
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Order
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Image
                                         </th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Title
@@ -354,11 +432,23 @@ const ServicesManager = () => {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 bg-secondary bg-opacity-20 rounded-full flex items-center justify-center">
-                                                        <FaGavel className="text-secondary text-sm" />
+                                                {service.image ? (
+                                                    <img
+                                                        src={getImageUrl(service.image)}
+                                                        alt={service.title}
+                                                        className="w-12 h-12 rounded-lg object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                                        <FaImage className="text-gray-400 text-xl" />
                                                     </div>
-                                                    <span className="font-medium">{service.title}</span>
+                                                )}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <span className="font-medium">
+                                                        {service.title}
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-500">
@@ -433,7 +523,7 @@ const ServicesManager = () => {
                 </div>
             )}
 
-            {/* Modal with React Quill */}
+            {/* Modal with Image Upload and React Quill */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
                     <motion.div
@@ -453,6 +543,60 @@ const ServicesManager = () => {
                             </button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                            {/* Image Upload Section */}
+                            <div>
+                                <label className="block text-gray-700 mb-2 font-semibold">
+                                    Service Image
+                                </label>
+                                <div className="flex items-start gap-4">
+                                    {/* Image Preview */}
+                                    {imagePreview ? (
+                                        <div className="relative">
+                                            <img
+                                                src={imagePreview}
+                                                alt="Preview"
+                                                className="w-32 h-32 object-cover rounded-lg border-2 border-gray-200"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={removeImage}
+                                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition"
+                                            >
+                                                <FaTimes size={12} />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                                            <FaImage className="text-gray-400 text-3xl" />
+                                        </div>
+                                    )}
+
+                                    {/* Upload Button */}
+                                    <div className="flex-1">
+                                        <label className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                                            <FaUpload />
+                                            {imagePreview ? "Change Image" : "Upload Image"}
+                                            <input
+                                                type="file"
+                                                accept="image/jpeg,image/jpg,image/png,image/gif,image/jfif,image/webp"
+                                                onChange={handleImageChange}
+                                                className="hidden"
+                                            />
+                                        </label>
+                                        <p className="text-xs text-gray-500 mt-2">
+                                            Recommended: Square image, max 5MB. Supported formats:
+                                            JPEG, PNG, GIF, jfif, WEBP
+                                        </p>
+                                        {editingService && !imagePreview && service?.image && (
+                                            <p className="text-xs text-blue-600 mt-1">
+                                                Current image will be kept if you don't upload a new
+                                                one
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
                             <div>
                                 <label className="block text-gray-700 mb-2 font-semibold">
                                     Title <span className="text-red-500">*</span>
@@ -462,8 +606,9 @@ const ServicesManager = () => {
                                     required
                                     value={formData.title}
                                     onChange={(e) => {
-                                        // Only auto-generate slug for new services
-                                        const newSlug = !editingService ? generateSlug(e.target.value) : formData.slug;
+                                        const newSlug = !editingService
+                                            ? generateSlug(e.target.value)
+                                            : formData.slug;
                                         setFormData({
                                             ...formData,
                                             title: e.target.value,
@@ -536,31 +681,12 @@ const ServicesManager = () => {
                                 </p>
                             </div>
 
-                            <div>
-                                <label className="block text-gray-700 mb-2 font-semibold">
-                                    Icon Class
-                                </label>
-                                <input
-                                    type="text"
-                                    value={formData.icon}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, icon: e.target.value })
-                                    }
-                                    placeholder="e.g., fas fa-gavel"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-secondary"
-                                />
-                                <p className="text-xs text-gray-500 mt-1">
-                                    FontAwesome icon class (e.g., fas fa-balance-scale, fas
-                                    fa-gavel)
-                                </p>
-                            </div>
-
-                            {/* Removed the manual order input field - order is now managed by drag & drop */}
-
                             <div className="bg-blue-50 p-3 rounded-lg">
                                 <p className="text-sm text-blue-800">
-                                    <strong>💡 Note:</strong> Service order is managed by the "Reorder Services" button. 
-                                    {!editingService && " New services are automatically added at the end."}
+                                    <strong>💡 Note:</strong> Service order is managed by the
+                                    "Reorder Services" button.
+                                    {!editingService &&
+                                        " New services are automatically added at the end."}
                                 </p>
                             </div>
 

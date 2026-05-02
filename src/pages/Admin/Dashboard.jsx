@@ -8,10 +8,11 @@ import {
     FaUserFriends,
     FaCalendarAlt,
     FaSignOutAlt,
-    FaFolderOpen,
+    // FaFolderOpen,
     FaDatabase,
     FaUsers,
 } from "react-icons/fa";
+import Logo from "/logo.png";
 
 const Dashboard = () => {
     const { admin, logout, loading, isSuperAdmin } = useAuth();
@@ -55,12 +56,12 @@ const Dashboard = () => {
             icon: <FaCalendarAlt />,
             roles: ["super_admin", "admin"],
         },
-        {
-            path: "/admin/case-studies",
-            name: "Case Studies",
-            icon: <FaFolderOpen />,
-            roles: ["super_admin", "admin"],
-        },
+        // {
+        //     path: "/admin/case-studies",
+        //     name: "Case Studies",
+        //     icon: <FaFolderOpen />,
+        //     roles: ["super_admin", "admin"],
+        // },
         {
             path: "/admin/case-info",
             name: "Customer Data",
@@ -128,11 +129,14 @@ const Dashboard = () => {
             >
                 <div className="p-6 border-b border-gray-700">
                     <Link to="/" className="text-lg md:text-xl font-playfair font-bold">
-                        <span className="text-secondary">Jamil</span> Law Consultant
+                        <img
+                            src={Logo}
+                            alt="Jamil's Law Firm"
+                            className="object-contain transition-all duration-300 w-24"
+                        />
                     </Link>
-                    <p className="text-xs text-gray-400 mt-2">Admin Panel</p>
                     {admin?.role === "super_admin" && (
-                        <span className="inline-block mt-2 text-xs bg-secondary text-primary px-2 py-1 rounded">
+                        <span className="inline-block mt-2 text-xs bg-secondary text-white px-2 py-1 rounded">
                             Super Admin
                         </span>
                     )}
