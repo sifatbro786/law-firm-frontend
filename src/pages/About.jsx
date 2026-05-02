@@ -9,7 +9,7 @@ import {
     FaClock,
     FaQuoteLeft,
 } from "react-icons/fa";
-import UserImage from "/jamil3.jpeg";
+import UserImage from "/hero1.jpeg";
 import PageHeader from "../components/ui/PageHeader";
 
 const About = () => {
