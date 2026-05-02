@@ -1,94 +1,95 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaStar, FaQuoteLeft, FaBuilding, FaUserTie, FaHandshake } from "react-icons/fa";
+import { FaBuilding, FaUserTie, FaHandshake, FaStar, FaStarHalf } from "react-icons/fa";
 import PageHeader from "../components/ui/PageHeader";
+import api, { getImageUrl } from "../utils/api";
 
 const Client = () => {
-    const clients = [
-        {
-            id: 1,
-            name: "Md. Shahidul Islam",
-            position: "Managing Director",
-            company: "Shahidul Group",
-            category: "Corporate",
-            image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop",
-            testimonial:
-                "Jamil Law Consultant has been our trusted legal partner for over 5 years. Their expertise in corporate law is unmatched.",
-            rating: 5,
-            case: "Corporate Merger",
-        },
-        {
-            id: 2,
-            name: "Farhana Ahmed",
-            position: "CEO",
-            company: "Tech Solutions Ltd.",
-            category: "Tech",
-            image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&h=150&fit=crop",
-            testimonial:
-                "They handled our intellectual property case with utmost professionalism. Highly recommended!",
-            rating: 5,
-            case: "IP Rights",
-        },
-        {
-            id: 3,
-            name: "Rashed Karim",
-            position: "Owner",
-            company: "Karim Real Estate",
-            category: "Real Estate",
-            image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop",
-            testimonial:
-                "The team at Jamil Law helped us resolve a complex property dispute efficiently and effectively.",
-            rating: 5,
-            case: "Property Dispute",
-        },
-        {
-            id: 4,
-            name: "Nasrin Sultana",
-            position: "Director",
-            company: "Sultana Enterprises",
-            category: "Business",
-            image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop",
-            testimonial:
-                "Excellent service and attention to detail. They truly care about their clients.",
-            rating: 5,
-            case: "Business Registration",
-        },
-        {
-            id: 5,
-            name: "Abdul Mannan",
-            position: "Chairman",
-            company: "Mannan Group",
-            category: "Corporate",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
-            testimonial:
-                "Their strategic approach to litigation saved our company millions. Forever grateful.",
-            rating: 5,
-            case: "Civil Litigation",
-        },
-        {
-            id: 6,
-            name: "Tahmina Begum",
-            position: "Entrepreneur",
-            company: "Tahmina Fashion",
-            category: "Small Business",
-            image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=150&h=150&fit=crop",
-            testimonial:
-                "They made the legal process easy to understand and stress-free. Wonderful experience!",
-            rating: 5,
-            case: "Contract Review",
-        },
-    ];
+    const [clients, setClients] = useState([]);
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        fetchClients();
+    }, []);
+
+    const fetchClients = async () => {
+        try {
+            const response = await api.get("/api/clients");
+            setClients(response.data);
+        } catch (error) {
+            console.error("Failed to fetch clients:", error);
+            setClients([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Stats from API or default
     const clientStats = [
         { number: "10,000+", label: "Happy Clients", icon: <FaUserTie /> },
         { number: "500+", label: "Corporate Clients", icon: <FaBuilding /> },
         { number: "95%", label: "Satisfaction Rate", icon: <FaHandshake /> },
     ];
 
+    // Client testimonials
+    const testimonials = [
+        {
+            id: 1,
+            name: "Md. Kamal Hossain",
+            position: "CEO, ABC Corporation",
+            rating: 5,
+            text: "Exceptional legal service! The team provided outstanding support throughout our case. Highly recommended.",
+            image: null,
+        },
+        {
+            id: 2,
+            name: "Nadia Rahman",
+            position: "Director, XYZ Ltd",
+            rating: 5,
+            text: "Professional, responsive, and highly knowledgeable. They handled our corporate matters with great expertise.",
+            image: null,
+        },
+        {
+            id: 3,
+            name: "Abul Hasan",
+            position: "Managing Partner, Hasan Group",
+            rating: 4.5,
+            text: "Very satisfied with their legal consultation. They understand business needs perfectly.",
+            image: null,
+        },
+    ];
+
+    const renderStars = (rating) => {
+        const stars = [];
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+
+        for (let i = 0; i < fullStars; i++) {
+            stars.push(<FaStar key={i} className="text-yellow-400 w-4 h-4" />);
+        }
+        if (hasHalfStar) {
+            stars.push(<FaStarHalf key="half" className="text-yellow-400 w-4 h-4" />);
+        }
+        return stars;
+    };
+
+    if (loading) {
+        return (
+            <div className="bg-white min-h-screen">
+                <div className="container mx-auto px-4 py-16 max-w-7xl">
+                    <div className="flex justify-center items-center h-64">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#027B7A]"></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-white">
             <PageHeader title="Our Clients" path="Our Clients" />
 
-            {/* Client Success Stories */}
+            {/* Our Valued Clients Section - Dynamic from Database */}
             <section className="py-16 md:py-24 bg-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                     <motion.div
@@ -99,75 +100,80 @@ const Client = () => {
                     >
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#027B7A]/10 mb-6">
                             <span className="text-[#027B7A] text-xs font-semibold uppercase tracking-wider">
-                                Success Stories
+                                Our Valued Partners
                             </span>
                         </div>
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-gray-900 mb-4">
-                            What Our <span className="text-[#027B7A]">Clients</span> Say
+                            Brands That <span className="text-[#027B7A]">Trust Us</span>
                         </h2>
                         <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                            Real stories from real people — because behind every case is a human
-                            story
+                            We are proud to serve these distinguished organizations
                         </p>
                         <div className="w-16 h-1 bg-[#027B7A] mx-auto mt-6 rounded-full" />
                     </motion.div>
 
-                    {/* Client Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {clients.map((client, index) => (
-                            <motion.div
-                                key={client.id}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden group"
-                            >
-                                <div className="p-6">
-                                    {/* Quote Icon */}
-                                    <FaQuoteLeft className="text-[#027B7A]/20 text-3xl mb-4" />
-
-                                    {/* Testimonial */}
-                                    <p className="text-gray-700 leading-relaxed mb-6 italic">
-                                        "{client.testimonial}"
-                                    </p>
-
-                                    {/* Rating */}
-                                    <div className="flex gap-1 mb-6">
-                                        {[...Array(client.rating)].map((_, i) => (
-                                            <FaStar key={i} className="text-yellow-400 text-sm" />
-                                        ))}
-                                    </div>
-
-                                    {/* Client Info */}
-                                    <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
-                                        <img
-                                            src={client.image}
-                                            alt={client.name}
-                                            className="w-14 h-14 rounded-full object-cover ring-2 ring-[#027B7A]/20"
-                                        />
-                                        <div>
-                                            <h3 className="font-bold text-gray-900">
-                                                {client.name}
-                                            </h3>
-                                            <p className="text-sm text-gray-500">
-                                                {client.position}, {client.company}
-                                            </p>
-                                            <div className="inline-block mt-1 px-2 py-0.5 bg-[#027B7A]/10 rounded-full text-xs text-[#027B7A] font-medium">
-                                                {client.case}
-                                            </div>
+                    {clients.length > 0 ? (
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+                            {clients.map((client, index) => (
+                                <motion.div
+                                    key={client._id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: (index % 10) * 0.03 }}
+                                    whileHover={{ y: -8 }}
+                                    className="group"
+                                >
+                                    <div className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 p-6 border border-gray-100 hover:border-[#027B7A]/20">
+                                        <div className="flex justify-center items-center h-24">
+                                            {client.brandImage ? (
+                                                <img
+                                                    src={getImageUrl(client.brandImage)}
+                                                    alt={client.brandName}
+                                                    className="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                                                />
+                                            ) : (
+                                                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#027B7A]/10 to-[#027B7A]/5 flex items-center justify-center">
+                                                    <FaBuilding className="text-[#027B7A] text-3xl" />
+                                                </div>
+                                            )}
                                         </div>
+                                        <h3 className="text-center font-semibold text-gray-800 mt-4 group-hover:text-[#027B7A] transition">
+                                            {client.brandName}
+                                        </h3>
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-16">
+                            <div className="text-6xl mb-4">🤝</div>
+                            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                                No Clients Added Yet
+                            </h3>
+                            <p className="text-gray-500">
+                                Client list will be updated by the admin soon.
+                            </p>
+                        </div>
+                    )}
                 </div>
             </section>
 
-            {/* Client Stats */}
+            {/* Client Stats Section */}
             <section className="py-16 md:py-24 bg-gradient-to-br from-[#ECF7FF] to-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-12"
+                    >
+                        <h2 className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mb-4">
+                            Our <span className="text-[#027B7A]">Impact</span> in Numbers
+                        </h2>
+                        <div className="w-16 h-1 bg-[#027B7A] mx-auto rounded-full" />
+                    </motion.div>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {clientStats.map((stat, index) => (
                             <motion.div
@@ -176,60 +182,103 @@ const Client = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="text-center p-8 bg-white rounded-2xl shadow-lg"
+                                className="group"
                             >
-                                <div className="w-16 h-16 rounded-full bg-[#027B7A]/10 flex items-center justify-center mx-auto mb-4 text-[#027B7A] text-2xl">
-                                    {stat.icon}
+                                <div className="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#027B7A]/10 to-[#027B7A]/5 flex items-center justify-center mx-auto mb-5 text-[#027B7A] text-3xl group-hover:scale-110 transition-transform duration-300">
+                                        {stat.icon}
+                                    </div>
+                                    <div className="text-4xl md:text-5xl font-bold text-[#027B7A] mb-2">
+                                        {stat.number}
+                                    </div>
+                                    <div className="text-gray-600 font-medium text-lg">
+                                        {stat.label}
+                                    </div>
                                 </div>
-                                <div className="text-4xl font-bold text-[#027B7A] mb-2">
-                                    {stat.number}
-                                </div>
-                                <div className="text-gray-600 font-medium">{stat.label}</div>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Trust Badges */}
+            {/* Client Testimonials */}
             <section className="py-16 md:py-24 bg-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-center"
+                        className="text-center mb-12"
                     >
-                        <h3 className="text-2xl font-playfair font-bold text-gray-900 mb-8">
-                            Trusted By Leading Organizations
-                        </h3>
-                        <div className="flex flex-wrap justify-center items-center gap-8 opacity-50">
-                            <div className="text-2xl font-bold text-gray-400">Bangladesh Bank</div>
-                            <div className="text-2xl font-bold text-gray-400">Grameenphone</div>
-                            <div className="text-2xl font-bold text-gray-400">
-                                Dutch-Bangla Bank
-                            </div>
-                            <div className="text-2xl font-bold text-gray-400">BEXIMCO</div>
-                            <div className="text-2xl font-bold text-gray-400">Square Group</div>
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#027B7A]/10 mb-6">
+                            <span className="text-[#027B7A] text-xs font-semibold uppercase tracking-wider">
+                                Client Testimonials
+                            </span>
                         </div>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-gray-900 mb-4">
+                            What Our <span className="text-[#027B7A]">Clients Say</span>
+                        </h2>
+                        <div className="w-16 h-1 bg-[#027B7A] mx-auto mt-6 rounded-full" />
                     </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {testimonials.map((testimonial, index) => (
+                            <motion.div
+                                key={testimonial.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1 }}
+                                className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100"
+                            >
+                                <div className="flex items-center gap-1 mb-4">
+                                    {renderStars(testimonial.rating)}
+                                    <span className="text-gray-500 text-sm ml-2">
+                                        {testimonial.rating}
+                                    </span>
+                                </div>
+                                <p className="text-gray-700 mb-4 leading-relaxed">
+                                    "{testimonial.text}"
+                                </p>
+                                <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#027B7A] to-[#1A9E9C] flex items-center justify-center text-white font-bold">
+                                        {testimonial.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold text-gray-800">
+                                            {testimonial.name}
+                                        </h4>
+                                        <p className="text-sm text-gray-500">
+                                            {testimonial.position}
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
             {/* Become a Client CTA */}
-            <section className="py-16 md:py-24 bg-[#027B7A]">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
+            <section className="py-20 md:py-28 bg-gradient-to-br from-[#027B7A] to-[#1A9E9C] relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full filter blur-3xl"></div>
+                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+                </div>
+
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        className="text-center"
                     >
-                        <h2 className="text-3xl md:text-4xl font-playfair font-bold text-white mb-4">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-white mb-4">
                             Become Our Next Success Story
                         </h2>
-                        <p className="text-[#ECF7FF] text-lg mb-8 max-w-2xl mx-auto">
+                        <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
                             Join thousands of satisfied clients who trust us with their legal
-                            matters
+                            matters. We're here to help you succeed.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a
@@ -245,7 +294,9 @@ const Client = () => {
                                 Contact Us
                             </a>
                         </div>
-                        <p className="text-white/70 text-sm mt-6">Consultation fee: 5,000 BDT</p>
+                        <p className="text-white/70 text-sm mt-6">
+                            Initial consultation: 5,000 BDT (Online)
+                        </p>
                     </motion.div>
                 </div>
             </section>

@@ -29,7 +29,6 @@ const AttorneysSection = ({ attorneys }) => {
     // Function to generate random practice areas (in real app, these come from API)
     const getPracticeAreas = (index) => {
         const areas = [
-            ["Corporate Law", "M&A"],
             ["Criminal Defense", "Litigation"],
             ["Family Law", "Mediation"],
             ["Property Law", "Land Disputes"],

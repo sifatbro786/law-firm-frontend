@@ -11,10 +11,10 @@ import {
     Building2,
     CheckCircle2,
 } from "lucide-react";
-import Jamil from "/jamil.jpeg";
-import hero2 from "/hero1.jpg";
-import hero1 from "/hero2.jpeg";
-import hero3 from "/hero3.png";
+import hero1 from "/jamil3.jpeg";
+import hero2 from "/hero1.jpeg";
+import hero3 from "/hero2.jpg";
+import hero4 from "/hero4.png";
 
 const HeroSection = () => {
     const stats = [
@@ -23,7 +23,7 @@ const HeroSection = () => {
         { value: "25+", label: "Years Experience", icon: Award, color: "#027B7A" },
     ];
 
-    const services = ["Corporate Law", "Family Law", "Criminal Defense", "Real Estate"];
+    const services = ["Family Law", "Criminal Defense"];
 
     return (
         <section className="relative bg-[#ECF7FF] min-h-screen overflow-hidden mt-14 sm:mt-20">
@@ -45,12 +45,12 @@ const HeroSection = () => {
                             transition={{ delay: 0.1, duration: 0.5 }}
                         >
                             <h1 className="text-4xl sm:text-6xl lg:text-6xl font-bold leading-normal sm:leading-loose">
-                                <span className="bg-gradient-to-r from-[#027B7A] to-[#04b0b0] bg-clip-text text-transparent">Justice </span>
+                                <span className="bg-gradient-to-r from-[#027B7A] to-[#04b0b0] bg-clip-text text-transparent">
+                                    Justice{" "}
+                                </span>
 
                                 <span className=" inline-block sm:my-2">
-                                    <span className="text-gray-950">
-                                        Delivered
-                                    </span>
+                                    <span className="text-gray-950">Delivered</span>
                                 </span>
                                 <br />
                                 <span className="text-gray-950">With Excellence</span>
@@ -187,7 +187,7 @@ const HeroSection = () => {
                             >
                                 <div className="rounded-2xl overflow-hidden aspect-[3/4] group shadow-xl">
                                     <img
-                                        src={hero1}
+                                        src={hero2}
                                         alt="Legal Team"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
@@ -208,7 +208,7 @@ const HeroSection = () => {
                             >
                                 <div className="rounded-2xl overflow-hidden aspect-[3/4] md:mb-10 group shadow-2xl ring-2 ring-white/50">
                                     <img
-                                        src={Jamil}
+                                        src={hero1}
                                         alt="Jamil Hossain - Lead Attorney"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
@@ -240,7 +240,7 @@ const HeroSection = () => {
                             >
                                 <div className="rounded-2xl overflow-hidden aspect-[3/4] group shadow-xl">
                                     <img
-                                        src={hero2}
+                                        src={hero3}
                                         alt="Legal Excellence"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
@@ -251,7 +251,11 @@ const HeroSection = () => {
                                 </div>
                             </motion.div>
 
-                            <img src={hero3} alt="" className="hidden sm:block sm:absolute bottom-[105%] right-[35%]" />
+                            <img
+                                src={hero4}
+                                alt=""
+                                className="hidden sm:block sm:absolute bottom-[105%] right-[35%]"
+                            />
                         </div>
                     </motion.div>
                 </div>

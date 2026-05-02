@@ -28,6 +28,7 @@ const ServicesManager = () => {
     const [savingOrder, setSavingOrder] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
+    const [isImageRemoved, setIsImageRemoved] = useState(false);
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
@@ -106,6 +107,7 @@ const ServicesManager = () => {
             }
 
             setImageFile(file);
+            setIsImageRemoved(false); // Reset remove flag when new image selected
 
             // Create preview
             const reader = new FileReader();
@@ -116,9 +118,10 @@ const ServicesManager = () => {
         }
     };
 
-    const removeImage = () => {
+    const handleRemoveImage = () => {
         setImageFile(null);
         setImagePreview("");
+        setIsImageRemoved(true);
     };
 
     const handleSubmit = async (e) => {
@@ -135,6 +138,11 @@ const ServicesManager = () => {
             submitFormData.append("slug", formData.slug);
             submitFormData.append("description", formData.description);
             submitFormData.append("content", formData.content);
+
+            // Add removeImage flag if image was removed (using different name for FormData field)
+            if (isImageRemoved) {
+                submitFormData.append("removeImage", "true");
+            }
 
             // Append image if selected
             if (imageFile) {
@@ -194,6 +202,7 @@ const ServicesManager = () => {
             setImagePreview("");
         }
         setImageFile(null);
+        setIsImageRemoved(false); // Reset remove flag
         setIsModalOpen(true);
     };
 
@@ -233,6 +242,7 @@ const ServicesManager = () => {
         });
         setImageFile(null);
         setImagePreview("");
+        setIsImageRemoved(false); // Reset remove flag
     };
 
     const generateSlug = (title) => {
@@ -550,7 +560,7 @@ const ServicesManager = () => {
                                 </label>
                                 <div className="flex items-start gap-4">
                                     {/* Image Preview */}
-                                    {imagePreview ? (
+                                    {imagePreview && !isImageRemoved ? (
                                         <div className="relative">
                                             <img
                                                 src={imagePreview}
@@ -559,7 +569,7 @@ const ServicesManager = () => {
                                             />
                                             <button
                                                 type="button"
-                                                onClick={removeImage}
+                                                onClick={handleRemoveImage}
                                                 className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition"
                                             >
                                                 <FaTimes size={12} />
@@ -575,7 +585,9 @@ const ServicesManager = () => {
                                     <div className="flex-1">
                                         <label className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                                             <FaUpload />
-                                            {imagePreview ? "Change Image" : "Upload Image"}
+                                            {imagePreview && !isImageRemoved
+                                                ? "Change Image"
+                                                : "Upload Image"}
                                             <input
                                                 type="file"
                                                 accept="image/jpeg,image/jpg,image/png,image/gif,image/jfif,image/webp"
@@ -587,10 +599,29 @@ const ServicesManager = () => {
                                             Recommended: Square image, max 5MB. Supported formats:
                                             JPEG, PNG, GIF, jfif, WEBP
                                         </p>
-                                        {editingService && !imagePreview && service?.image && (
-                                            <p className="text-xs text-blue-600 mt-1">
-                                                Current image will be kept if you don't upload a new
-                                                one
+
+                                        {/* Show current image status */}
+                                        {editingService &&
+                                            editingService.image &&
+                                            !imagePreview &&
+                                            !isImageRemoved && (
+                                                <p className="text-xs text-blue-600 mt-1">
+                                                    Current image will be kept if you don't upload a
+                                                    new one
+                                                </p>
+                                            )}
+
+                                        {/* Show remove image status */}
+                                        {isImageRemoved && (
+                                            <p className="text-xs text-red-600 mt-1">
+                                                Image will be removed from this service
+                                            </p>
+                                        )}
+
+                                        {/* Show new image selected status */}
+                                        {imageFile && (
+                                            <p className="text-xs text-green-600 mt-1">
+                                                New image selected: {imageFile.name}
                                             </p>
                                         )}
                                     </div>

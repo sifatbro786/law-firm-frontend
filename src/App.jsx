@@ -21,7 +21,6 @@ import ServicesManager from "./pages/Admin/ServicesManager";
 import BlogsManager from "./pages/Admin/BlogsManager";
 import AttorneysManager from "./pages/Admin/AttorneysManager";
 import BookingsView from "./pages/Admin/BookingsView";
-// import CaseStudiesManager from "./pages/Admin/CaseStudiesManager";
 import DashboardHome from "./pages/Admin/DashboardHome";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import NotFound from "./pages/NotFound";
@@ -30,12 +29,15 @@ import AdminRegister from "./pages/Admin/Register";
 import UserManagement from "./pages/Admin/UserManagement";
 import Gallery from "./pages/Gallery";
 import Client from "./pages/Client";
+import ClientManager from "./pages/Admin/ClientManager";
+import GalleryManager from "./pages/Admin/GalleryManager";
+// import CaseStudiesManager from "./pages/Admin/CaseStudiesManager";
 
 const Layout = ({ children }) => {
     const location = useLocation();
     const isAdminRoute = location.pathname.startsWith("/admin");
 
-    // Admin routes: no navbar, no footer, no whatsapp button
+    //! Admin routes: no navbar, no footer, no whatsapp button
     if (isAdminRoute) {
         return (
             <>
@@ -46,9 +48,9 @@ const Layout = ({ children }) => {
         );
     }
 
-    // Public routes: show navbar, footer, and whatsapp button
+    //! Public routes: show navbar, footer, and whatsapp button
     return (
-        <div className="">
+        <div>
             <Navbar />
             <main className="flex-grow">
                 <ScrollToTop />
@@ -67,7 +69,7 @@ function App() {
             <Router>
                 <Layout>
                     <Routes>
-                        {/* Public Routes */}
+                        {/* //! Public Routes */}
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/services" element={<Services />} />
@@ -82,9 +84,10 @@ function App() {
                         <Route path="/client" element={<Client />} />
                         <Route path="/gallery" element={<Gallery />} />
 
-                        {/* Admin Routes */}
+                        {/* //! Admin Routes */}
                         <Route path="/admin/login" element={<AdminLogin />} />
                         <Route path="/admin/register" element={<AdminRegister />} />
+
                         <Route path="/admin" element={<Dashboard />}>
                             <Route index element={<DashboardHome />} />
                             <Route path="dashboard" element={<DashboardHome />} />
@@ -92,9 +95,11 @@ function App() {
                             <Route path="attorneys" element={<AttorneysManager />} />
                             <Route path="blogs" element={<BlogsManager />} />
                             <Route path="bookings" element={<BookingsView />} />
-                            {/* <Route path="case-studies" element={<CaseStudiesManager />} /> */}
                             <Route path="case-info" element={<CaseInfoManager />} />
+                            <Route path="clients" element={<ClientManager />} />
                             <Route path="user-management" element={<UserManagement />} />
+                            <Route path="gallery" element={<GalleryManager />} />
+                            {/* <Route path="case-studies" element={<CaseStudiesManager />} /> */}
                         </Route>
                         <Route path="*" element={<NotFound />} />
                     </Routes>

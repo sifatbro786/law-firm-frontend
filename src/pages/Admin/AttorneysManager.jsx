@@ -701,7 +701,7 @@ const AttorneysManager = () => {
                                         value={specializationInput}
                                         onChange={(e) => setSpecializationInput(e.target.value)}
                                         className="flex-1 px-4 py-2 border rounded-lg"
-                                        placeholder="Add specialization (e.g., Corporate Law)"
+                                        placeholder="Add specialization (e.g., Family Law)"
                                     />
                                     <button
                                         type="button"

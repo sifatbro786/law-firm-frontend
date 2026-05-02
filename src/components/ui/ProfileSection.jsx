@@ -44,7 +44,6 @@ const ProfileSection = () => {
     ];
 
     const expertiseAreas = [
-        "Corporate Law",
         "Criminal Defense",
         "Family Law",
         "Property Law",
@@ -56,7 +55,7 @@ const ProfileSection = () => {
 
     const achievements = [
         { year: "2023", title: "Top 10 Lawyers in Bangladesh", issuer: "Legal Asia Awards" },
-        { year: "2021", title: "Excellence in Corporate Law", issuer: "Bangladesh Bar Council" },
+        { year: "2021", title: "Excellence in Family Law", issuer: "Bangladesh Bar Council" },
         { year: "2019", title: "Client Choice Award", issuer: "Legal 500" },
     ];
 

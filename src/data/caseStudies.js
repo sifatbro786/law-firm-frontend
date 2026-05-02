@@ -2,7 +2,7 @@ export const caseStudies = [
     {
         id: 1,
         title: "Landmark Corporate Fraud Case",
-        category: "Corporate Law",
+        category: "Family Law",
         client: "Leading Manufacturing Company",
         problem:
             "Client was accused of corporate fraud involving BDT 50 crore. Multiple regulatory investigations were initiated.",

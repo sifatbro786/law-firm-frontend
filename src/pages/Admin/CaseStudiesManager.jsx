@@ -16,7 +16,7 @@ const CaseStudiesManager = () => {
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
-        category: "Corporate Law",
+        category: "Family Law",
         client: "",
         problem: "",
         solution: "",
@@ -27,7 +27,6 @@ const CaseStudiesManager = () => {
     });
 
     const categories = [
-        "Corporate Law",
         "Property Law",
         "International Law",
         "Family Law",
@@ -161,7 +160,7 @@ const CaseStudiesManager = () => {
         setFormData({
             title: "",
             slug: "",
-            category: "Corporate Law",
+            category: "Family Law",
             client: "",
             problem: "",
             solution: "",

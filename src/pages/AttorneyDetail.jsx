@@ -181,7 +181,7 @@ const AttorneyDetail = () => {
                                         Book Consultation
                                     </Link>
                                     <p className="text-xs text-center text-gray-400 mt-3">
-                                        Consultation fee: 5,000 BDT
+                                        Consultation fee: 5,000 BDT (Online)
                                     </p>
                                 </div>
                             </div>

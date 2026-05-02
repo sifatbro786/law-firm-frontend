@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import HeroSection from "../components/ui/HeroSection";
 import Testimonials from "../components/ui/Testimonials";
-// import CaseStudiesCard from "../components/ui/CaseStudiesCard";
 import api from "../utils/api";
 import ProfileSection from "../components/ui/ProfileSection";
 import FAQSection from "../components/ui/FAQSection";
 import ServicesSection from "../components/ui/ServicesSection";
 import WhyChooseUs from "../components/ui/WhyChooseUs";
 import AttorneysSection from "../components/ui/AttorneysSection";
+// import CaseStudiesCard from "../components/ui/CaseStudiesCard";
 
 const Home = () => {
     const [services, setServices] = useState([]);
     const [attorneys, setAttorneys] = useState([]);
-    // const [caseStudies, setCaseStudies] = useState([]);
     const [loading, setLoading] = useState(true);
+    // const [caseStudies, setCaseStudies] = useState([]);
 
     useEffect(() => {
         fetchHomeData();
@@ -53,13 +53,13 @@ const Home = () => {
             {/* Hero Section */}
             <HeroSection />
 
-            {/* Profile Section - NEW */}
+            {/* Profile Section */}
             <ProfileSection />
 
             {/* Services Section */}
             <ServicesSection services={services} />
 
-            {/* About Section - Modern Redesign */}
+            {/* About Section */}
             <WhyChooseUs />
 
             {/* Attorneys Section */}

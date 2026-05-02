@@ -10,7 +10,7 @@ const testimonials = [
         position: "Managing Director, Karim Group",
         text: "Jamil Law Consultant provided exceptional legal guidance for our corporate merger. Their attention to detail and strategic approach saved us months of potential litigation. Truly the best legal team in Bangladesh.",
         rating: 5,
-        case: "Corporate Law",
+        case: "Family Law",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
     },
     {

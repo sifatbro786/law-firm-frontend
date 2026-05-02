@@ -263,7 +263,7 @@ const Contact = () => {
                                 <FaArrowRight />
                             </a>
                         </div>
-                        <p className="text-white/50 text-sm mt-6">Consultation fee: 5,000 BDT</p>
+                        <p className="text-white/50 text-sm mt-6">Consultation fee: 5,000 BDT (Online)</p>
                     </motion.div>
                 </div>
             </section>

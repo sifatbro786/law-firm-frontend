@@ -8,9 +8,11 @@ import {
     FaUserFriends,
     FaCalendarAlt,
     FaSignOutAlt,
-    // FaFolderOpen,
     FaDatabase,
     FaUsers,
+    FaBuilding,
+    FaImages,
+    // FaFolderOpen,
 } from "react-icons/fa";
 import Logo from "/logo.png";
 
@@ -66,6 +68,18 @@ const Dashboard = () => {
             path: "/admin/case-info",
             name: "Customer Data",
             icon: <FaDatabase />,
+            roles: ["super_admin", "admin"],
+        },
+        {
+            path: "/admin/gallery",
+            name: "Gallery",
+            icon: <FaImages />,
+            roles: ["super_admin", "admin"],
+        },
+        {
+            path: "/admin/clients",
+            name: "Our Clients",
+            icon: <FaBuilding />,
             roles: ["super_admin", "admin"],
         },
         {

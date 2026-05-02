@@ -4,13 +4,12 @@ import {
     FaHandshake,
     FaBalanceScale,
     FaGlobe,
-    FaUserTie,
     FaAward,
     FaUsers,
     FaClock,
     FaQuoteLeft,
 } from "react-icons/fa";
-import UserImage from "/jamil2.jpeg";
+import UserImage from "/jamil3.jpeg";
 import PageHeader from "../components/ui/PageHeader";
 
 const About = () => {
@@ -362,7 +361,7 @@ const About = () => {
                                 </a>
                             </div>
                             <p className="text-white/70 text-sm mt-6">
-                                Consultation fee: 5,000 BDT
+                                Consultation fee: 5,000 BDT (Online)
                             </p>
                         </div>
                     </motion.div>
