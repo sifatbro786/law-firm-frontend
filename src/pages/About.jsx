@@ -47,7 +47,7 @@ const About = () => {
     ];
 
     return (
-        <div className="overflow-hidden bg-white">
+        <div className="bg-white">
             {/* Hero Section with Premium Design */}
             <PageHeader title="About Us" path="About" />
 
