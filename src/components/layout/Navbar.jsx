@@ -1,7 +1,8 @@
+// src/components/Navbar.jsx
 import { useState, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Mail, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,6 +13,7 @@ const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const { admin } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -40,9 +42,16 @@ const Navbar = () => {
         { name: "Attorneys", path: "/attorneys" },
         { name: "Gallery", path: "/gallery" },
         { name: "Client", path: "/client" },
-        // { name: "Case Studies", path: "/case-studies" },
         { name: "Contact", path: "/contact" },
     ];
+
+    // Check if link is active
+    const isActive = (path) => {
+        if (path === "/") {
+            return location.pathname === path;
+        }
+        return location.pathname.startsWith(path);
+    };
 
     const menuVariants = {
         hidden: { opacity: 0, x: "100%" },
@@ -68,27 +77,26 @@ const Navbar = () => {
                         : "bg-[#ECF7FF]/80 backdrop-blur-md py-4"
                 }`}
             >
-                <div className="px-5 lg:px-16 xl:px-32">
+                <div className="container mx-auto px-4 sm:px-6 2xl:px-24">
                     <div className="flex justify-between items-center">
                         {/* Logo */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5 }}
+                            className="flex-shrink-0"
                         >
                             <Link to="/" className="flex items-center">
                                 <img
                                     src={Logo}
                                     alt="Jamil's Law Firm"
-                                    className={`object-contain transition-all duration-300 ${
-                                        isScrolled ? "w-28 md:w-32" : "w-32 md:w-40"
-                                    }`}
+                                    className="object-contain transition-all duration-300 w-20 sm:w-28"
                                 />
                             </Link>
                         </motion.div>
 
                         {/* Desktop Menu */}
-                        <div className="hidden md:flex items-center space-x-8">
+                        <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
                             {navLinks.map((link, idx) => (
                                 <motion.div
                                     key={link.path}
@@ -98,10 +106,16 @@ const Navbar = () => {
                                 >
                                     <Link
                                         to={link.path}
-                                        className="font-medium transition-all duration-300 relative group text-gray-800 hover:text-[#027B7A]"
+                                        className={`font-medium transition-all duration-300 relative group text-gray-800 hover:text-[#027B7A]
+                                            ${isActive(link.path) ? "text-[#027B7A] font-bold" : ""}
+                                        `}
                                     >
                                         {link.name}
-                                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#027B7A] transition-all duration-300 group-hover:w-full"></span>
+                                        <span
+                                            className={`absolute -bottom-1 left-0 h-0.5 bg-[#027B7A] transition-all duration-300 
+                                            ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}
+                                        `}
+                                        ></span>
                                     </Link>
                                 </motion.div>
                             ))}
@@ -115,7 +129,9 @@ const Navbar = () => {
                                 >
                                     <Link
                                         to="/admin/dashboard"
-                                        className="font-medium transition-colors duration-300 text-[#027B7A] hover:text-gray-800"
+                                        className={`font-medium transition-colors duration-300 hover:text-gray-800
+                                            ${isActive("/admin") ? "text-[#027B7A] font-bold" : "text-[#027B7A]"}
+                                        `}
                                     >
                                         Dashboard
                                     </Link>
@@ -130,18 +146,18 @@ const Navbar = () => {
                             >
                                 <Link
                                     to="/booking"
-                                    className="px-5 py-3.5 rounded-3xl font-semibold transition-all duration-300 transform hover:scale-105 bg-[#027B7A] text-white hover:bg-[#04b0b0] shadow-lg"
+                                    className="px-4 sm:px-5 py-2.5 sm:py-3.5 rounded-3xl font-semibold transition-all duration-300 transform hover:scale-105 bg-[#027B7A] text-white hover:bg-[#04b0b0] shadow-lg text-sm sm:text-base whitespace-nowrap"
                                 >
                                     Book Consultation
                                 </Link>
                             </motion.div>
                         </div>
 
-                        {/* Mobile Menu Button */}
+                        {/* Mobile Menu Button - Visible on tablet and below */}
                         <motion.button
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="md:hidden text-2xl text-gray-800 z-50 relative"
+                            className="lg:hidden text-2xl text-gray-800 z-50 relative p-2"
                             onClick={() => setIsOpen(!isOpen)}
                         >
                             <AnimatePresence mode="wait">
@@ -153,7 +169,7 @@ const Navbar = () => {
                                         exit={{ rotate: 90, opacity: 0 }}
                                         transition={{ duration: 0.2 }}
                                     >
-                                        <AiOutlineClose />
+                                        <AiOutlineClose size={24} />
                                     </motion.div>
                                 ) : (
                                     <motion.div
@@ -163,7 +179,7 @@ const Navbar = () => {
                                         exit={{ rotate: -90, opacity: 0 }}
                                         transition={{ duration: 0.2 }}
                                     >
-                                        <GiHamburgerMenu />
+                                        <GiHamburgerMenu size={24} />
                                     </motion.div>
                                 )}
                             </AnimatePresence>
@@ -182,7 +198,7 @@ const Navbar = () => {
                         exit="exit"
                         className="fixed inset-0 top-[72px] bg-[#ECF7FF] z-40 overflow-y-auto"
                     >
-                        <div className="px-5 py-8 min-h-screen flex flex-col">
+                        <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
                             {navLinks.map((link, idx) => (
                                 <motion.div
                                     key={link.path}
@@ -193,7 +209,13 @@ const Navbar = () => {
                                 >
                                     <Link
                                         to={link.path}
-                                        className="block py-4 text-gray-800 hover:text-[#027B7A] transition font-medium text-lg border-b border-gray-200"
+                                        className={`block py-4 transition font-medium text-lg border-b border-gray-200
+                                            ${
+                                                isActive(link.path)
+                                                    ? "text-[#027B7A] font-bold"
+                                                    : "text-gray-800 hover:text-[#027B7A]"
+                                            }
+                                        `}
                                         onClick={() => setIsOpen(false)}
                                     >
                                         {link.name}
@@ -213,7 +235,13 @@ const Navbar = () => {
                                             navigate("/admin/dashboard");
                                             setIsOpen(false);
                                         }}
-                                        className="block w-full text-left py-4 text-[#027B7A] font-medium text-lg border-b border-gray-200"
+                                        className={`block w-full text-left py-4 font-medium text-lg border-b border-gray-200
+                                            ${
+                                                isActive("/admin")
+                                                    ? "text-[#027B7A] font-bold"
+                                                    : "text-[#027B7A]"
+                                            }
+                                        `}
                                     >
                                         Dashboard
                                     </button>
@@ -246,17 +274,17 @@ const Navbar = () => {
                                 <div className="pt-4 border-t border-gray-200">
                                     <a
                                         href="tel:+8801234567890"
-                                        className="text-gray-700 flex items-center gap-3 justify-center hover:text-[#027B7A] transition py-2"
+                                        className="text-gray-700 flex items-center gap-3 justify-center hover:text-[#027B7A] transition py-2 text-sm sm:text-base"
                                     >
-                                        <Phone size={18} className="text-[#027B7A]" />
-                                        +880 1712245511
+                                        <Phone size={18} className="text-[#027B7A] flex-shrink-0" />
+                                        <span>+880 1712245511</span>
                                     </a>
                                     <a
                                         href="mailto:nowshed.j@gmail.com"
-                                        className="text-gray-700 flex items-center gap-3 justify-center hover:text-[#027B7A] transition py-2"
+                                        className="text-gray-700 flex items-center gap-3 justify-center hover:text-[#027B7A] transition py-2 text-sm sm:text-base"
                                     >
-                                        <Mail size={18} className="text-[#027B7A]" />
-                                        nowshed.j@gmail.com
+                                        <Mail size={18} className="text-[#027B7A] flex-shrink-0" />
+                                        <span>nowshed.j@gmail.com</span>
                                     </a>
                                 </div>
                             </motion.div>

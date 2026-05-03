@@ -302,11 +302,11 @@ import hero6 from "/hero6.jpg";
 import hero7 from "/hero7.png";
 
 const teamImages = [
-    { src: hero2, name: "Shoukat Ara", role: "Senior Associate" },
+    { src: hero2, name: "Shoukat Ara", role: "International Law" },
     { src: hero3, name: "HM Borhan", role: "Corporate Law" },
-    { src: hero4, name: "Fatima Nasrin", role: "Criminal Defense" },
+    { src: hero4, name: "Fatima Nasrin", role: "Corporate Law" },
     { src: hero5, name: "Fatema", role: "Family Law" },
-    { src: hero6, name: "radha Krishna", role: "Property Law" },
+    { src: hero6, name: "radha Krishna", role: "Corporate Law" },
 ];
 
 // default peek positions (30%) — left side mirror of right
@@ -343,14 +343,14 @@ const services = ["Family Law", "Criminal Defense", "Corporate Law", "Property L
 
 const HeroSection = () => {
     return (
-        <section className="relative bg-[#ECF7FF] min-h-screen overflow-hidden mt-14 sm:mt-20">
+        <section className="relative bg-[#ECF7FF] overflow-hidden mt-14 sm:mt-20">
             {/* Background blobs */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute md:hidden inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#027B7A]/10 rounded-full blur-3xl animate-pulse" />
                 <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#027B7A]/10 rounded-full blur-3xl animate-pulse delay-1000" />
             </div>
 
-            <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1400px] min-h-screen flex items-center py-24">
+            <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex items-center py-24">
                 <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center w-full">
                     {/* ── LEFT: Text ── */}
                     <div className="space-y-6 xl:space-y-8 order-2 lg:order-1">
@@ -487,7 +487,7 @@ const HeroSection = () => {
                         <img
                             src={hero7}
                             alt=""
-                            className="hidden lg:block absolute bottom-[105%] right-0 xl:right-[38%] h-28 w-28 object-contain opacity-70 z-10"
+                            className="hidden lg:block absolute bottom-[95%] right-0 xl:right-[38%] h-28 w-28 object-contain opacity-70 z-10"
                         />
 
                         {/* Stack wrapper — overflow visible so fan cards show */}
@@ -504,15 +504,13 @@ const HeroSection = () => {
                                     <div
                                         key={slot}
                                         data-slot={slot}
-                                        className="absolute w-[150px] sm:w-[170px] rounded-2xl overflow-hidden border-[3px] border-white transition-all duration-500"
+                                        className="absolute top-16 md:top-12 w-[150px] sm:w-[170px] rounded-2xl overflow-hidden border-[3px] border-white transition-all duration-500"
                                         style={{
                                             zIndex: zIndexes[slot],
                                             transform: defaultTransforms[slot],
                                             opacity: defaultOpacity[slot],
                                             boxShadow: "0 8px 28px rgba(0,0,0,0.18)",
-                                            // hover via group — inline style override via CSS var trick
                                         }}
-                                        // We use a JS class approach for hover on parent
                                     >
                                         <img
                                             src={src}

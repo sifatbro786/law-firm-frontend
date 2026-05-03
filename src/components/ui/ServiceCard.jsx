@@ -9,7 +9,7 @@ const ServiceCard = ({ service }) => {
         <motion.div
             whileHover={{ y: -8 }}
             transition={{ duration: 0.3 }}
-            className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100"
+            className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-[460px]"
         >
             {/* Image Section */}
             <div className="relative h-56 overflow-hidden bg-gradient-to-br from-[#027B7A]/10 to-[#ECF7FF]">
@@ -28,7 +28,7 @@ const ServiceCard = ({ service }) => {
             </div>
 
             {/* Content Section */}
-            <div className="p-6">
+            <div className="p-6 flex flex-col justify-center">
                 <h3 className="text-xl font-playfair font-bold text-gray-900 mb-2 group-hover:text-[#027B7A] transition-colors line-clamp-2">
                     {service.title}
                 </h3>
