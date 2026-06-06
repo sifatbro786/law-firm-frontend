@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const BACKEND_URL = import.meta.env.VITE_API_URL || "https://law-firm-backend-yuxn.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
     baseURL: BACKEND_URL,

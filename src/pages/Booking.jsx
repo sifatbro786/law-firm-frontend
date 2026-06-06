@@ -176,7 +176,7 @@ const Booking = () => {
                                         </div>
                                         <div>
                                             <h3 className="text-xl font-playfair font-bold text-gray-900">
-                                                Office Hours
+                                                Meeting Hours
                                             </h3>
                                             <p className="text-xs text-gray-400">
                                                 We're here to serve you

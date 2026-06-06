@@ -42,7 +42,7 @@ const Contact = () => {
         },
         {
             icon: <FaClock className="text-xl" />,
-            title: "Office Hours",
+            title: "Meeting Hours",
             details: [
                 "Saturday: 9:00 AM - 10:00 PM",
                 "Sunday: 5:00 PM - 10:00 PM",
@@ -192,7 +192,7 @@ const Contact = () => {
                             style={{ border: "0", borderRadius: "12px" }}
                             allowFullScreen=""
                             loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"
+                            referrerPolicy="no-referrer-when-downgrade"
                             title="Office Location - 157 Shantinagar, Dhaka"
                         ></iframe>
                     </motion.div>
