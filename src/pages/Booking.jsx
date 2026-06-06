@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import BookingForm from "../components/ui/BookingForm";
 import {
-    FaCheckCircle,
     FaClock,
     FaUserTie,
     FaShieldAlt,
@@ -13,6 +12,8 @@ import {
     FaBalanceScale,
     FaStar,
     FaArrowRight,
+    FaRegClock,
+    FaMapMarkerAlt,
 } from "react-icons/fa";
 import PageHeader from "../components/ui/PageHeader";
 
@@ -37,6 +38,16 @@ const benefits = [
         title: "Flexible Scheduling",
         description: "Monday-Saturday with convenient time slots",
     },
+];
+
+const officeHours = [
+    { day: "Saturday", hours: "9:00 AM - 10:00 PM", isSpecial: true },
+    { day: "Sunday", hours: "5:00 PM - 10:00 PM" },
+    { day: "Monday", hours: "5:00 PM - 10:00 PM" },
+    { day: "Tuesday", hours: "5:00 PM - 10:00 PM" },
+    { day: "Wednesday", hours: "5:00 PM - 10:00 PM" },
+    { day: "Thursday", hours: "5:00 PM - 10:00 PM" },
+    { day: "Friday", hours: "Closed", isClosed: true },
 ];
 
 const Booking = () => {
@@ -156,35 +167,63 @@ const Booking = () => {
                                 </div>
                             </div>
 
-                            {/* How It Works - Premium Timeline */}
-                            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-10 h-10 rounded-2xl bg-[#027B7A]/10 flex items-center justify-center">
-                                        <FaCalendarCheck className="text-[#027B7A] text-xl" />
-                                    </div>
-                                    <h3 className="text-2xl font-playfair font-bold text-gray-900">
-                                        How It Works
-                                    </h3>
-                                </div>
-                                <div className="space-y-6">
-                                    {[
-                                        "Fill out the consultation request form",
-                                        "We'll confirm your appointment via email/phone",
-                                        "Make the payment to confirm your slot",
-                                        "Attend your consultation with our expert attorney",
-                                    ].map((step, idx) => (
-                                        <div key={idx} className="flex items-start gap-4 group">
-                                            <div className="relative">
-                                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#027B7A] to-[#025c5c] text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-[#027B7A]/20">
-                                                    {idx + 1}
-                                                </div>
-                                                {idx < 3 && (
-                                                    <div className="absolute top-8 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-gray-200 group-hover:bg-[#027B7A]/30 transition-colors" />
-                                                )}
-                                            </div>
-                                            <span className="text-gray-600 pt-1">{step}</span>
+                            {/* Office Hours Card */}
+                            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+                                <div className="bg-gradient-to-r from-gray-50 to-white px-6 py-4 border-b border-gray-100">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-2xl bg-[#027B7A]/10 flex items-center justify-center">
+                                            <FaRegClock className="text-[#027B7A] text-xl" />
                                         </div>
-                                    ))}
+                                        <div>
+                                            <h3 className="text-xl font-playfair font-bold text-gray-900">
+                                                Office Hours
+                                            </h3>
+                                            <p className="text-xs text-gray-400">
+                                                We're here to serve you
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="p-5">
+                                    <div className="space-y-2">
+                                        {officeHours.map((item, idx) => (
+                                            <div
+                                                key={idx}
+                                                className={`flex justify-between items-center py-2.5 px-3 rounded-xl transition-all duration-200 ${
+                                                    item.isClosed
+                                                        ? "bg-red-50/50"
+                                                        : item.isSpecial
+                                                          ? "bg-gradient-to-r from-[#027B7A]/5 to-transparent border-l-4 border-[#027B7A]"
+                                                          : "hover:bg-gray-50"
+                                                }`}
+                                            >
+                                                <span
+                                                    className={`font-semibold text-sm ${
+                                                        item.isClosed
+                                                            ? "text-red-500"
+                                                            : "text-gray-700"
+                                                    }`}
+                                                >
+                                                    {item.day}
+                                                </span>
+                                                <span
+                                                    className={`text-sm font-medium ${
+                                                        item.isClosed
+                                                            ? "text-red-400 line-through"
+                                                            : item.isSpecial
+                                                              ? "text-[#027B7A]"
+                                                              : "text-gray-500"
+                                                    }`}
+                                                >
+                                                    {item.hours}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="mt-5 pt-4 border-t border-gray-100 flex items-center gap-2 text-xs text-gray-400">
+                                        <FaMapMarkerAlt className="text-[#027B7A]" />
+                                        <span>Saturday: Extended hours (9 AM - 10 PM)</span>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
@@ -192,11 +231,11 @@ const Booking = () => {
                 </div>
             </section>
 
-            {/* Benefits & Emergency Section - Horizontal Layout */}
+            {/* How It Works & Emergency Section - Horizontal Layout */}
             <section className="md:py-16 bg-gradient-to-b from-white to-[#ECF7FF]/20">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        {/* Benefits Grid - Premium Cards */}
+                        {/* How It Works - Premium Timeline (replaced Why Choose Us) */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -205,25 +244,30 @@ const Booking = () => {
                         >
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-12 h-12 rounded-2xl bg-[#027B7A]/10 flex items-center justify-center">
-                                    <FaStar className="text-[#027B7A] text-xl" />
+                                    <FaCalendarCheck className="text-[#027B7A] text-xl" />
                                 </div>
                                 <h3 className="text-2xl font-playfair font-bold text-gray-900">
-                                    Why Choose Us?
+                                    How It Works
                                 </h3>
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                {benefits.map((benefit, index) => (
-                                    <div key={index} className="flex gap-4 group">
-                                        <div className="w-12 h-12 rounded-2xl bg-white shadow-md flex items-center justify-center text-[#027B7A] text-xl group-hover:bg-gradient-to-br group-hover:from-[#027B7A] group-hover:to-[#025c5c] group-hover:text-white transition-all duration-300 flex-shrink-0">
-                                            {benefit.icon}
+                            <div className="space-y-6">
+                                {[
+                                    "Fill out the consultation request form",
+                                    "We'll confirm your appointment via email/phone",
+                                    "Make the payment to confirm your slot",
+                                    "Attend your consultation with our expert attorney",
+                                ].map((step, idx) => (
+                                    <div key={idx} className="flex items-start gap-4 group">
+                                        <div className="relative">
+                                            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#027B7A] to-[#025c5c] text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-[#027B7A]/20">
+                                                {idx + 1}
+                                            </div>
+                                            {idx < 3 && (
+                                                <div className="absolute top-8 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-gray-200 group-hover:bg-[#027B7A]/30 transition-colors" />
+                                            )}
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-gray-900 mb-1">
-                                                {benefit.title}
-                                            </h4>
-                                            <p className="text-sm text-gray-500 leading-relaxed">
-                                                {benefit.description}
-                                            </p>
+                                            <span className="text-gray-600 pt-1 block">{step}</span>
                                         </div>
                                     </div>
                                 ))}

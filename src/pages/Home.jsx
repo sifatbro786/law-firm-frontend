@@ -7,7 +7,6 @@ import FAQSection from "../components/ui/FAQSection";
 import ServicesSection from "../components/ui/ServicesSection";
 import WhyChooseUs from "../components/ui/WhyChooseUs";
 import AttorneysSection from "../components/ui/AttorneysSection";
-// import CaseStudiesCard from "../components/ui/CaseStudiesCard";
 
 const Home = () => {
     const [services, setServices] = useState([]);

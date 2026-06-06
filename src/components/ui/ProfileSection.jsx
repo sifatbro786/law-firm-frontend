@@ -12,6 +12,7 @@ import {
     FaHeart,
 } from "react-icons/fa";
 import { useState } from "react";
+import Jamil from "/hero1.jpeg";
 
 const ProfileSection = () => {
     const [isHovered, setIsHovered] = useState(false);
@@ -113,7 +114,7 @@ const ProfileSection = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent opacity-0 group-hover:opacity-70 transition duration-500 z-10" />
 
                             <img
-                                src="https://res.cloudinary.com/dcilg3xjd/image/upload/v1776775824/ChatGPT_Image_Apr_21_2026_06_49_41_PM_b7uqa4.png"
+                                src={Jamil}
                                 alt="Advocate Ahmed Nowshed Jamil"
                                 className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-700"
                             />
@@ -172,8 +173,8 @@ const ProfileSection = () => {
                                 <span className="text-[#027B7A]">A Promise of Integrity</span>
                             </h3>
                             <p className="text-gray-600 leading-relaxed text-lg">
-                                With over 25+ years of dedicated service in the legal field, I've had
-                                the privilege of standing beside thousands of individuals and
+                                With over 25+ years of dedicated service in the legal field, I've
+                                had the privilege of standing beside thousands of individuals and
                                 businesses, helping them navigate life's most challenging legal
                                 moments.
                             </p>
